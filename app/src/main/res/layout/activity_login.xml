@@ -159,6 +159,7 @@
         android:textColor="#999999"
         android:textSize="17sp"
         android:textStyle="bold"
+        android:enabled="true"
         app:layout_constraintLeft_toRightOf="@+id/guidelineL"
         app:layout_constraintRight_toLeftOf="@+id/guidelineR"
         app:layout_constraintTop_toBottomOf="@+id/lineH1" />
