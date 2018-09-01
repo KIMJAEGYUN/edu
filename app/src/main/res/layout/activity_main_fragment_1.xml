@@ -13,26 +13,42 @@
 
             android:id="@+id/LL0"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:orientation="horizontal">
-
-            <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="dasd" />
+            android:layout_height="116dp"
+            android:layout_marginTop="8dp"
+            android:background="#000000"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
 
         </LinearLayout>
 
+        <View
+            android:id="@+id/line0"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="#26689A"
+            app:layout_constraintTop_toBottomOf="@id/LL0" />
 
-                <android.support.v7.widget.RecyclerView
+        <LinearLayout
+            android:id="@+id/LL1"
+            android:layout_width="match_parent"
+            android:layout_height="420dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/line0"
+            android:layout_marginTop="8dp"
+            >
 
-                    android:id="@+id/recycle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/LL0" />
+            <android.support.v7.widget.RecyclerView
+
+                android:id="@+id/recycle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical" />
 
 
+        </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
 

@@ -23,8 +23,6 @@ import java.util.ArrayList;
 public class MainFragment_1 extends Fragment {
 
     RecyclerView.LayoutManager manager;
-    Adapter adapter;
-    ArrayList<Items> data;
     ActivityMainFragment1Binding b;
 
     @Nullable
@@ -35,30 +33,31 @@ public class MainFragment_1 extends Fragment {
 
         b.recycle.setHasFixedSize(true);
 
-        manager = new LinearLayoutManager(getActivity());
-        b.recycle.setLayoutManager(manager);
+        manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false); // 세번째 파라미터 = 방향 설정
+        b.recycle.setLayoutManager(manager); // 리사이클러뷰가 세로 방향으로 설정됨.
 
-        data = new ArrayList<Items>();
-        data.add(new Items(R.drawable.ic_supervisor_account_black_24dp, "토익 스터디"));
-        data.add(new Items(R.drawable.ic_supervisor_account_black_24dp, "볼링"));
-        data.add(new Items(R.drawable.ic_supervisor_account_black_24dp, "자격증 스터디"));
-        data.add(new Items(R.drawable.ic_supervisor_account_black_24dp, "탁구"));
-        data.add(new Items(R.drawable.ic_supervisor_account_black_24dp, "농구"));
-        data.add(new Items(R.drawable.ic_supervisor_account_black_24dp, "자바 스터디"));
-        data.add(new Items(R.drawable.ic_supervisor_account_black_24dp, "자바 스터디"));
-        data.add(new Items(R.drawable.ic_supervisor_account_black_24dp, "자바 스터디"));
+        // item.xml >> 리사이클러뷰에 담을 아이템에 대한 XML 과 아이템 데이터를 담을 Items.java class 작성.
 
+        RecyclerAdpater adapter = new RecyclerAdpater(getActivity());
 
-        adapter = new Adapter(data);
+        adapter.addItem(new Items(R.drawable.ic_supervisor_account_black_24dp, "토익 스터디", "10", "12"));
+        adapter.addItem(new Items(R.drawable.ic_supervisor_account_black_24dp, "자바 스터디", "10", "12"));
+        adapter.addItem(new Items(R.drawable.ic_supervisor_account_black_24dp, "농구", "10", "12"));
+        adapter.addItem(new Items(R.drawable.ic_supervisor_account_black_24dp, "탁구", "10", "12"));
+        adapter.addItem(new Items(R.drawable.ic_supervisor_account_black_24dp, "볼링", "10", "12"));
+        adapter.addItem(new Items(R.drawable.ic_supervisor_account_black_24dp, "주식 스터디", "10", "12"));
+        adapter.addItem(new Items(R.drawable.ic_supervisor_account_black_24dp, "전공 스터디", "10", "12"));
+        adapter.addItem(new Items(R.drawable.ic_supervisor_account_black_24dp, "독서", "10", "12"));
+        adapter.addItem(new Items(R.drawable.ic_supervisor_account_black_24dp, "걷기", "10", "12"));
 
         b.recycle.setAdapter(adapter);
+
 
         b.recycle.addOnItemTouchListener(
 
                 new RecyclerItemClickListener(getActivity(), b.recycle, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Toast.makeText(getActivity(), position + "번 째 아이템 클릭", Toast.LENGTH_SHORT).show();
                         Intent POP = new Intent(getActivity(), PopUp.class);
                         startActivity(POP);
                     }
@@ -72,51 +71,6 @@ public class MainFragment_1 extends Fragment {
 
         return b.getRoot();
 
-    }
-
-    public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> { // 어댑터를 내부클래스로 빼고 싶은데 안됨...
-        ArrayList<Items> data;
-
-        public Adapter(ArrayList<Items> data) {
-            this.data = data;
-        }
-
-
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
-
-            return new MyViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-            MyViewHolder viewHolder = (MyViewHolder) holder;
-            viewHolder.iv.setImageResource(data.get(position).getId());
-            viewHolder.tv.setText(data.get(position).getName());
-        }
-
-        @Override
-        public int getItemCount() {
-            return data.size();
-        }
-
-        public class MyViewHolder extends RecyclerView.ViewHolder {
-
-
-            TextView tv;
-            ImageView iv;
-
-            public MyViewHolder(View itemView) {
-                super(itemView);
-
-                iv = itemView.findViewById(R.id.iv);
-                tv = itemView.findViewById(R.id.tv);
-
-            }
-        }
     }
 
 
