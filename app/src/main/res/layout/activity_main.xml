@@ -26,6 +26,17 @@
 
         </android.support.v7.widget.Toolbar>
 
+        <android.support.design.widget.BottomNavigationView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/mainactivity_bottomnavigationview"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:itemBackground="@color/colorPrimary"
+            app:itemTextColor="@android:color/white"
+            app:itemIconTint="@android:color/white"
+            app:menu="@menu/bottom_navigation_main">
+        </android.support.design.widget.BottomNavigationView>
+
         <LinearLayout
             android:id="@+id/LL0"
             android:layout_width="match_parent"
@@ -69,7 +80,7 @@
             android:id="@+id/floatBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="60dp"
             android:layout_marginRight="16dp"
             app:fab_colorNormal="#FFD9D9D9"
             app:fab_colorPressed="#26689A"

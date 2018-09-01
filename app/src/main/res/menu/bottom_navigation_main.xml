@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_people"
+        android:icon="@drawable/baseline_view_list_black_18dp"
+        android:title="List"/>
+    <item
+        android:id="@+id/action_chat"
+        android:icon="@drawable/baseline_chat_black_18dp"
+        android:title="Chat"/>
+    <item
+        android:id="@+id/action_account"
+        android:icon="@drawable/baseline_account_circle_black_18dp"
+        android:title="Account"/>
+</menu>

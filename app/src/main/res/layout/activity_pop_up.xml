@@ -6,4 +6,9 @@
     android:layout_height="200dp"
     tools:context="com.example.edu.PopUp">
 
+    <Button
+        android:id="@+id/popupactivity_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="chat 입장"/>
 </android.support.constraint.ConstraintLayout>
