@@ -78,11 +78,11 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case 2:
-                firebaseAuth = FirebaseAuth.getInstance(); //test
-                firebaseAuth.signOut(); //test
+                firebaseAuth = FirebaseAuth.getInstance(); //로그아웃 test : 추후 코드 리스너 등의 방법으로 수정할 예정
+                firebaseAuth.signOut(); //로그아웃 test : 추후 코드 리스너 등의 방법으로 수정할 예정
                 Intent logOut = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(logOut);
-                finish(); //test
+                finish(); //로그아웃 test : 추후 코드 리스너 등의 방법으로 수정할 예정
                 return true;
 
         }
