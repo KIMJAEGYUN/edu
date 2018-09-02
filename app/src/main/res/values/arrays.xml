@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="topic">
+
+        <item>공학 / 정보학부</item>
+        <item>경영 / 사회학부</item>
+        <item>어문 / 교육학부</item>
+        <item>예술 / 건강학부</item>
+
+    </string-array>
+</resources>
