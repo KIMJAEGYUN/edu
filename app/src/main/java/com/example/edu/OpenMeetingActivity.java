@@ -13,8 +13,8 @@ import com.example.edu.databinding.ActivityOpenMeetingBinding;
 public class OpenMeetingActivity extends AppCompatActivity {
 
     ActivityOpenMeetingBinding b;
-ArrayAdapter adapter;
-Spinner spinner;
+    ArrayAdapter adapter;
+    Spinner spinner;
 
 
     @Override
@@ -32,13 +32,12 @@ Spinner spinner;
         spinner.setAdapter(adapter);
 
 
-
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 return true;
