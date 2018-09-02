@@ -82,7 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
                             FirebaseDatabase.getInstance().getReference().child("users").child(uid).setValue(userModel);
                             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                             startActivity(intent);
-                            finishAffinity(); //스택에 있는 모든 엑티비티 종료(삭제)
+                            finish(); //스택에 있는 모든 엑티비티 종료(삭제)
                         }
                     }
                 });
