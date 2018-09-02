@@ -1,14 +1,15 @@
 package com.example.edu;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
@@ -17,6 +18,7 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 public class MainActivity extends AppCompatActivity {
 
     Toolbar toolbar;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +74,15 @@ public class MainActivity extends AppCompatActivity {
             case 1:
                 Intent infoUpdate = new Intent(MainActivity.this, InfoUpdateActivity.class);
                 startActivity(infoUpdate);
+                finish(); //test
                 return true;
 
             case 2:
+                firebaseAuth = FirebaseAuth.getInstance(); //로그아웃 test : 추후 코드 리스너 등의 방법으로 수정할 예정
+                firebaseAuth.signOut(); //로그아웃 test : 추후 코드 리스너 등의 방법으로 수정할 예정
                 Intent logOut = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(logOut);
+                finish(); //로그아웃 test : 추후 코드 리스너 등의 방법으로 수정할 예정
                 return true;
 
         }
