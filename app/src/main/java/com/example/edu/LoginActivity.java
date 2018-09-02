@@ -90,7 +90,6 @@ public class LoginActivity extends AppCompatActivity {
                 //비밀번호찾기 연결
                 Intent intent = new Intent(LoginActivity.this, FindPasswordActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
 

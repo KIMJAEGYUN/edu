@@ -40,7 +40,7 @@ public class FindPasswordActivity extends AppCompatActivity {
             Toast.makeText(this, "비밀번호 찾기 성공", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(FindPasswordActivity.this, LoginActivity.class);
             startActivity(intent);
-            finish();
+            finishAffinity(); //스택에 있는 모든 엑티비티 종료(삭제)
         }
     }
 }
