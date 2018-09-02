@@ -28,6 +28,7 @@
         <!--<activity android:name=".MainFragment_1" />-->
         <!--<activity android:name=".MainFragment_2" />-->
         <activity android:name=".RegisterActivity"/>
+        <activity android:name=".FindPasswordActivity"/>
         <activity android:name=".PopUp"
             android:theme="@style/AppTheme.PopUp"></activity>
     </application>

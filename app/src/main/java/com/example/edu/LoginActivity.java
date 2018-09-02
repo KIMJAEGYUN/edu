@@ -90,6 +90,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //비밀번호찾기 연결
+                Intent intent = new Intent(LoginActivity.this, FindPasswordActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
