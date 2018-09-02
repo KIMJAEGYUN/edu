@@ -58,6 +58,7 @@ public class SplashActivity extends AppCompatActivity {
                         displayMessage();
                     }
                 });
+
 //        Handler handler = new Handler();
 //        handler.postDelayed(new Runnable() {
 //            @Override
