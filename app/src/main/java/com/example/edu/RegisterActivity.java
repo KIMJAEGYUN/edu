@@ -1,6 +1,5 @@
 package com.example.edu;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -76,13 +75,16 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.makeText(RegisterActivity.this, "회원가입 오류 : "+task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(getApplicationContext(), "회원가입이 완료 되었습니다.", Toast.LENGTH_LONG).show();
+
                             UserModel userModel = new UserModel();
                             userModel.userName = etName.getText().toString();
+                            userModel.uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            //회원가입 할 때마다 uid가 담겨서 회원가입이 된다.
+                            //이 uid를 통해 내가 원하는 사람이랑 채팅을 할 수 있게 된다.
+
                             String uid = task.getResult().getUser().getUid();
                             FirebaseDatabase.getInstance().getReference().child("users").child(uid).setValue(userModel);
-                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                            startActivity(intent);
-                            finish(); //스택에 있는 모든 엑티비티 종료(삭제)
+                            finish();
                         }
                     }
                 });

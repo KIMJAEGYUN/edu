@@ -70,10 +70,12 @@ public class LoginActivity extends AppCompatActivity {
         authStateListener = new FirebaseAuth.AuthStateListener() { // 로그인 성공 시 다음 화면으로.
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                firebaseAuth.signOut();
                 // 상태가 변할 때 : 로그인이 됐거나 로그아웃이 됐거나
                 FirebaseUser user = firebaseAuth.getCurrentUser(); // user 받아오기
                 if(user != null) { // 로그인이 정상적으로 되었다면 user에는 값이 있을 것이다.
                     //로그인
+                    Toast.makeText(LoginActivity.this, user+"", Toast.LENGTH_LONG).show(); //test 목적
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
