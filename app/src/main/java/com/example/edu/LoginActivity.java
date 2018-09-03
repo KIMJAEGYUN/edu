@@ -22,8 +22,8 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity {
     Button btnLogin, btnRegister;
     TextView btnFindPassword;
-    EditText etId, etPassword;
-    ImageView ivCheckId, ivCheckPassword;
+    EditText etEmail, etPassword;
+    ImageView ivCheckEmail, ivCheckPassword;
     //private FirebaseRemoteConfig firebaseRemoteConfig;
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -41,10 +41,10 @@ public class LoginActivity extends AppCompatActivity {
         btnRegister = findViewById(R.id.btnRegister);
         btnFindPassword = findViewById(R.id.btnFindPassword);
 
-        etId = findViewById(R.id.etId);
+        etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
 
-        ivCheckId = findViewById(R.id.ivCheckId);
+        ivCheckEmail = findViewById(R.id.ivCheckEmail);
         ivCheckPassword = findViewById(R.id.ivCheckPassword);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        etId.setOnKeyListener(new View.OnKeyListener() {
+        etEmail.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 checkInputId();
@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        etId.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        etEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 checkInputId();
@@ -127,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
     }
     void loginEvent() { // 로그인이 정상적으로 됐는지 안 됐는지 확인만 해주는. 다음 화면으로 넘겨주는 애는 다른 애다.
         // 로그인 실패 했을 때만 작동
-        firebaseAuth.signInWithEmailAndPassword(etId.getText().toString(), etPassword.getText().toString())
+        firebaseAuth.signInWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString())
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -142,14 +142,14 @@ public class LoginActivity extends AppCompatActivity {
     private boolean validate(){
         boolean valid = true;
         String id, password;
-        id = etId.getText().toString();
+        id = etEmail.getText().toString();
         password = etPassword.getText().toString();
 
         if (id.isEmpty()) {
-            etId.setError("Email를 입력해 주세요!");
+            etEmail.setError("Email를 입력해 주세요!");
             valid = false;
         } else {
-            etId.setError(null);
+            etEmail.setError(null);
         }
 
         if (password.isEmpty()) {
@@ -162,11 +162,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkInputId() {
-        String id = etId.getText().toString();
+        String id = etEmail.getText().toString();
         if (id.isEmpty()) {
-            ivCheckId.setImageResource(R.drawable.ic_check_gray);
+            ivCheckEmail.setImageResource(R.drawable.ic_check_gray);
         } else {
-            ivCheckId.setImageResource(R.drawable.ic_check_black);
+            ivCheckEmail.setImageResource(R.drawable.ic_check_black);
         }
     }
 

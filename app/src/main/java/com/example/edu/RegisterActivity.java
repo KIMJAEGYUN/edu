@@ -7,8 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.edu.model.UserModel;
@@ -18,23 +21,39 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 public class RegisterActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     private EditText etEmail;
     private EditText etName;
     private EditText etPassword;
+    private EditText etAnswer;
     private Button btnRegister;
+    private Spinner spnQuestion;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        etEmail = (EditText) findViewById(R.id.etId);
+        etEmail = (EditText) findViewById(R.id.etEmail);
         etName = (EditText) findViewById(R.id.etName);
         etPassword = (EditText) findViewById(R.id.etPassword);
+        etAnswer = (EditText) findViewById(R.id.etAnswer);
         btnRegister = (Button) findViewById(R.id.btnRegister);
+        spnQuestion = (Spinner) findViewById(R.id.spnQuestion);
+
+        final String[] question = getResources().getStringArray(R.array.question);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,question);
+        spnQuestion.setAdapter(adapter);
+
+        /*spnQuestion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            }
+        });*/
 
         toolbar = findViewById(R.id.tBar);
         toolbar.setTitle("");
