@@ -40,17 +40,8 @@ public class MainFragment_1 extends Fragment {
 
         RecyclerAdpater adapter = new RecyclerAdpater(getActivity());
 
-        adapter.addItem(new Items(R.drawable.ic_supervisor_account_black_24dp, "토익 스터디", "10", "12"));
-        adapter.addItem(new Items(R.drawable.ic_supervisor_account_black_24dp, "자바 스터디", "10", "12"));
-        adapter.addItem(new Items(R.drawable.ic_supervisor_account_black_24dp, "농구", "10", "12"));
-        adapter.addItem(new Items(R.drawable.ic_supervisor_account_black_24dp, "탁구", "10", "12"));
-        adapter.addItem(new Items(R.drawable.ic_supervisor_account_black_24dp, "볼링", "10", "12"));
-        adapter.addItem(new Items(R.drawable.ic_supervisor_account_black_24dp, "주식 스터디", "10", "12"));
-        adapter.addItem(new Items(R.drawable.ic_supervisor_account_black_24dp, "전공 스터디", "10", "12"));
-        adapter.addItem(new Items(R.drawable.ic_supervisor_account_black_24dp, "독서", "10", "12"));
-        adapter.addItem(new Items(R.drawable.ic_supervisor_account_black_24dp, "걷기", "10", "12"));
-
         b.recycle.setAdapter(adapter);
+
 
 
         b.recycle.addOnItemTouchListener(

@@ -41,9 +41,18 @@
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
+            <ImageView
+                android:id="@+id/ivCheckTitle"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="8dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_check_gray" />
+
         </LinearLayout>
 
         <EditText
+            android:id="@+id/etGroupTitle"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginHorizontal="16dp"
@@ -72,6 +81,7 @@
         </LinearLayout>
 
         <EditText
+            android:id="@+id/etShortTitle"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginHorizontal="16dp"
@@ -96,12 +106,22 @@
                 android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/etLimit"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginLeft="16dp"
                 android:hint="20명 이내 입력"
+                android:textSize="15sp"
+                android:inputType="number"/>
 
-                android:textSize="15sp" />
+            <ImageView
+                android:id="@+id/ivCheckLimit"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_check_gray" />
 
 
         </LinearLayout>
@@ -165,6 +185,7 @@
                 android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/etExplain"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_margin="16dp"
@@ -175,6 +196,7 @@
 
 
         <Button
+            android:id="@+id/regitBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
