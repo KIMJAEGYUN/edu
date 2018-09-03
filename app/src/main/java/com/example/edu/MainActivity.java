@@ -25,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //test 어뎁터
+//        getFragmentManager().beginTransaction().replace(R.id.mainactivity_framelayout,new GroupFragment()).commit();
+
         toolbar = findViewById(R.id.tBar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
