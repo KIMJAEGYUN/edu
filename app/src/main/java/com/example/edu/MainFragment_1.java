@@ -24,6 +24,7 @@ public class MainFragment_1 extends Fragment {
 
     RecyclerView.LayoutManager manager;
     ActivityMainFragment1Binding b;
+    TextView test;
 
     @Nullable
     @Override
@@ -31,7 +32,7 @@ public class MainFragment_1 extends Fragment {
 
         b = DataBindingUtil.inflate(inflater, R.layout.activity_main_fragment_1, container, false);
 
-        b.recycle.setHasFixedSize(true);
+        //b.recycle.setHasFixedSize(true);
 
         manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false); // 세번째 파라미터 = 방향 설정
         b.recycle.setLayoutManager(manager); // 리사이클러뷰가 세로 방향으로 설정됨.
@@ -41,6 +42,9 @@ public class MainFragment_1 extends Fragment {
         RecyclerAdpater adapter = new RecyclerAdpater(getActivity());
 
         b.recycle.setAdapter(adapter);
+        //b.test.setText(adapter.items.size());
+
+
 
 
 

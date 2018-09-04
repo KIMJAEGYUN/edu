@@ -2,6 +2,7 @@ package com.example.edu;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,17 +10,42 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHolder> {
 
     Context context; // 데이터만 보관, 리사이클러뷰는 뷰를 담고있음
 
-    ArrayList<Items> items = new ArrayList<Items>(); // 각각의 데이터 보관
+    ArrayList<Items> items; // 각각의 데이터 보관
 
     public RecyclerAdpater(Context context) {
 
         this.context = context;
+
+
+        items = new ArrayList<Items>();
+        FirebaseDatabase.getInstance().getReference().child("users").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                items.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    items.add(snapshot.getValue(Items.class));
+                   // Log.d("tq", ""+snapshot.getValue());
+                }
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -77,9 +103,9 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
 
         public void setItem(Items item) {
             tv.setText(item.getTitle());
-            tv2.setText(item.getMembers());
-            tv3.setText(item.getLimitMemb());
-            iv.setImageResource(item.getId());
+            //tv2.setText(item.getMembers());
+            //tv3.setText(item.getLimitMemb());
+            //iv.setImageResource(item.getId());
         }
 
     }

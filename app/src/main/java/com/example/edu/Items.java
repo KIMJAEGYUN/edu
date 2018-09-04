@@ -9,14 +9,10 @@ public class Items { //아이디와 이름을 담아둘 클래스를 정의
 
     int id;
     String title;
-    String members;
-    String limitMemb;// 받아올 데이터 정보
+    // 받아올 데이터 정보
 
-    public Items(int id, String title, String members, String limitMemb) {
-        this.id = id;
-        this.title = title;
-        this.members = members;
-        this.limitMemb = limitMemb;
+    public Items() {
+
     }
 
     public int getId() {
@@ -35,19 +31,4 @@ public class Items { //아이디와 이름을 담아둘 클래스를 정의
         this.title = title;
     }
 
-    public String getMembers() {
-        return members;
-    }
-
-    public void setMembers(String members) {
-        this.members = members;
-    }
-
-    public String getLimitMemb() {
-        return limitMemb;
-    }
-
-    public void setLimitMemb(String limitMemb) {
-        this.limitMemb = limitMemb;
-    }
 }
