@@ -36,7 +36,6 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                 items.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     items.add(snapshot.getValue(Items.class));
-                   // Log.d("tq", ""+snapshot.getValue());
                 }
                 notifyDataSetChanged();
             }

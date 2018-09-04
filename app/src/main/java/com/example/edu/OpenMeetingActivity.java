@@ -55,6 +55,54 @@ public class OpenMeetingActivity extends AppCompatActivity {
         spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.topic, android.R.layout.simple_dropdown_item_1line);
         final RecyclerAdpater adapter = new RecyclerAdpater(this);
 
+        recycle.setAdapter(adapter);
+        spinner.setAdapter(spinnerAdapter);
+
+
+        regitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                a = etGroupTitle.getText().toString();
+                c = etShortTitle.getText().toString();
+                d = etLimit.getText().toString();
+                //etExplain.getText().toString();
+
+                Intent toMain = new Intent(OpenMeetingActivity.this, MainActivity.class);
+                startActivity(toMain);
+
+            }
+        });
+        etGroupTitle.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                checkInputTitle();
+                return false;
+            }
+        });
+
+        etGroupTitle.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                checkInputTitle();
+            }
+        });
+
+        etLimit.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                checkInputLimit();
+                return false;
+            }
+        });
+
+        etLimit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                checkInputLimit();
+            }
+        });
 
     }
 
