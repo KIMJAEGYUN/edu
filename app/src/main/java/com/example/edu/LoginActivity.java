@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -51,8 +52,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (validate() == false) { // 데이터 로컬에서 자체 검증
+                    Log.e("test","로그인 이벤트 실행 전 로컬 검증");
                     return;
                 } else { // 로컬 자체 검증이 끝나면 서버 검증을 통해 로그인이 정상적으로 되었는지 체크
+                    Log.e("test","로그인 이벤트 실행 else 부분까지 옴");
                     loginEvent();
                 }
             }
@@ -65,26 +68,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        // 로그인 인터페이스 리스너 (로그인이 됐는지만 확인해주는 부분)
-        authStateListener = new FirebaseAuth.AuthStateListener() { // 로그인 성공 시 다음 화면으로.
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                firebaseAuth.signOut();
-                // 상태가 변할 때 : 로그인이 됐거나 로그아웃이 됐거나
-                FirebaseUser user = firebaseAuth.getCurrentUser(); // user 받아오기
-                if(user != null) { // 로그인이 정상적으로 되었다면 user에는 값이 있을 것이다.
-                    //로그인
-                    Toast.makeText(LoginActivity.this, user+"", Toast.LENGTH_LONG).show(); //test 목적
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    //로그아웃
-
-                }
-            }
-        };
 
         btnFindPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,15 +108,25 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    void loginEvent() { // 로그인이 정상적으로 됐는지 안 됐는지 확인만 해주는. 다음 화면으로 넘겨주는 애는 다른 애다.
-        // 로그인 실패 했을 때만 작동
+    void loginEvent() { // 로그인이 정상적으로 됐는지 확인 후 메인화면 전환까지.
         firebaseAuth.signInWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString())
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(!task.isSuccessful()) {
-                    //로그인 실패 시
+                if(!task.isSuccessful()) { // 로그인 실패 시 오류 메시지 출력
                     Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                } else { // 로그인 성공 시
+                    FirebaseUser user = firebaseAuth.getCurrentUser(); // user 받아오기
+                    if (user != null) { // 로그인이 정상적으로 되었다면 user에는 값이 있을 것이다.
+                        //로그인
+                        Toast.makeText(LoginActivity.this, user + "", Toast.LENGTH_LONG).show(); //test 목적
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        //로그아웃
+
+                    }
                 }
             }
         });
@@ -177,17 +170,5 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             ivCheckPassword.setImageResource(R.drawable.ic_check_black);
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        firebaseAuth.addAuthStateListener(authStateListener);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        firebaseAuth.removeAuthStateListener(authStateListener);
     }
 }
