@@ -7,19 +7,19 @@ package com.example.edu;
 public class Items { //아이디와 이름을 담아둘 클래스를 정의
 
 
-    int id;
+    String id;
     String title;
+
     // 받아올 데이터 정보
 
     public Items() {
 
     }
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -30,5 +30,9 @@ public class Items { //아이디와 이름을 담아둘 클래스를 정의
     public void setTitle(String title) {
         this.title = title;
     }
+
+
+
+
 
 }

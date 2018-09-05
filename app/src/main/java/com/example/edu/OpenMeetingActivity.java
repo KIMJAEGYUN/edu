@@ -2,6 +2,7 @@ package com.example.edu;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -14,13 +15,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.edu.databinding.ActivityOpenMeetingBinding;
+import com.example.edu.model.UserModel;
+import com.example.edu.model.groupTest;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class OpenMeetingActivity extends AppCompatActivity {
 
     ActivityOpenMeetingBinding b;
     ArrayAdapter spinnerAdapter;
+    RecyclerAdpater adpater;
 
     Spinner spinner;
     Button regitBtn;
@@ -53,9 +63,9 @@ public class OpenMeetingActivity extends AppCompatActivity {
 
 
         spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.topic, android.R.layout.simple_dropdown_item_1line);
-        final RecyclerAdpater adapter = new RecyclerAdpater(this);
+        adpater = new RecyclerAdpater(this);
 
-        recycle.setAdapter(adapter);
+        recycle.setAdapter(adpater);
         spinner.setAdapter(spinnerAdapter);
 
 
@@ -65,9 +75,12 @@ public class OpenMeetingActivity extends AppCompatActivity {
 
 
                 a = etGroupTitle.getText().toString();
-                c = etShortTitle.getText().toString();
-                d = etLimit.getText().toString();
-                //etExplain.getText().toString();
+                // d = etLimit.getText().toString();
+
+
+
+
+
 
                 Intent toMain = new Intent(OpenMeetingActivity.this, MainActivity.class);
                 startActivity(toMain);

@@ -24,6 +24,7 @@ public class MainFragment_1 extends Fragment {
 
     RecyclerView.LayoutManager manager;
     ActivityMainFragment1Binding b;
+    TextView test;
 
     @Nullable
     @Override
@@ -41,6 +42,8 @@ public class MainFragment_1 extends Fragment {
         RecyclerAdpater adapter = new RecyclerAdpater(getActivity());
 
         b.recycle.setAdapter(adapter);
+
+
 
 
 
