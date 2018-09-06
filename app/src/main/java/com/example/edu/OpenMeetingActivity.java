@@ -3,6 +3,7 @@ package com.example.edu;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -14,14 +15,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.edu.databinding.ActivityOpenMeetingBinding;
+import com.example.edu.model.UserModel;
+import com.example.edu.model.groupTest;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class OpenMeetingActivity extends AppCompatActivity {
 
     ActivityOpenMeetingBinding b;
     ArrayAdapter spinnerAdapter;
-    RecyclerAdpater adpater;
+    RecyclerAdapter_Likes adapter;
 
     Spinner spinner;
     Button regitBtn;
@@ -54,9 +63,9 @@ public class OpenMeetingActivity extends AppCompatActivity {
 
 
         spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.topic, android.R.layout.simple_dropdown_item_1line);
-        //adpater = new RecyclerAdpater(this); // 오류로 인하여 주석처리. 추후 병호가 코딩할 예정.
+        adapter = new RecyclerAdapter_Likes(this); // 오류로 인하여 주석처리. 추후 병호가 코딩할 예정.
 
-        recycle.setAdapter(adpater);
+        recycle.setAdapter(adapter);
         spinner.setAdapter(spinnerAdapter);
 
 
@@ -64,10 +73,28 @@ public class OpenMeetingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+               /* FirebaseAuth.getInstance()
+                        .createUserWithEmailAndPassword(etGroupTitle.getText().toString(),etLimit.getText().toString())
+                        .addOnCompleteListener(OpenMeetingActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if(!task.isSuccessful()) {
+                                    Toast.makeText(OpenMeetingActivity.this, "회원가입 오류 : "+task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "회원가입이 완료 되었습니다.", Toast.LENGTH_LONG).show();
 
-                a = etGroupTitle.getText().toString();
-                // d = etLimit.getText().toString();
+                                   groupTest gTest = new groupTest();
+                                   gTest.groupName = etGroupTitle.getText().toString();
+                                   gTest.groupCode = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                    //회원가입 할 때마다 uid가 담겨서 회원가입이 된다.
+                                    //이 uid를 통해 내가 원하는 사람이랑 채팅을 할 수 있게 된다.
 
+                                    String uid = task.getResult().getUser().getUid();
+                                    FirebaseDatabase.getInstance().getReference().child("groups").child(uid).setValue(gTest);
+                                    finish();
+                                }
+                            }
+                        });*/
 
 
 

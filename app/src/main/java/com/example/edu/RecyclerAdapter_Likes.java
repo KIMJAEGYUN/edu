@@ -15,7 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class RecyclerAdapter_Likes extends RecyclerView.Adapter<RecyclerAdapter_Likes.ViewHolder>{
+public class RecyclerAdapter_Likes extends RecyclerView.Adapter<RecyclerAdapter_Likes.ViewHolder> {
 
     Context context;
 
@@ -30,7 +30,7 @@ public class RecyclerAdapter_Likes extends RecyclerView.Adapter<RecyclerAdapter_
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 groupTest.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     groupTest.add(snapshot.getValue(groupTest.class));
                 }
                 notifyDataSetChanged();
@@ -46,7 +46,7 @@ public class RecyclerAdapter_Likes extends RecyclerView.Adapter<RecyclerAdapter_
 
     @Override
     public RecyclerAdapter_Likes.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = inflater.inflate(R.layout.item, parent, false);
 
         return new ViewHolder(itemView);
@@ -62,7 +62,7 @@ public class RecyclerAdapter_Likes extends RecyclerView.Adapter<RecyclerAdapter_
         return groupTest.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView tv;
 
@@ -70,12 +70,6 @@ public class RecyclerAdapter_Likes extends RecyclerView.Adapter<RecyclerAdapter_
             super(itemView);
 
             tv = (TextView) itemView.findViewById(R.id.tv);
-
-        }
-
-        public void setItem(groupTest item){
-
-            tv.setText(item.getGroupName());
 
         }
     }
