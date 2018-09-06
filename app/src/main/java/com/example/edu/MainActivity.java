@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         toolbar = findViewById(R.id.tBar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -47,8 +46,9 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.floatBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = getIntent();
                 Intent nextAct = new Intent(MainActivity.this, OpenMeetingActivity.class);
+                nextAct.putExtra("uid",intent.getStringExtra("uid"));
                 startActivity(nextAct);
 
             }

@@ -3,10 +3,10 @@ package com.example.edu;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,15 +15,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.example.edu.databinding.ActivityOpenMeetingBinding;
-import com.example.edu.model.UserModel;
-import com.example.edu.model.groupTest;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.edu.model.BoardModel;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class OpenMeetingActivity extends AppCompatActivity {
@@ -39,6 +35,7 @@ public class OpenMeetingActivity extends AppCompatActivity {
     RecyclerView recycle;
     String a, c, d;
     private View h;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,39 +69,15 @@ public class OpenMeetingActivity extends AppCompatActivity {
         regitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-               /* FirebaseAuth.getInstance()
-                        .createUserWithEmailAndPassword(etGroupTitle.getText().toString(),etLimit.getText().toString())
-                        .addOnCompleteListener(OpenMeetingActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if(!task.isSuccessful()) {
-                                    Toast.makeText(OpenMeetingActivity.this, "회원가입 오류 : "+task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "회원가입이 완료 되었습니다.", Toast.LENGTH_LONG).show();
-
-                                   groupTest gTest = new groupTest();
-                                   gTest.groupName = etGroupTitle.getText().toString();
-                                   gTest.groupCode = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                    //회원가입 할 때마다 uid가 담겨서 회원가입이 된다.
-                                    //이 uid를 통해 내가 원하는 사람이랑 채팅을 할 수 있게 된다.
-
-                                    String uid = task.getResult().getUser().getUid();
-                                    FirebaseDatabase.getInstance().getReference().child("groups").child(uid).setValue(gTest);
-                                    finish();
-                                }
-                            }
-                        });*/
-
-
-
-
-
-                Intent toMain = new Intent(OpenMeetingActivity.this, MainActivity.class);
-                startActivity(toMain);
-
+                if (validate() == false) { // 데이터 로컬에서 자체 검증
+                    return;
+                } else { // 로컬 자체 검증이 끝나면 서버 검증을 통해 로그인이 정상적으로 되었는지 체크
+                    Log.e("test2","미팅등록 버튼까지 옴");
+                    RegisterEvent();
+                }
             }
         });
+
         etGroupTitle.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
@@ -134,7 +107,53 @@ public class OpenMeetingActivity extends AppCompatActivity {
                 checkInputLimit();
             }
         });
+    }
 
+    void RegisterEvent() { // 회원가입이 정상적으로 됐는지 확인해주고 다음 화면으로 넘겨줌. 확인하고 넘겨주는 이 2가지를 분리할 예정. LoginActivity 처럼.
+        Intent intent = getIntent(); //uid값 받아옴
+
+        Log.e("test2","미팅등록이벤트까지 옴");
+        String uid = intent.getStringExtra("uid");
+        Log.e("test2","미팅등록이벤트에서 user받아온 뒤 uid에 저장 성공");
+
+        BoardModel BoardModel = new BoardModel();
+        BoardModel.groupName = etGroupTitle.getText().toString();
+        BoardModel.uid = uid;
+
+        FirebaseDatabase.getInstance().getReference().child("group").child(uid).setValue(BoardModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override //게시글 작성이 성공하면 화면 finish()
+            public void onSuccess(Void aVoid) {
+                finish();
+            }
+        });
+    }
+
+    private boolean validate(){
+        boolean valid = true;
+        String title;
+        title = etGroupTitle.getText().toString();
+
+        if (title.isEmpty()) {
+            etGroupTitle.setError("제목을 입력해 주세요!");
+            valid = false;
+        } else {
+            etGroupTitle.setError(null);
+        }
+
+//        if (name.isEmpty()) {
+//            etName.setError("이름을 입력해 주세요!");
+//            valid = false;
+//        } else {
+//            etName.setError(null);
+//        }
+//
+//        if (password.isEmpty()) {
+//            etPassword.setError("Password를 입력해 주세요!");
+//            valid = false;
+//        } else {
+//            etPassword.setError(null);
+//        }
+        return valid;
     }
 
     @Override

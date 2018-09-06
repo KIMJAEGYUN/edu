@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.edu.model.UserModel;
+import com.example.edu.model.BoardModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -18,16 +18,16 @@ import java.util.List;
 
 public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    List<UserModel> userModels;
+    List<BoardModel> boardModels;
 
     public RecyclerAdpater() {
-        userModels = new ArrayList<>();
-        FirebaseDatabase.getInstance().getReference().child("users").addValueEventListener(new ValueEventListener() {
+        boardModels = new ArrayList<>();
+        FirebaseDatabase.getInstance().getReference().child("group").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                userModels.clear();
+                boardModels.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    userModels.add(snapshot.getValue(UserModel.class));
+                    boardModels.add(snapshot.getValue(BoardModel.class));
                 }
                 notifyDataSetChanged();
             }
@@ -48,20 +48,12 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) { // 데이터와 뷰가 서로 결합되는 경우
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // 이곳에 position을 이용하여 popup 연결 -> popup에서 채팅방 입장 클릭 시 채팅방 입장이 가능하도록 코딩.
-
-
-
-            }
-        });
+        ((CustomViewHolder)holder).tv.setText(boardModels.get(position).groupName);
     }
 
     @Override
     public int getItemCount() {
-        return userModels.size(); // 아이템 몇갠지.
+        return boardModels.size(); // 아이템 몇갠지.
     }
 
     private class CustomViewHolder extends RecyclerView.ViewHolder {

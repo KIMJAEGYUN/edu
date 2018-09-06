@@ -27,8 +27,6 @@ public class LoginActivity extends AppCompatActivity {
     ImageView ivCheckEmail, ivCheckPassword;
     //private FirebaseRemoteConfig firebaseRemoteConfig;
     private FirebaseAuth firebaseAuth;
-    private FirebaseAuth.AuthStateListener authStateListener;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -119,8 +117,10 @@ public class LoginActivity extends AppCompatActivity {
                     FirebaseUser user = firebaseAuth.getCurrentUser(); // user 받아오기
                     if (user != null) { // 로그인이 정상적으로 되었다면 user에는 값이 있을 것이다.
                         //로그인
+                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         Toast.makeText(LoginActivity.this, user + "", Toast.LENGTH_LONG).show(); //test 목적
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.putExtra("uid",uid);
                         startActivity(intent);
                         finish();
                     } else {
