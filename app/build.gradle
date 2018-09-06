@@ -61,6 +61,7 @@ dependencies {
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.google.gms:google-services:4.0.1'
     implementation 'com.sackcentury:shinebutton:0.2.0'
+    implementation 'com.github.traex.expandablelayout:library:1.2.2'
 }
 
 apply plugin: 'com.google.gms.google-services'

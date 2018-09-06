@@ -5,6 +5,7 @@
         <item>경영 / 사회학부</item>
         <item>어문 / 교육학부</item>
         <item>예술 / 건강학부</item>
+        <item>기타</item>
     </string-array>
 
     <string-array name="question">
