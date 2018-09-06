@@ -17,7 +17,7 @@ public class PopUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pop_up);
-        btnChat = (findViewById(R.id.popupactivity_button));
+        btnChat = (findViewById(R.id.btnPopup));
 
 
         DisplayMetrics dm = new DisplayMetrics();

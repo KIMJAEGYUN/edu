@@ -4,210 +4,215 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.edu.OpenMeetingActivity">
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/tBar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#26689A">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="그룹 등록"
-                android:textColor="#FFD9D9D9"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-        </android.support.v7.widget.Toolbar>
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/tBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="#26689A">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="그룹 등록"
+                    android:textColor="#FFD9D9D9"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+            </android.support.v7.widget.Toolbar>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:text="그룹명"
-                android:textColor="#000000"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/ivCheckTitle"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="8dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_check_gray" />
-
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/etGroupTitle"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/border_underline"
-            android:hint="그룹명을 입력해주세요."
-            android:inputType="text"
-            android:textSize="15sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
-                android:text="짧은 소개"
-                android:textColor="#000000"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/etShortTitle"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/border_underline"
-            android:hint="그룹에 대한 짧은 소개를 입력해주세요."
-            android:textSize="15sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:text="제한 인원"
-                android:textColor="#000000"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/etLimit"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginLeft="16dp"
-                android:hint="20명 이내 입력"
-                android:textSize="15sp"
-                android:inputType="number"/>
-
-            <ImageView
-                android:id="@+id/ivCheckLimit"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_check_gray" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-
-            <RadioGroup
-                android:id="@+id/groupStyle"
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
                 android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/mentorGroup"
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="멘토링" />
+                    android:layout_marginLeft="16dp"
+                    android:text="그룹명"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
-                <RadioButton
-                    android:id="@+id/studyGroup"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="스터디" />
+                <ImageView
+                    android:id="@+id/ivCheckTitle"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="8dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_check_gray" />
 
-            </RadioGroup>
-
-
-        </LinearLayout>
-
-        <Spinner
-            android:id="@+id/topicSpinner"
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp">
-
-        </Spinner>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
-                android:text="상세 설명"
-                android:textColor="#000000"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+            </LinearLayout>
 
             <EditText
-                android:id="@+id/etExplain"
+                android:id="@+id/etGroupTitle"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_margin="16dp"
-                android:background="@drawable/border"
-                android:hint="그룹에 대한 설명을 입력해주세요." />
+                android:layout_height="40dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/border_underline"
+                android:hint="그룹명을 입력해주세요."
+                android:inputType="text"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="짧은 소개"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/etShortTitle"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/border_underline"
+                android:hint="그룹에 대한 짧은 소개를 입력해주세요."
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:text="제한 인원"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etLimit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="16dp"
+                    android:hint="20명 이내 입력"
+                    android:inputType="number"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/ivCheckLimit"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="8dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_check_gray" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <RadioGroup
+                    android:id="@+id/rgStyle"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rbMentor"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="멘토링" />
+
+                    <RadioButton
+                        android:id="@+id/rbStudy"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="스터디" />
+
+                </RadioGroup>
+
+
+            </LinearLayout>
+
+            <Spinner
+                android:id="@+id/spnTopic"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp">
+
+            </Spinner>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="상세 설명"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etExplain"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/border"
+                    android:hint="그룹에 대한 설명을 입력해주세요." />
+
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
+                android:background="#26689A"
+                android:text="등록"
+                android:textColor="#FFD9D9D9"
+                android:textStyle="bold" />
 
         </LinearLayout>
-
-
-        <Button
-            android:id="@+id/regitBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="8dp"
-            android:background="#26689A"
-            android:text="등록"
-            android:textColor="#FFD9D9D9"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
+    </ScrollView>
 
 </layout>

@@ -29,7 +29,7 @@ public class OpenMeetingActivity extends AppCompatActivity {
     RecyclerAdapter_Likes adapter;
 
     Spinner spinner;
-    Button regitBtn;
+    Button btnRegister;
     EditText etGroupTitle, etShortTitle, etLimit, etExplain;
     ImageView ivCheckTitle, ivCheckLimit;
     RecyclerView recycle;
@@ -42,15 +42,15 @@ public class OpenMeetingActivity extends AppCompatActivity {
         b = DataBindingUtil.setContentView(this, R.layout.activity_open_meeting);
 
 
-        regitBtn = (Button) findViewById(R.id.regitBtn);
+        btnRegister = (Button) findViewById(R.id.btnRegister);
         etGroupTitle = (EditText) findViewById(R.id.etGroupTitle);
         etShortTitle = (EditText) findViewById(R.id.etShortTitle);
         etLimit = (EditText) findViewById(R.id.etLimit);
         ivCheckLimit = (ImageView) findViewById(R.id.ivCheckLimit);
         ivCheckTitle = (ImageView) findViewById(R.id.ivCheckTitle);
         h = getLayoutInflater().inflate(R.layout.activity_main_fragment_1, null, false);
-        recycle = (RecyclerView) h.findViewById(R.id.recycle);
-        spinner = (Spinner) findViewById(R.id.topicSpinner);
+        recycle = (RecyclerView) h.findViewById(R.id.recycleView);
+        spinner = (Spinner) findViewById(R.id.spnTopic);
         Toolbar toolbar = (Toolbar) findViewById(R.id.tBar);
 
         toolbar.setTitle("");
@@ -65,7 +65,7 @@ public class OpenMeetingActivity extends AppCompatActivity {
         spinner.setAdapter(spinnerAdapter);
 
 
-        regitBtn.setOnClickListener(new View.OnClickListener() {
+        btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (validate() == false) { // 데이터 로컬에서 자체 검증

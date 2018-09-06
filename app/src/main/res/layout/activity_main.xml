@@ -16,7 +16,6 @@
             android:background="#26689A">
 
             <TextView
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="STUDY"
@@ -27,11 +26,11 @@
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.BottomNavigationView
+            android:id="@+id/navigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/mainactivity_bottomnavigationview"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:itemBackground="@color/colorPrimary"
+            app:itemBackground="@color/eduBlue"
             app:itemTextColor="@android:color/white"
             app:itemIconTint="@android:color/white"
             app:menu="@menu/bottom_navigation_main">
@@ -77,7 +76,7 @@
 
         <com.getbase.floatingactionbutton.FloatingActionButton
 
-            android:id="@+id/floatBtn"
+            android:id="@+id/btnRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="60dp"

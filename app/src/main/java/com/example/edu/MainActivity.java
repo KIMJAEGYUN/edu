@@ -2,6 +2,7 @@ package com.example.edu;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,9 @@ public class MainActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     private FirebaseAuth firebaseAuth;
+    private BottomNavigationView navigationView;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         viewPagerTab.setViewPager(viewPager);
 
 
-        findViewById(R.id.floatBtn).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btnRegister).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = getIntent();
@@ -54,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

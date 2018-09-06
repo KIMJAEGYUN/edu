@@ -20,7 +20,7 @@ public class MainFragment_2 extends Fragment {
 
         View view = inflater.inflate(R.layout.activity_main_fragment_2, null);
 
-        recycle2 = (RecyclerView)view.findViewById(R.id.recycle2);
+        recycle2 = (RecyclerView)view.findViewById(R.id.recycleView2);
         recycle2.setHasFixedSize(true);
 
         manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);

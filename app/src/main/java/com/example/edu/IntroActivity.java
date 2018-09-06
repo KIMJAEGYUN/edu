@@ -31,7 +31,7 @@ public class IntroActivity extends AppCompatActivity {
         LineIndicator lineIndicator = (LineIndicator)findViewById(R.id.indicator);
         lineIndicator.setupWithViewPager(viewPager); //인디케이터 셋팅
 
-        b.nextBtn.setOnClickListener(new View.OnClickListener() {
+        b.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent nextAct = new Intent(IntroActivity.this, LoginActivity.class);

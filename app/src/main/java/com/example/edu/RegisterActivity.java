@@ -1,15 +1,27 @@
 package com.example.edu;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -21,6 +33,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.File;
+
 public class RegisterActivity extends AppCompatActivity {
 
     Toolbar toolbar;
@@ -30,6 +44,10 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText etAnswer;
     private Button btnRegister;
     private Spinner spnQuestion;
+    private ImageView ivUserPhoto;
+    private Uri imageUri;
+    private final int CAMERA_CODE = 1111;
+    private final int REQUEST_PERMISSION_CODE = 2222;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,6 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
         etAnswer = (EditText) findViewById(R.id.etAnswer);
         btnRegister = (Button) findViewById(R.id.btnRegister);
         spnQuestion = (Spinner) findViewById(R.id.spnQuestion);
+        ivUserPhoto = (ImageView) findViewById(R.id.ivUserPhoto);
 
         final String[] question = getResources().getStringArray(R.array.question);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,question);
@@ -68,6 +87,94 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    //카메라에서 사진 촬영
+    public void takePhoto(){
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        String url = "temp_"+String.valueOf(System.currentTimeMillis())+".jpg";
+        imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),url));
+
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+        startActivityForResult(intent,0);
+    }
+
+    //앨범에서 사진 가져오기
+    public void takeAlbum(){
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+        startActivityForResult(intent,1);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode,int resultCode,Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+
+        if(resultCode!=RESULT_OK)
+            return;
+
+        switch (requestCode) {
+            case 1: {
+                imageUri = data.getData();
+                Log.d("SmartWheel", imageUri.getPath().toString());
+            }
+            case 0: {
+                Intent intent = new Intent("com.android.camera.action.CROP");
+                intent.setDataAndType(imageUri, "image/*");
+
+                intent.putExtra("outputX",200);
+                intent.putExtra("outputY",100);
+                intent.putExtra("aspectX",1);
+                intent.putExtra("aspectY",1);
+                intent.putExtra("scale",true);
+                intent.putExtra("return_data",true);
+                startActivityForResult(intent,2);
+                break;
+            }
+            case 2:{
+                //크롭 이후의 이미지를 넘겨받음
+                if(resultCode!=RESULT_OK){
+                    return;
+                }
+
+                final Bundle extras = data.getExtras();
+
+                if(extras !=null){
+                    Bitmap photo = extras.getParcelable("data");
+                    ivUserPhoto.setImageBitmap(photo);
+                    break;
+                }
+
+                File f = new File(imageUri.getPath());
+                if(f.exists()){
+                    f.delete();
+                }
+            }
+        }
+    }
+
+    public void onClick(View v){
+
+        DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                takePhoto();
+            }
+        };
+
+        DialogInterface.OnClickListener albumListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                takeAlbum();
+            }
+        };
+
+        new AlertDialog.Builder(this)
+                .setTitle("학생증 이미지 선택")
+                .setPositiveButton("사진촬영",cameraListener)
+                .setNeutralButton("앨범선택",albumListener)
+                .show();
     }
 
     @Override
