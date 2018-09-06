@@ -12,6 +12,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.sackcentury.shinebuttonlib.ShineButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private class CustomViewHolder extends RecyclerView.ViewHolder {
         ImageView iv;
         TextView tv, tv2, tv3;
+        ShineButton shineButton;
         public CustomViewHolder(View view) { // 뷰홀더 생성자 , 뷰홀더는 각각의 아이템을 위한 뷰를 담고 있다
             super(view); // 그러므로 뷰홀더는 Items.xml 의 뷰를 전달해주는 것, Items의 컨텐츠를 이용해 데이터 설정등등 진행
             // 뷰와 실제 데이터 ( java 내의 할당된 데이터 ) 매칭 과정
@@ -66,6 +68,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerView.ViewHolde
             tv = view.findViewById(R.id.tv);
             tv2 = view.findViewById(R.id.tv2);
             tv3 = view.findViewById(R.id.tv3);
+            shineButton = (ShineButton) view.findViewById(R.id.po_image2);
         }
     }
 }

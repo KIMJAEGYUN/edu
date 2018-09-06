@@ -33,7 +33,6 @@ public class OpenMeetingActivity extends AppCompatActivity {
     EditText etGroupTitle, etShortTitle, etLimit, etExplain;
     ImageView ivCheckTitle, ivCheckLimit;
     RecyclerView recycle;
-    String a, c, d;
     private View h;
     private DatabaseReference mDatabase;
 

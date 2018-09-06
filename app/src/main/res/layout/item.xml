@@ -77,6 +77,19 @@
                     android:layout_gravity="center_vertical"
                     android:textSize="12dp" />
 
+                <com.sackcentury.shinebuttonlib.ShineButton
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="8dp"
+                    android:src="#FFF7C100"
+                    android:id="@+id/po_image2"
+                    app:btn_color="@android:color/darker_gray"
+                    app:btn_fill_color="#FFF7C45F"
+                    android:layout_gravity="center_vertical"
+                    app:allow_random_color="false"
+                    app:siShape="@raw/star"/>
+
             </LinearLayout>
 
 

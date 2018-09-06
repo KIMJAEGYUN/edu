@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.edu.model.groupTest;
+import com.example.edu.model.BoardModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -19,19 +19,19 @@ public class RecyclerAdapter_Likes extends RecyclerView.Adapter<RecyclerAdapter_
 
     Context context;
 
-    ArrayList<groupTest> groupTest;
+    ArrayList<BoardModel> boardModels;
 
     public RecyclerAdapter_Likes(Context context) {
 
         this.context = context;
 
-        groupTest = new ArrayList<groupTest>();
+        boardModels = new ArrayList<>();
         FirebaseDatabase.getInstance().getReference().child("users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                groupTest.clear();
+                boardModels.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    groupTest.add(snapshot.getValue(groupTest.class));
+                    boardModels.add(snapshot.getValue(BoardModel.class));
                 }
                 notifyDataSetChanged();
             }
@@ -59,7 +59,7 @@ public class RecyclerAdapter_Likes extends RecyclerView.Adapter<RecyclerAdapter_
 
     @Override
     public int getItemCount() {
-        return groupTest.size();
+        return boardModels.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
