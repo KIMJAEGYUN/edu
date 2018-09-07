@@ -36,7 +36,6 @@ public class OpenMeetingActivity extends AppCompatActivity {
     EditText etGroupTitle, etShortTitle, etLimit, etExplain;
     ImageView ivCheckTitle, ivCheckLimit;
     RecyclerView recycle;
-    String SpnItem, RadioItem;
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
 
@@ -124,12 +123,15 @@ public class OpenMeetingActivity extends AppCompatActivity {
     void RegisterEvent() { // 게시글 등록이 정상적으로 됐는지 확인해주고 다음 화면으로 넘겨줌
         Intent intent = getIntent(); //uid값 받아옴
         String uid = intent.getStringExtra("uid");
+        int id = rgStyle.getCheckedRadioButtonId();
+        RadioButton rb = (RadioButton)findViewById(id);
+
 
         BoardModel BoardModel = new BoardModel();
         BoardModel.groupName = etGroupTitle.getText().toString();
         BoardModel.groupShortTitle = etShortTitle.getText().toString();
         BoardModel.groupLimit = Integer.parseInt(etLimit.getText().toString());
-        //BoardModel.groupStyle = String.valueOf(rgStyle.getCheckedRadioButtonId());
+        BoardModel.groupStyle = rb.getText().toString();
         BoardModel.groupTopic = spinner.getSelectedItem().toString();
         BoardModel.groupExplain = etExplain.getText().toString();
 

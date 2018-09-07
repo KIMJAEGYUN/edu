@@ -19,6 +19,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -35,10 +37,9 @@ import java.io.File;
 public class RegisterActivity extends AppCompatActivity {
 
     Toolbar toolbar;
-    private EditText etEmail;
-    private EditText etName;
-    private EditText etPassword;
-    private EditText etAnswer;
+    private EditText etEmail, etName, etPassword, etAnswer;
+    private RadioGroup rgGender;
+    private RadioButton rbMan, rbWomen;
     private Button btnRegister;
     private Spinner spnQuestion;
     private ImageView ivUserPhoto;
@@ -60,10 +61,15 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister = (Button) findViewById(R.id.btnRegister);
         spnQuestion = (Spinner) findViewById(R.id.spnQuestion);
         ivUserPhoto = (ImageView) findViewById(R.id.ivUserPhoto);
+        rgGender = (RadioGroup) findViewById(R.id.rgGender);
+        rbMan = (RadioButton) findViewById(R.id.rbMan);
+        rbWomen = (RadioButton) findViewById(R.id.rbWomen);
 
         final String[] question = getResources().getStringArray(R.array.question);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,question);
         spnQuestion.setAdapter(adapter);
+
+
 
         /*spnQuestion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -189,6 +195,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     void RegisterEvent() { // 회원가입이 정상적으로 됐는지 확인해주고 다음 화면으로 넘겨줌. 확인하고 넘겨주는 이 2가지를 분리할 예정. LoginActivity 처럼.
+
+
         FirebaseAuth.getInstance()
                 .createUserWithEmailAndPassword(etEmail.getText().toString(),etPassword.getText().toString())
                 .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
@@ -199,8 +207,13 @@ public class RegisterActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(getApplicationContext(), "회원가입이 완료 되었습니다.", Toast.LENGTH_LONG).show();
 
+                            int id = rgGender.getCheckedRadioButtonId();
+                            RadioButton rb = (RadioButton) findViewById(id); // 라디오 버튼값 획득
+
                             UserModel userModel = new UserModel();
                             userModel.userName = etName.getText().toString();
+                            userModel.userGender = rb.getText().toString();
+                            //userModel.userFavorites = 별 누르면 그룹이 관심목록에 표시 clickListener > 파베에 group Uid가 userFavorites에 추가 > 이것을 관심목록에 표시
                             userModel.uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                             //회원가입 할 때마다 uid가 담겨서 회원가입이 된다.
                             //이 uid를 통해 내가 원하는 사람이랑 채팅을 할 수 있게 된다.
