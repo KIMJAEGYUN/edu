@@ -24,7 +24,6 @@
                 android:layout_marginHorizontal="16dp"
                 expandable:contentLayout="@layout/view_content"
                 expandable:headerLayout="@layout/view_header" />
-
         </LinearLayout>
 
         <View
