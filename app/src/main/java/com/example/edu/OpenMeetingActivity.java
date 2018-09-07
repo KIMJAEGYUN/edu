@@ -135,8 +135,9 @@ public class OpenMeetingActivity extends AppCompatActivity {
 
         BoardModel.uid = uid;
 
-        //FirebaseDatabase.getInstance().getReference().child("group").child(uid).setValue(BoardModel).addOnSuccessListener(new OnSuccessListener<Void>() {
-        FirebaseDatabase.getInstance().getReference().child("group").push().child(uid).setValue(BoardModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+//        FirebaseDatabase.getInstance().getReference().child("group").child(uid).setValue(BoardModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+//        FirebaseDatabase.getInstance().getReference().child("group").push().child(uid).setValue(BoardModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+        FirebaseDatabase.getInstance().getReference().child("group").push().setValue(BoardModel).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override //게시글 작성이 성공하면 화면 toast메시지 출력 및 finish() 실행
             public void onSuccess(Void aVoid) {
                 Toast.makeText(getApplicationContext(), "게시글 등록이 완료되었습니다.", Toast.LENGTH_LONG).show();
