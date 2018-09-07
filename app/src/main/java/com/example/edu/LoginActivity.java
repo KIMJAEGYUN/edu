@@ -26,6 +26,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText etEmail, etPassword;
     ImageView ivCheckEmail, ivCheckPassword;
     //private FirebaseRemoteConfig firebaseRemoteConfig;
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
     private FirebaseAuth firebaseAuth;
 
     @Override
@@ -169,6 +171,21 @@ public class LoginActivity extends AppCompatActivity {
             ivCheckPassword.setImageResource(R.drawable.ic_check_gray);
         } else {
             ivCheckPassword.setImageResource(R.drawable.ic_check_black);
+        }
+    }
+    @Override
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime)
+        {
+            super.onBackPressed();
+        }
+        else
+        {
+            backPressedTime = tempTime;
+            Toast.makeText(getApplicationContext(), "한 번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
     }
 }

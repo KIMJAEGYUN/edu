@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,14 +13,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.edu.databinding.ActivityOpenMeetingBinding;
 import com.example.edu.model.BoardModel;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class OpenMeetingActivity extends AppCompatActivity {
@@ -38,9 +37,10 @@ public class OpenMeetingActivity extends AppCompatActivity {
     ImageView ivCheckTitle, ivCheckLimit;
     RecyclerView recycle;
     String SpnItem, RadioItem;
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
 
     private View h;
-    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +69,7 @@ public class OpenMeetingActivity extends AppCompatActivity {
 
 
         spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.topic, android.R.layout.simple_dropdown_item_1line);
-        adapter = new RecyclerAdapter_Likes(this); // 오류로 인하여 주석처리. 추후 병호가 코딩할 예정.
+        adapter = new RecyclerAdapter_Likes(this);
 
         recycle.setAdapter(adapter);
         spinner.setAdapter(spinnerAdapter);
@@ -81,7 +81,6 @@ public class OpenMeetingActivity extends AppCompatActivity {
                 if (validate() == false) { // 데이터 로컬에서 자체 검증
                     return;
                 } else { // 로컬 자체 검증이 끝나면 서버 검증을 통해 로그인이 정상적으로 되었는지 체크
-                    Log.e("test2", "미팅등록 버튼까지 옴");
                     RegisterEvent();
                 }
             }
@@ -122,12 +121,9 @@ public class OpenMeetingActivity extends AppCompatActivity {
     }
 
 
-    void RegisterEvent() { // 회원가입이 정상적으로 됐는지 확인해주고 다음 화면으로 넘겨줌. 확인하고 넘겨주는 이 2가지를 분리할 예정. LoginActivity 처럼.
+    void RegisterEvent() { // 게시글 등록이 정상적으로 됐는지 확인해주고 다음 화면으로 넘겨줌
         Intent intent = getIntent(); //uid값 받아옴
-
-        Log.e("test2", "미팅등록이벤트까지 옴");
         String uid = intent.getStringExtra("uid");
-        Log.e("test2", "미팅등록이벤트에서 user받아온 뒤 uid에 저장 성공");
 
         BoardModel BoardModel = new BoardModel();
         BoardModel.groupName = etGroupTitle.getText().toString();
@@ -139,9 +135,11 @@ public class OpenMeetingActivity extends AppCompatActivity {
 
         BoardModel.uid = uid;
 
-        FirebaseDatabase.getInstance().getReference().child("group").child(uid).setValue(BoardModel).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override //게시글 작성이 성공하면 화면 finish()
+        //FirebaseDatabase.getInstance().getReference().child("group").child(uid).setValue(BoardModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+        FirebaseDatabase.getInstance().getReference().child("group").push().child(uid).setValue(BoardModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override //게시글 작성이 성공하면 화면 toast메시지 출력 및 finish() 실행
             public void onSuccess(Void aVoid) {
+                Toast.makeText(getApplicationContext(), "게시글 등록이 완료되었습니다.", Toast.LENGTH_LONG).show();
                 finish();
             }
         });
@@ -149,29 +147,37 @@ public class OpenMeetingActivity extends AppCompatActivity {
 
     private boolean validate() {
         boolean valid = true;
-        String title;
-        title = etGroupTitle.getText().toString();
 
-        if (title.isEmpty()) {
+        if (etGroupTitle.getText().toString().isEmpty()) {
             etGroupTitle.setError("제목을 입력해 주세요!");
             valid = false;
         } else {
             etGroupTitle.setError(null);
         }
-
-//        if (name.isEmpty()) {
-//            etName.setError("이름을 입력해 주세요!");
+        if (etShortTitle.getText().toString().isEmpty()) {
+            etShortTitle.setError("짧은 소개 부분를 입력해 주세요!");
+            valid = false;
+        } else {
+            etShortTitle.setError(null);
+        }
+        if (etLimit.getText().toString().isEmpty()) {
+            etLimit.setError("제한 인원을 입력해 주세요!");
+            valid = false;
+        } else {
+            etLimit.setError(null);
+        }
+//        if (spinner.getSelectedItem().toString().isEmpty()) {
+//            spinner.setError("Password를 입력해 주세요!");
 //            valid = false;
 //        } else {
-//            etName.setError(null);
+//            spinner.setError(null);
 //        }
-//
-//        if (password.isEmpty()) {
-//            etPassword.setError("Password를 입력해 주세요!");
-//            valid = false;
-//        } else {
-//            etPassword.setError(null);
-//        }
+        if (etExplain.getText().toString().isEmpty()) {
+            etExplain.setError("상세 설명을 입력해 주세요!");
+            valid = false;
+        } else {
+            etExplain.setError(null);
+        }
         return valid;
     }
 
@@ -201,6 +207,22 @@ public class OpenMeetingActivity extends AppCompatActivity {
             ivCheckLimit.setImageResource(R.drawable.ic_check_gray);
         } else {
             ivCheckLimit.setImageResource(R.drawable.ic_check_black);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime)
+        {
+            super.onBackPressed();
+        }
+        else
+        {
+            backPressedTime = tempTime;
+            Toast.makeText(getApplicationContext(), "한 번 더 누르시면 전 화면으로 돌아갑니다", Toast.LENGTH_SHORT).show();
         }
     }
 }

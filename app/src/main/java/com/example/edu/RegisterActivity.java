@@ -3,15 +3,12 @@ package com.example.edu;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -46,6 +43,8 @@ public class RegisterActivity extends AppCompatActivity {
     private Spinner spnQuestion;
     private ImageView ivUserPhoto;
     private Uri imageUri;
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
     private final int CAMERA_CODE = 1111;
     private final int REQUEST_PERMISSION_CODE = 2222;
 
@@ -247,23 +246,20 @@ public class RegisterActivity extends AppCompatActivity {
         }
         return valid;
     }
-//    @Override //뒤로가기 2번 누를 때 종료되는 코드
-//    public void onBackPressed() {
-//        if ( pressedTime == 0 ) {
-//            Toast.makeText(MainActivity.this, " 한 번 더 누르면 종료됩니다." , Toast.LENGTH_LONG).show();
-//            pressedTime = System.currentTimeMillis();
-//        }
-//        else {
-//            int seconds = (int) (System.currentTimeMillis() - pressedTime);
-//
-//            if ( seconds > 2000 ) {
-//                Toast.makeText(MainActivity.this, " 한 번 더 누르면 종료됩니다." , Toast.LENGTH_LONG).show();
-//                pressedTime = 0 ;
-//            }
-//            else {
-//                super.onBackPressed();
-////                finish(); // app 종료 시키기
-//            }
-//        }
+    @Override
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime)
+        {
+            super.onBackPressed();
+        }
+        else
+        {
+            backPressedTime = tempTime;
+            Toast.makeText(getApplicationContext(), "한 번 더 누르시면 로그인 화면으로 돌아갑니다", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }
