@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.example.edu.databinding.ActivityOpenMeetingBinding;
 import com.example.edu.model.BoardModel;
@@ -29,10 +31,14 @@ public class OpenMeetingActivity extends AppCompatActivity {
     RecyclerAdapter_Likes adapter;
 
     Spinner spinner;
+    RadioGroup rgStyle;
+    RadioButton rbMentor, rbStudy;
     Button btnRegister;
     EditText etGroupTitle, etShortTitle, etLimit, etExplain;
     ImageView ivCheckTitle, ivCheckLimit;
     RecyclerView recycle;
+    String SpnItem, RadioItem;
+
     private View h;
     private DatabaseReference mDatabase;
 
@@ -46,11 +52,15 @@ public class OpenMeetingActivity extends AppCompatActivity {
         etGroupTitle = (EditText) findViewById(R.id.etGroupTitle);
         etShortTitle = (EditText) findViewById(R.id.etShortTitle);
         etLimit = (EditText) findViewById(R.id.etLimit);
+        etExplain = (EditText) findViewById(R.id.etExplain);
         ivCheckLimit = (ImageView) findViewById(R.id.ivCheckLimit);
         ivCheckTitle = (ImageView) findViewById(R.id.ivCheckTitle);
         h = getLayoutInflater().inflate(R.layout.activity_main_fragment_1, null, false);
         recycle = (RecyclerView) h.findViewById(R.id.recycleView);
         spinner = (Spinner) findViewById(R.id.spnTopic);
+        rgStyle = (RadioGroup) findViewById(R.id.rgStyle);
+        rbMentor = (RadioButton) findViewById(R.id.rbMentor);
+        rbStudy = (RadioButton) findViewById(R.id.rbStudy);
         Toolbar toolbar = (Toolbar) findViewById(R.id.tBar);
 
         toolbar.setTitle("");
@@ -71,7 +81,7 @@ public class OpenMeetingActivity extends AppCompatActivity {
                 if (validate() == false) { // 데이터 로컬에서 자체 검증
                     return;
                 } else { // 로컬 자체 검증이 끝나면 서버 검증을 통해 로그인이 정상적으로 되었는지 체크
-                    Log.e("test2","미팅등록 버튼까지 옴");
+                    Log.e("test2", "미팅등록 버튼까지 옴");
                     RegisterEvent();
                 }
             }
@@ -106,17 +116,27 @@ public class OpenMeetingActivity extends AppCompatActivity {
                 checkInputLimit();
             }
         });
+
+
+
     }
+
 
     void RegisterEvent() { // 회원가입이 정상적으로 됐는지 확인해주고 다음 화면으로 넘겨줌. 확인하고 넘겨주는 이 2가지를 분리할 예정. LoginActivity 처럼.
         Intent intent = getIntent(); //uid값 받아옴
 
-        Log.e("test2","미팅등록이벤트까지 옴");
+        Log.e("test2", "미팅등록이벤트까지 옴");
         String uid = intent.getStringExtra("uid");
-        Log.e("test2","미팅등록이벤트에서 user받아온 뒤 uid에 저장 성공");
+        Log.e("test2", "미팅등록이벤트에서 user받아온 뒤 uid에 저장 성공");
 
         BoardModel BoardModel = new BoardModel();
         BoardModel.groupName = etGroupTitle.getText().toString();
+        BoardModel.groupShortTitle = etShortTitle.getText().toString();
+        BoardModel.groupLimit = Integer.parseInt(etLimit.getText().toString());
+        //BoardModel.groupStyle = String.valueOf(rgStyle.getCheckedRadioButtonId());
+        BoardModel.groupTopic = spinner.getSelectedItem().toString();
+        BoardModel.groupExplain = etExplain.getText().toString();
+
         BoardModel.uid = uid;
 
         FirebaseDatabase.getInstance().getReference().child("group").child(uid).setValue(BoardModel).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -127,7 +147,7 @@ public class OpenMeetingActivity extends AppCompatActivity {
         });
     }
 
-    private boolean validate(){
+    private boolean validate() {
         boolean valid = true;
         String title;
         title = etGroupTitle.getText().toString();
