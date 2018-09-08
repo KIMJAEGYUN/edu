@@ -246,12 +246,14 @@
             app:layout_constraintTop_toBottomOf="@+id/etPassword2">
 
             <RadioButton
+                android:id="@+id/rbMan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="50dp"
                 android:text="남자" />
 
             <RadioButton
+                android:id="@+id/rbWomen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="30dp"

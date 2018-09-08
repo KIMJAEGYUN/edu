@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
         etEmail.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                checkInputId();
+                checkInputEmail();
                 return false;
             }
         });
@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
         etEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                checkInputId();
+                checkInputEmail();
             }
         });
 
@@ -108,6 +108,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
     void loginEvent() { // 로그인이 정상적으로 됐는지 확인 후 메인화면 전환까지.
         firebaseAuth.signInWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString())
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -127,7 +128,6 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
                     } else {
                         //로그아웃
-
                     }
                 }
             }
@@ -156,9 +156,9 @@ public class LoginActivity extends AppCompatActivity {
         return valid;
     }
 
-    private void checkInputId() {
-        String id = etEmail.getText().toString();
-        if (id.isEmpty()) {
+    private void checkInputEmail() {
+        String Email = etEmail.getText().toString();
+        if (Email.isEmpty()) {
             ivCheckEmail.setImageResource(R.drawable.ic_check_gray);
         } else {
             ivCheckEmail.setImageResource(R.drawable.ic_check_black);

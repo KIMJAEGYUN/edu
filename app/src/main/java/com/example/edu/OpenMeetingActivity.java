@@ -32,8 +32,8 @@ public class OpenMeetingActivity extends AppCompatActivity {
     Spinner spinner;
     RadioGroup rgStyle;
     Button btnRegister;
-    EditText etGroupTitle, etShortTitle, etLimit, etExplain;
-    ImageView ivCheckTitle, ivCheckLimit;
+    EditText etGroupTitle, etShortTitle, etLimit, etDetail;
+    ImageView ivCheckTitle,ivCheckSimple, ivCheckLimit, ivCheckDetail;
     RecyclerView recycle;
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
@@ -45,13 +45,14 @@ public class OpenMeetingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         b = DataBindingUtil.setContentView(this, R.layout.activity_open_meeting);
 
-
         btnRegister = findViewById(R.id.btnRegister);
         etGroupTitle = findViewById(R.id.etGroupTitle);
         etShortTitle = findViewById(R.id.etShortTitle);
         etLimit = findViewById(R.id.etLimit);
-        etExplain = findViewById(R.id.etExplain);
+        etDetail = findViewById(R.id.etDetail);
         ivCheckLimit = findViewById(R.id.ivCheckLimit);
+        ivCheckSimple = findViewById(R.id.ivCheckSimple);
+        ivCheckDetail = findViewById(R.id.ivCheckDetail);
         ivCheckTitle = findViewById(R.id.ivCheckTitle);
         h = getLayoutInflater().inflate(R.layout.activity_main_fragment_1, null, false);
         recycle = h.findViewById(R.id.recycleView);
@@ -62,7 +63,6 @@ public class OpenMeetingActivity extends AppCompatActivity {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
         spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.topic, android.R.layout.simple_dropdown_item_1line);
         adapter = new RecyclerAdapter_Likes(this);
@@ -112,8 +112,35 @@ public class OpenMeetingActivity extends AppCompatActivity {
             }
         });
 
+        etShortTitle.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                checkInputShortTitle();
+                return false;
+            }
+        });
 
+        etShortTitle.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                checkInputShortTitle();
+            }
+        });
 
+        etDetail.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                checkInputDetail();
+                return false;
+            }
+        });
+
+        etDetail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                checkInputDetail();
+            }
+        });
     }
 
 
@@ -123,14 +150,13 @@ public class OpenMeetingActivity extends AppCompatActivity {
         int id = rgStyle.getCheckedRadioButtonId();
         RadioButton rb = (RadioButton)findViewById(id);
 
-
         BoardModel BoardModel = new BoardModel();
         BoardModel.groupName = etGroupTitle.getText().toString();
         BoardModel.groupShortTitle = etShortTitle.getText().toString();
         BoardModel.groupLimit = Integer.parseInt(etLimit.getText().toString());
         BoardModel.groupStyle = rb.getText().toString();
         BoardModel.groupTopic = spinner.getSelectedItem().toString();
-        BoardModel.groupExplain = etExplain.getText().toString();
+        BoardModel.groupExplain = etDetail.getText().toString();
 
         BoardModel.uid = uid;
 
@@ -172,11 +198,11 @@ public class OpenMeetingActivity extends AppCompatActivity {
 //        } else {
 //            spinner.setError(null);
 //        }
-        if (etExplain.getText().toString().isEmpty()) {
-            etExplain.setError("상세 설명을 입력해 주세요!");
+        if (etDetail.getText().toString().isEmpty()) {
+            etDetail.setError("상세 설명을 입력해 주세요!");
             valid = false;
         } else {
-            etExplain.setError(null);
+            etDetail.setError(null);
         }
         return valid;
     }
@@ -207,6 +233,24 @@ public class OpenMeetingActivity extends AppCompatActivity {
             ivCheckLimit.setImageResource(R.drawable.ic_check_gray);
         } else {
             ivCheckLimit.setImageResource(R.drawable.ic_check_black);
+        }
+    }
+
+    private void checkInputShortTitle(){
+        String ShortTitle = etShortTitle.getText().toString();
+        if(ShortTitle.isEmpty()){
+            ivCheckTitle.setImageResource(R.drawable.ic_check_gray);
+        } else {
+            ivCheckTitle.setImageResource(R.drawable.ic_check_black);
+        }
+    }
+
+    private void checkInputDetail(){
+        String Detail = etDetail.getText().toString();
+        if(Detail.isEmpty()){
+            ivCheckDetail.setImageResource(R.drawable.ic_check_gray);
+        } else {
+            ivCheckDetail.setImageResource(R.drawable.ic_check_black);
         }
     }
 

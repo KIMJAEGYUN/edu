@@ -13,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -39,6 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
     Toolbar toolbar;
     private EditText etEmail, etName, etPassword, etPassword2, etAnswer;
     private RadioGroup rgGender;
+    private RadioButton rbMan,rbWomen;
     private Button btnRegister;
     private Spinner spnQuestion;
     private ImageView ivUserPhoto,ivCheckEmail,ivCheckName,ivCheckPassword,ivCheckPassword2,ivCheckGender,ivCheckQ;
@@ -56,6 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etName = findViewById(R.id.etName);
         etPassword = findViewById(R.id.etPassword);
+        etPassword2 = findViewById(R.id.etPassword2);
         etAnswer = findViewById(R.id.etAnswer);
         btnRegister = findViewById(R.id.btnRegister);
         spnQuestion = findViewById(R.id.spnQuestion);
@@ -67,6 +70,8 @@ public class RegisterActivity extends AppCompatActivity {
         ivCheckGender = findViewById(R.id.ivCheckGender);
         ivCheckQ = findViewById(R.id.ivCheckQ);
         rgGender = findViewById(R.id.rgGender);
+        rbMan = findViewById(R.id.rbMan);
+        rbWomen = findViewById(R.id.rbWomen);
 
         final String[] question = getResources().getStringArray(R.array.question);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, question);
@@ -88,13 +93,139 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (validate() == false) { // 데이터 로컬에서 자체 검증
+                if (validate() == false) {
                     return;
-                } else { // 로컬 자체 검증이 끝나면 서버 검증을 통해 로그인이 정상적으로 되었는지 체크
+                } else {
                     RegisterEvent();
                 }
             }
         });
+
+        etEmail.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                checkInputEmail();
+                return false;
+            }
+        });
+
+        etEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                checkInputEmail();
+            }
+        });
+
+        etName.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                checkInputName();
+                return false;
+            }
+        });
+
+        etName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                checkInputName();
+            }
+        });
+
+        etPassword.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                checkInputPassword();
+                return false;
+            }
+        });
+
+        etPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                checkInputPassword();
+            }
+        });
+
+        etPassword2.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                checkInputPassword2();
+                return false;
+            }
+        });
+
+        etPassword2.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                checkInputPassword2();
+            }
+        });
+
+        rgGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                ivCheckGender.setImageResource(R.drawable.ic_check_black);
+            }
+        });
+
+        etAnswer.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                checkInputAnswer();
+                return false;
+            }
+        });
+
+        etAnswer.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                checkInputAnswer();
+            }
+        });
+    }
+    private void checkInputEmail() {
+        String Email = etEmail.getText().toString();
+        if (Email.isEmpty()) {
+            ivCheckEmail.setImageResource(R.drawable.ic_check_gray);
+        } else {
+            ivCheckEmail.setImageResource(R.drawable.ic_check_black);
+        }
+    }
+
+    private void checkInputName() {
+        String Name = etName.getText().toString();
+        if (Name.isEmpty()) {
+            ivCheckName.setImageResource(R.drawable.ic_check_gray);
+        } else {
+            ivCheckName.setImageResource(R.drawable.ic_check_black);
+        }
+    }
+
+    private void checkInputPassword() {
+        String Password = etPassword.getText().toString();
+        if (Password.isEmpty()) {
+            ivCheckPassword.setImageResource(R.drawable.ic_check_gray);
+        } else {
+            ivCheckPassword.setImageResource(R.drawable.ic_check_black);
+        }
+    }
+
+    private void checkInputPassword2() {
+        String Password2 = etPassword2.getText().toString();
+        if (Password2.isEmpty()) {
+            ivCheckPassword2.setImageResource(R.drawable.ic_check_gray);
+        } else {
+            ivCheckPassword2.setImageResource(R.drawable.ic_check_black);
+        }
+    }
+
+    private void checkInputAnswer() {
+        String Answer = etAnswer.getText().toString();
+        if (Answer.isEmpty()) {
+            ivCheckPassword2.setImageResource(R.drawable.ic_check_gray);
+        } else {
+            ivCheckPassword2.setImageResource(R.drawable.ic_check_black);
+        }
     }
 
     //카메라에서 사진 촬영
@@ -237,10 +368,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     private boolean validate() {
         boolean valid = true;
-        String email, name, password;
+        String email, name, password, password2,answer;
         email = etEmail.getText().toString();
         name = etName.getText().toString();
         password = etPassword.getText().toString();
+        password2 = etPassword2.getText().toString();
+        answer = etAnswer.getText().toString();
 
         if (email.isEmpty()) {
             etEmail.setError("Email를 입력해 주세요!");
@@ -262,6 +395,27 @@ public class RegisterActivity extends AppCompatActivity {
         } else {
             etPassword.setError(null);
         }
+
+        if (password2.isEmpty()) {
+            etPassword2.setError("Password를 입력해 주세요!");
+            valid = false;
+        } else {
+            etPassword2.setError(null);
+        }
+
+        if(rbMan.isChecked() == false && rbWomen.isChecked() == false){
+            rbWomen.setError("성별을 선택하세요!");
+        } else{
+            rbWomen.setError(null);
+        }
+
+        if (answer.isEmpty()) {
+            etAnswer.setError("답변을 입력해 주세요!");
+            valid = false;
+        } else {
+            etAnswer.setError(null);
+        }
+
         return valid;
     }
 
