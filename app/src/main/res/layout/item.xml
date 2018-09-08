@@ -83,7 +83,7 @@
                     android:layout_centerInParent="true"
                     android:layout_marginLeft="8dp"
                     android:src="#FFF7C100"
-                    android:id="@+id/po_image2"
+                    android:id="@+id/btnFavorites"
                     app:btn_color="@android:color/darker_gray"
                     app:btn_fill_color="#FFF7C45F"
                     android:layout_gravity="center_vertical"

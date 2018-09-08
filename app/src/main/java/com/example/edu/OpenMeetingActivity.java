@@ -31,7 +31,6 @@ public class OpenMeetingActivity extends AppCompatActivity {
 
     Spinner spinner;
     RadioGroup rgStyle;
-    RadioButton rbMentor, rbStudy;
     Button btnRegister;
     EditText etGroupTitle, etShortTitle, etLimit, etExplain;
     ImageView ivCheckTitle, ivCheckLimit;
@@ -58,8 +57,6 @@ public class OpenMeetingActivity extends AppCompatActivity {
         recycle = (RecyclerView) h.findViewById(R.id.recycleView);
         spinner = (Spinner) findViewById(R.id.spnTopic);
         rgStyle = (RadioGroup) findViewById(R.id.rgStyle);
-        rbMentor = (RadioButton) findViewById(R.id.rbMentor);
-        rbStudy = (RadioButton) findViewById(R.id.rbStudy);
         Toolbar toolbar = (Toolbar) findViewById(R.id.tBar);
 
         toolbar.setTitle("");

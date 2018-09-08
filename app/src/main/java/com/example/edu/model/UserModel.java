@@ -5,5 +5,6 @@ public class UserModel {
     public String userName;
     public String userGender;
     public String userFavorites;
-
+    public String userPwQuestion;
+    public String userPwAnswer;
 }

@@ -39,7 +39,6 @@ public class RegisterActivity extends AppCompatActivity {
     Toolbar toolbar;
     private EditText etEmail, etName, etPassword, etAnswer;
     private RadioGroup rgGender;
-    private RadioButton rbMan, rbWomen;
     private Button btnRegister;
     private Spinner spnQuestion;
     private ImageView ivUserPhoto;
@@ -62,11 +61,9 @@ public class RegisterActivity extends AppCompatActivity {
         spnQuestion = (Spinner) findViewById(R.id.spnQuestion);
         ivUserPhoto = (ImageView) findViewById(R.id.ivUserPhoto);
         rgGender = (RadioGroup) findViewById(R.id.rgGender);
-        rbMan = (RadioButton) findViewById(R.id.rbMan);
-        rbWomen = (RadioButton) findViewById(R.id.rbWomen);
 
         final String[] question = getResources().getStringArray(R.array.question);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,question);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, question);
         spnQuestion.setAdapter(adapter);
 
 
@@ -95,28 +92,28 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     //카메라에서 사진 촬영
-    public void takePhoto(){
+    public void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        String url = "temp_"+String.valueOf(System.currentTimeMillis())+".jpg";
-        imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),url));
+        String url = "temp_" + String.valueOf(System.currentTimeMillis()) + ".jpg";
+        imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), url));
 
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
-        startActivityForResult(intent,0);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(intent, 0);
     }
 
     //앨범에서 사진 가져오기
-    public void takeAlbum(){
+    public void takeAlbum() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-        startActivityForResult(intent,1);
+        startActivityForResult(intent, 1);
     }
 
     @Override
-    public void onActivityResult(int requestCode,int resultCode,Intent data){
-        super.onActivityResult(requestCode,resultCode,data);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode!=RESULT_OK)
+        if (resultCode != RESULT_OK)
             return;
 
         switch (requestCode) {
@@ -128,38 +125,38 @@ public class RegisterActivity extends AppCompatActivity {
                 Intent intent = new Intent("com.android.camera.action.CROP");
                 intent.setDataAndType(imageUri, "image/*");
 
-                intent.putExtra("outputX",200);
-                intent.putExtra("outputY",100);
-                intent.putExtra("aspectX",1);
-                intent.putExtra("aspectY",1);
-                intent.putExtra("scale",true);
-                intent.putExtra("return_data",true);
-                startActivityForResult(intent,2);
+                intent.putExtra("outputX", 200);
+                intent.putExtra("outputY", 100);
+                intent.putExtra("aspectX", 1);
+                intent.putExtra("aspectY", 1);
+                intent.putExtra("scale", true);
+                intent.putExtra("return_data", true);
+                startActivityForResult(intent, 2);
                 break;
             }
-            case 2:{
+            case 2: {
                 //크롭 이후의 이미지를 넘겨받음
-                if(resultCode!=RESULT_OK){
+                if (resultCode != RESULT_OK) {
                     return;
                 }
 
                 final Bundle extras = data.getExtras();
 
-                if(extras !=null){
+                if (extras != null) {
                     Bitmap photo = extras.getParcelable("data");
                     ivUserPhoto.setImageBitmap(photo);
                     break;
                 }
 
                 File f = new File(imageUri.getPath());
-                if(f.exists()){
+                if (f.exists()) {
                     f.delete();
                 }
             }
         }
     }
 
-    public void onClick(View v){
+    public void onClick(View v) {
 
         DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
             @Override
@@ -177,15 +174,15 @@ public class RegisterActivity extends AppCompatActivity {
 
         new AlertDialog.Builder(this)
                 .setTitle("학생증 이미지 선택")
-                .setPositiveButton("사진촬영",cameraListener)
-                .setNeutralButton("앨범선택",albumListener)
+                .setPositiveButton("사진촬영", cameraListener)
+                .setNeutralButton("앨범선택", albumListener)
                 .show();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:{
+        switch (item.getItemId()) {
+            case android.R.id.home: {
                 //뒤로가기 버튼 클릭 시 로그인 화면 연결
                 finish();
                 return true;
@@ -198,12 +195,12 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         FirebaseAuth.getInstance()
-                .createUserWithEmailAndPassword(etEmail.getText().toString(),etPassword.getText().toString())
+                .createUserWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString())
                 .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(!task.isSuccessful()) {
-                            Toast.makeText(RegisterActivity.this, "회원가입 오류 : "+task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(RegisterActivity.this, "회원가입 오류 : " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(getApplicationContext(), "회원가입이 완료 되었습니다.", Toast.LENGTH_LONG).show();
 
@@ -213,6 +210,8 @@ public class RegisterActivity extends AppCompatActivity {
                             UserModel userModel = new UserModel();
                             userModel.userName = etName.getText().toString();
                             userModel.userGender = rb.getText().toString();
+                            userModel.userPwQuestion = spnQuestion.getSelectedItem().toString();
+                            userModel.userPwAnswer = etAnswer.getText().toString();
                             //userModel.userFavorites = 별 누르면 그룹이 관심목록에 표시 clickListener > 파베에 group Uid가 userFavorites에 추가 > 이것을 관심목록에 표시
                             userModel.uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                             //회원가입 할 때마다 uid가 담겨서 회원가입이 된다.
@@ -230,7 +229,7 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
-    private boolean validate(){
+    private boolean validate() {
         boolean valid = true;
         String email, name, password;
         email = etEmail.getText().toString();
@@ -259,17 +258,15 @@ public class RegisterActivity extends AppCompatActivity {
         }
         return valid;
     }
+
     @Override
     public void onBackPressed() {
         long tempTime = System.currentTimeMillis();
         long intervalTime = tempTime - backPressedTime;
 
-        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime)
-        {
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
             super.onBackPressed();
-        }
-        else
-        {
+        } else {
             backPressedTime = tempTime;
             Toast.makeText(getApplicationContext(), "한 번 더 누르시면 로그인 화면으로 돌아갑니다", Toast.LENGTH_SHORT).show();
         }
