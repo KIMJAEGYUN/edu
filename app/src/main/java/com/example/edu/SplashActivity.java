@@ -29,7 +29,7 @@ public class SplashActivity extends AppCompatActivity {
         //splash 화면에서 상단 상단 스테이트바 삭제를 위한 설정
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        linearLayout = (LinearLayout) findViewById(R.id.linearSplash);
+        linearLayout = findViewById(R.id.linearSplash);
         //[샘플앱] https://firebase.google.com/docs/remote-config/android?authuser=0
         //서버는 기본 설정으로 1시간에 3번 이상 요청할 수 없도록 되어 있어 BuildConfig를 DEBUG 처리를 통해 무한번 요청할 수 있도록 함.
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();

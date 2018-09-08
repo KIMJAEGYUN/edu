@@ -90,7 +90,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerView.ViewHolde
             tv = view.findViewById(R.id.tv);
             tv2 = view.findViewById(R.id.tv2);
             tv3 = view.findViewById(R.id.tv3);
-            shineButton = (ShineButton) view.findViewById(R.id.btnFavorites);
+            shineButton = view.findViewById(R.id.btnFavorites);
         }
     }
 }

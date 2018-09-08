@@ -69,7 +69,7 @@ public class RecyclerAdapter_Likes extends RecyclerView.Adapter<RecyclerAdapter_
         public ViewHolder(View itemView) {
             super(itemView);
 
-            tv = (TextView) itemView.findViewById(R.id.tv);
+            tv = itemView.findViewById(R.id.tv);
 
         }
     }

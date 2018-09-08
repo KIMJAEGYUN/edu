@@ -28,7 +28,7 @@ public class IntroActivity extends AppCompatActivity {
         pagerAdapter = new PagerAdapter(getSupportFragmentManager()); //PagerAdapter를 만든다. 어댑터는 추상클래스이므로 아래에 클래스 선언
         viewPager.setAdapter(pagerAdapter); // 페이저와 어댑터 연결
 
-        LineIndicator lineIndicator = (LineIndicator)findViewById(R.id.indicator);
+        LineIndicator lineIndicator = findViewById(R.id.indicator);
         lineIndicator.setupWithViewPager(viewPager); //인디케이터 셋팅
 
         b.btnNext.setOnClickListener(new View.OnClickListener() {

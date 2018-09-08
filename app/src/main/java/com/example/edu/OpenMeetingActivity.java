@@ -46,18 +46,18 @@ public class OpenMeetingActivity extends AppCompatActivity {
         b = DataBindingUtil.setContentView(this, R.layout.activity_open_meeting);
 
 
-        btnRegister = (Button) findViewById(R.id.btnRegister);
-        etGroupTitle = (EditText) findViewById(R.id.etGroupTitle);
-        etShortTitle = (EditText) findViewById(R.id.etShortTitle);
-        etLimit = (EditText) findViewById(R.id.etLimit);
-        etExplain = (EditText) findViewById(R.id.etExplain);
-        ivCheckLimit = (ImageView) findViewById(R.id.ivCheckLimit);
-        ivCheckTitle = (ImageView) findViewById(R.id.ivCheckTitle);
+        btnRegister = findViewById(R.id.btnRegister);
+        etGroupTitle = findViewById(R.id.etGroupTitle);
+        etShortTitle = findViewById(R.id.etShortTitle);
+        etLimit = findViewById(R.id.etLimit);
+        etExplain = findViewById(R.id.etExplain);
+        ivCheckLimit = findViewById(R.id.ivCheckLimit);
+        ivCheckTitle = findViewById(R.id.ivCheckTitle);
         h = getLayoutInflater().inflate(R.layout.activity_main_fragment_1, null, false);
-        recycle = (RecyclerView) h.findViewById(R.id.recycleView);
-        spinner = (Spinner) findViewById(R.id.spnTopic);
-        rgStyle = (RadioGroup) findViewById(R.id.rgStyle);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tBar);
+        recycle = h.findViewById(R.id.recycleView);
+        spinner = findViewById(R.id.spnTopic);
+        rgStyle = findViewById(R.id.rgStyle);
+        Toolbar toolbar = findViewById(R.id.tBar);
 
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -193,8 +193,8 @@ public class OpenMeetingActivity extends AppCompatActivity {
     }
 
     private void checkInputTitle() {
-        String id = etGroupTitle.getText().toString();
-        if (id.isEmpty()) {
+        String group = etGroupTitle.getText().toString();
+        if (group.isEmpty()) {
             ivCheckTitle.setImageResource(R.drawable.ic_check_gray);
         } else {
             ivCheckTitle.setImageResource(R.drawable.ic_check_black);
@@ -202,8 +202,8 @@ public class OpenMeetingActivity extends AppCompatActivity {
     }
 
     private void checkInputLimit() {
-        String password = etLimit.getText().toString();
-        if (password.isEmpty()) {
+        String limit = etLimit.getText().toString();
+        if (limit.isEmpty()) {
             ivCheckLimit.setImageResource(R.drawable.ic_check_gray);
         } else {
             ivCheckLimit.setImageResource(R.drawable.ic_check_black);

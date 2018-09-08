@@ -37,11 +37,11 @@ import java.io.File;
 public class RegisterActivity extends AppCompatActivity {
 
     Toolbar toolbar;
-    private EditText etEmail, etName, etPassword, etAnswer;
+    private EditText etEmail, etName, etPassword, etPassword2, etAnswer;
     private RadioGroup rgGender;
     private Button btnRegister;
     private Spinner spnQuestion;
-    private ImageView ivUserPhoto;
+    private ImageView ivUserPhoto,ivCheckEmail,ivCheckName,ivCheckPassword,ivCheckPassword2,ivCheckGender,ivCheckQ;
     private Uri imageUri;
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
@@ -53,14 +53,20 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        etEmail = (EditText) findViewById(R.id.etEmail);
-        etName = (EditText) findViewById(R.id.etName);
-        etPassword = (EditText) findViewById(R.id.etPassword);
-        etAnswer = (EditText) findViewById(R.id.etAnswer);
-        btnRegister = (Button) findViewById(R.id.btnRegister);
-        spnQuestion = (Spinner) findViewById(R.id.spnQuestion);
-        ivUserPhoto = (ImageView) findViewById(R.id.ivUserPhoto);
-        rgGender = (RadioGroup) findViewById(R.id.rgGender);
+        etEmail = findViewById(R.id.etEmail);
+        etName = findViewById(R.id.etName);
+        etPassword = findViewById(R.id.etPassword);
+        etAnswer = findViewById(R.id.etAnswer);
+        btnRegister = findViewById(R.id.btnRegister);
+        spnQuestion = findViewById(R.id.spnQuestion);
+        ivUserPhoto = findViewById(R.id.ivUserPhoto);
+        ivCheckEmail = findViewById(R.id.ivCheckEmail);
+        ivCheckName = findViewById(R.id.ivCheckName);
+        ivCheckPassword = findViewById(R.id.ivCheckPassword);
+        ivCheckPassword2 = findViewById(R.id.ivCheckPassword2);
+        ivCheckGender = findViewById(R.id.ivCheckGender);
+        ivCheckQ = findViewById(R.id.ivCheckQ);
+        rgGender = findViewById(R.id.rgGender);
 
         final String[] question = getResources().getStringArray(R.array.question);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, question);
