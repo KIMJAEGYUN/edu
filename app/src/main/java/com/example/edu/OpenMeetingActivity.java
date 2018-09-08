@@ -239,9 +239,9 @@ public class OpenMeetingActivity extends AppCompatActivity {
     private void checkInputShortTitle(){
         String ShortTitle = etShortTitle.getText().toString();
         if(ShortTitle.isEmpty()){
-            ivCheckTitle.setImageResource(R.drawable.ic_check_gray);
+            ivCheckSimple.setImageResource(R.drawable.ic_check_gray);
         } else {
-            ivCheckTitle.setImageResource(R.drawable.ic_check_black);
+            ivCheckSimple.setImageResource(R.drawable.ic_check_black);
         }
     }
 

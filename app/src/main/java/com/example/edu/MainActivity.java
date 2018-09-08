@@ -2,6 +2,7 @@ package com.example.edu;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
@@ -9,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -57,6 +59,22 @@ public class MainActivity extends AppCompatActivity {
                 nextAct.putExtra("uid",intent.getStringExtra("uid"));
                 startActivity(nextAct);
 
+            }
+        });
+
+        navigationView = findViewById(R.id.navigationView);
+        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.action_list:
+                        break;
+                    case R.id.action_chat:
+                        break;
+                    case R.id.action_account:
+                        break;
+                }
+                return false;
             }
         });
     }
