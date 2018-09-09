@@ -1,4 +1,4 @@
-package com.example.edu;
+package com.example.edu.RecyclerAdpater;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -12,10 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.edu.chat.MessageActivity;
+import com.example.edu.PopUp;
+import com.example.edu.R;
 import com.example.edu.model.BoardModel;
 import com.example.edu.model.UserModel;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -25,12 +25,12 @@ import com.sackcentury.shinebuttonlib.ShineButton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class BoardRecyclerAdpater extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     List<BoardModel> boardModels;
 
 
-    public RecyclerAdpater() {
+    public BoardRecyclerAdpater() {
         boardModels = new ArrayList<>();
         FirebaseDatabase.getInstance().getReference().child("group").addValueEventListener(new ValueEventListener() {
             @Override
@@ -51,8 +51,8 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) { // 뷰홀더가 만들어지는 시점에 호출되는 메소드
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
-        // parent : 각각의 아이템을 위해서 정의한 xml 레이아웃의 최상위 레이아웃 , 어떤 것 (item.xml)으로 뷰를 만들고 그것을 뷰홀더에 넣어줄지 결정.
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_board, parent, false);
+        // parent : 각각의 아이템을 위해서 정의한 xml 레이아웃의 최상위 레이아웃 , 어떤 것 (item_board_board.xml)으로 뷰를 만들고 그것을 뷰홀더에 넣어줄지 결정.
         return new CustomViewHolder(view); // >> 각각의 아이템을 위한 뷰를 담고 있는 뷰홀더 객체를 만들어서 리턴
     }
 
