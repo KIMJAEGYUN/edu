@@ -1,4 +1,4 @@
-package com.example.edu;
+package com.example.edu.RecyclerAdpater;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.edu.R;
 import com.example.edu.model.BoardModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,7 +48,7 @@ public class RecyclerAdapter_Likes extends RecyclerView.Adapter<RecyclerAdapter_
     @Override
     public RecyclerAdapter_Likes.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View itemView = inflater.inflate(R.layout.item, parent, false);
+        View itemView = inflater.inflate(R.layout.item_board, parent, false);
 
         return new ViewHolder(itemView);
     }

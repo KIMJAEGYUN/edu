@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.edu.fragment.MainFragment_1;
+import com.example.edu.fragment.MainFragment_2;
 import com.google.firebase.auth.FirebaseAuth;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
@@ -25,14 +27,16 @@ public class MainActivity extends AppCompatActivity {
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
     private FirebaseAuth firebaseAuth;
-    private BottomNavigationView navigationView;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        bottomNavigationView = findViewById(R.id.navigationView);
         toolbar = findViewById(R.id.tBar);
+
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -61,18 +65,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        navigationView = findViewById(R.id.navigationView);
-        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.action_list:
-                        break;
+                        return true;
                     case R.id.action_chat:
                         Toast.makeText(MainActivity.this,"챗 클릭함",Toast.LENGTH_LONG).show();
-                        break;
+
+                        return true;
                     case R.id.action_account:
-                        break;
+                        return true;
                 }
                 return false;
             }
