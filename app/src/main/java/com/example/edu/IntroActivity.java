@@ -1,6 +1,5 @@
 package com.example.edu;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v4.app.Fragment;
@@ -12,6 +11,7 @@ import android.view.View;
 import android.support.v4.app.FragmentManager;
 
 import com.example.edu.databinding.ActivityIntroBinding;
+import com.example.edu.fragment.PagerFragment;
 import com.pm10.library.LineIndicator;
 
 public class IntroActivity extends AppCompatActivity {

@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.edu.fragment.ChatActivity;
 import com.example.edu.fragment.MainFragment_1;
 import com.example.edu.fragment.MainFragment_2;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bottomNavigationView = findViewById(R.id.navigationView);
+        bottomNavigationView = findViewById(R.id.main_navigationView);
         toolbar = findViewById(R.id.tBar);
 
         toolbar.setTitle("");
@@ -73,7 +74,8 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.action_chat:
                         Toast.makeText(MainActivity.this,"챗 클릭함",Toast.LENGTH_LONG).show();
-
+                        Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+                        startActivity(intent);
                         return true;
                     case R.id.action_account:
                         return true;

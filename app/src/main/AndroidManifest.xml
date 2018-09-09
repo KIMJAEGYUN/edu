@@ -36,7 +36,7 @@
             android:name=".PopUp"
             android:theme="@style/AppTheme.PopUp" />
         <activity android:name=".chat.MessageActivity" />
-        <activity android:name=".fragment.ChatFragment" >
+        <activity android:name=".fragment.ChatActivity" >
         </activity>
     </application>
 
