@@ -64,12 +64,12 @@ public class RecyclerAdapter_Likes extends RecyclerView.Adapter<RecyclerAdapter_
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tv;
+        TextView tvTitle;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            tv = itemView.findViewById(R.id.tv);
+            tvTitle = itemView.findViewById(R.id.tvTitle);
 
         }
     }

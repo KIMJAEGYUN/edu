@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.example.edu.chat.MessageActivity;
 import com.example.edu.model.BoardModel;
+import com.example.edu.model.UserModel;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -55,8 +57,11 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) { // 데이터와 뷰가 서로 결합되는 경우
-        ((CustomViewHolder) holder).tv.setText(boardModels.get(position).groupName);
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) { // 데이터와 뷰가 서로 결합되는 경우
+        ((CustomViewHolder) holder).tvTitle.setText(boardModels.get(position).groupName);
+        ((CustomViewHolder) holder).tvShortTitle.setText(boardModels.get(position).groupShortTitle);
+        //((CustomViewHolder) holder).tvCurrentMembers.setText(Integer.toString(boardModels.get(position).groupCurrentMemebers)); 그룹에 몇명 들어왔는지
+        ((CustomViewHolder) holder).tvLimit.setText(Integer.toString(boardModels.get(position).groupLimit));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +81,17 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerView.ViewHolde
         ((CustomViewHolder) holder).shineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "click", Toast.LENGTH_LONG).show(); // 관심목록 버튼 리스너.
+
+                //BoardModel BoardModel = new BoardModel();
+                UserModel userModel = new UserModel();
+
+
+                //본인 uid를 가져와서 userFavorites에 group uid 저장
+
+               Toast.makeText(view.getContext(), " "+ boardModels.get(position).uid, Toast.LENGTH_LONG).show(); //test
+
+               //userModel.userFavorites = boardModels.get(position).uid;
+
             }
         });
     }
@@ -88,16 +103,17 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private class CustomViewHolder extends RecyclerView.ViewHolder {
         ImageView iv;
-        TextView tv, tv2, tv3;
+        TextView tvTitle, tvShortTitle, tvCurrentMembers, tvLimit;
         ShineButton shineButton;
 
         public CustomViewHolder(View view) { // 뷰홀더 생성자 , 뷰홀더는 각각의 아이템을 위한 뷰를 담고 있다
             super(view); // 그러므로 뷰홀더는 Items.xml 의 뷰를 전달해주는 것, Items의 컨텐츠를 이용해 데이터 설정등등 진행
             // 뷰와 실제 데이터 ( java 내의 할당된 데이터 ) 매칭 과정
             iv = view.findViewById(R.id.iv);
-            tv = view.findViewById(R.id.tv);
-            tv2 = view.findViewById(R.id.tv2);
-            tv3 = view.findViewById(R.id.tv3);
+            tvTitle = view.findViewById(R.id.tvTitle);
+            tvShortTitle = view.findViewById(R.id.tvShortTitle);
+            tvCurrentMembers = view.findViewById(R.id.tvCurrentMembers);
+            tvLimit = view.findViewById(R.id.tvLimit);
             shineButton = view.findViewById(R.id.btnFavorites);
         }
     }
