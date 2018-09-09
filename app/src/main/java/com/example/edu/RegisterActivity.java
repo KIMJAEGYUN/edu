@@ -332,19 +332,16 @@ public class RegisterActivity extends AppCompatActivity {
         }
         return true;
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (REQUEST_PERMISSION_CODE == requestCode) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
+                Toast.makeText(this,"권한이 승인되었습니다",Toast.LENGTH_SHORT).show();
             } else {
-
+                Toast.makeText(this,"권한이 거절되었습니다. 권한을 승인해주세요",Toast.LENGTH_SHORT).show();
             }
-            return;
         }
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
