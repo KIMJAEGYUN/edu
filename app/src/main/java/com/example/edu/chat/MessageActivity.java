@@ -23,10 +23,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class MessageActivity extends AppCompatActivity {
 
@@ -38,6 +42,8 @@ public class MessageActivity extends AppCompatActivity {
     private String chatRoomUid;
 
     private RecyclerView recyclerView;
+
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +80,7 @@ public class MessageActivity extends AppCompatActivity {
                     ChatModel.Comment comment = new ChatModel.Comment();
                     comment.uid = uid;
                     comment.message = editText.getText().toString();
+                    comment.timestamp = ServerValue.TIMESTAMP; //firebase가 제공하는 메소드
                     FirebaseDatabase.getInstance().getReference()
                             .child("chatrooms").child(chatRoomUid).child("comments").push().setValue(comment).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -182,6 +189,12 @@ public class MessageActivity extends AppCompatActivity {
                 messageViewHolder.textView_message.setTextSize(25);
                 messageViewHolder.linearLayout_main.setGravity(Gravity.LEFT);
             }
+            //현재 - 1970년 1월 1일 = 시간을 뺀 밀리세컨즈의 값이다. 이것을 이용하여 현재 시간을 구한다.
+            long unixTime = (long) comments.get(position).timestamp;
+            Date date = new Date(unixTime);
+            simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
+            String time = simpleDateFormat.format(date);
+            messageViewHolder.textView_timestamp.setText(time);
         }
 
         @Override
@@ -195,6 +208,7 @@ public class MessageActivity extends AppCompatActivity {
             public ImageView imageView_profile;
             public LinearLayout linearLayout_destination;
             public LinearLayout linearLayout_main;
+            public TextView textView_timestamp;
 
             public MessageViewHolder(View view) {
                 super(view);
@@ -203,7 +217,15 @@ public class MessageActivity extends AppCompatActivity {
                 imageView_profile = view.findViewById(R.id.messageItem_ivProfile);
                 linearLayout_destination = view.findViewById(R.id.messageItem_linear_Destination);
                 linearLayout_main = view.findViewById(R.id.messageItem_linear_main); //메세지 왼쪽 or 오른쪽 정렬하기 위해 만듬
+                textView_timestamp = view.findViewById(R.id.messageItem_tvTimeStamp);
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.fromleft, R.anim.toright);
+        //finish 밑에 overridePendingTransition 넣어줘야 애니메이션이 작동된다
     }
 }

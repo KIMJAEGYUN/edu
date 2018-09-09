@@ -2,9 +2,7 @@ package com.example.edu.RecyclerAdpater;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,14 +66,16 @@ public class BoardRecyclerAdpater extends RecyclerView.Adapter<RecyclerView.View
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), PopUp.class);
                 intent.putExtra("destinationUid", boardModels.get(position).uid);
-                Log.e("kkkk", boardModels.get(position).uid); //test중입니다
-                Log.e("kkkk", "test"); //test중입니다
 
                 ActivityOptions activityOptions = null;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    activityOptions = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.fromright, R.anim.toleft);
-                    view.getContext().startActivity(intent, activityOptions.toBundle());
-                }
+                activityOptions = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.fromright, R.anim.toleft);
+                view.getContext().startActivity(intent, activityOptions.toBundle());
+                //api 몇 부터 되는지 물어보면 아래 코드로 진행하면 됨
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+//                    activityOptions = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.fromright, R.anim.toleft);
+//                    view.getContext().startActivity(intent, activityOptions.toBundle());
+//                }
+
             }
         });
         ((CustomViewHolder) holder).shineButton.setOnClickListener(new View.OnClickListener() {
