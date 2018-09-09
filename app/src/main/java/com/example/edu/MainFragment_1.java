@@ -15,9 +15,6 @@ import android.widget.Toast;
 
 public class MainFragment_1 extends Fragment {
 
-    private View h;
-    Button btnFavorites;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -26,16 +23,7 @@ public class MainFragment_1 extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(inflater.getContext()));
         recyclerView.setAdapter(new RecyclerAdpater());
 
-        //h = getActivity().getLayoutInflater().inflate(R.layout.item, null, false);
 
-        //btnFavorites = (Button)h.findViewById(R.id.btnFavorites);
-
-        /*btnFavorites.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(), "dgddfgdg", Toast.LENGTH_SHORT).show();
-            }
-        });*/
 
         return view;
     }

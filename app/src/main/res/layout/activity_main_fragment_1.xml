@@ -18,12 +18,12 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <!--<com.andexert.expandablelayout.library.ExpandableLayout xmlns:expandable="http://schemas.android.com/apk/res-auto"-->
-                <!--android:id="@+id/expandableLayout"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_marginHorizontal="16dp"-->
-                <!--expandable:contentLayout="@layout/view_content"-->
-                <!--expandable:headerLayout="@layout/view_header" />-->
+            <!--   android:id="@+id/expandableLayout"-->
+            <!--  android:layout_width="match_parent" -->
+            <!-- android:layout_height="match_parent"-->
+            <!-- android:layout_marginHorizontal="16dp"-->
+            <!--  expandable:contentLayout="@layout/view_content"-->
+            <!-- expandable:headerLayout="@layout/view_header" /> -->
         </LinearLayout>
 
         <View

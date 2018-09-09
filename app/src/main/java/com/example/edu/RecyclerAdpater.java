@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.edu.chat.MessageActivity;
 import com.example.edu.model.BoardModel;
@@ -25,6 +26,7 @@ import java.util.List;
 public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     List<BoardModel> boardModels;
+
 
     public RecyclerAdpater() {
         boardModels = new ArrayList<>();
@@ -59,7 +61,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerView.ViewHolde
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MessageActivity.class);
+                Intent intent = new Intent(view.getContext(), PopUp.class);
                 intent.putExtra("destinationUid", boardModels.get(position).uid);
                 Log.e("kkkk", boardModels.get(position).uid); //test중입니다
                 Log.e("kkkk", "test"); //test중입니다
@@ -69,6 +71,12 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     activityOptions = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.fromright, R.anim.toleft);
                     view.getContext().startActivity(intent, activityOptions.toBundle());
                 }
+            }
+        });
+        ((CustomViewHolder) holder).shineButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(), "click", Toast.LENGTH_LONG).show(); // 관심목록 버튼 리스너.
             }
         });
     }
