@@ -4,45 +4,112 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.edu.MainFragment_1">
 
-    <android.support.constraint.ConstraintLayout
-
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/LL0"
             android:layout_width="match_parent"
-            android:layout_height="116dp"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal">
 
-            <!--<com.andexert.expandablelayout.library.ExpandableLayout xmlns:expandable="http://schemas.android.com/apk/res-auto"-->
-            <!--   android:id="@+id/expandableLayout"-->
-            <!--  android:layout_width="match_parent" -->
-            <!-- android:layout_height="match_parent"-->
-            <!-- android:layout_marginHorizontal="16dp"-->
-            <!--  expandable:contentLayout="@layout/view_content"-->
-            <!-- expandable:headerLayout="@layout/view_header" /> -->
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/ic_search_black_24dp" />
+
+            <TextView
+                android:id="@+id/header_text"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center_vertical"
+                android:text="그룹 검색 조건 설정"
+                android:textColor="#000000" />
+
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LL1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/LL0"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="공학 / 정보학부"
+                    android:textSize="9dp" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="경영 / 사회학부"
+                    android:textSize="9dp" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="어문 / 교육학부"
+                    android:textSize="9dp" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="예술 / 건강학부"
+                    android:textSize="9dp" />
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/LL1"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:background="#e3e3e3"
+            android:text="검색"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
 
         <View
             android:id="@+id/line0"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:layout_below="@id/btnSearch"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="8dp"
-            android:background="#26689A"
-            app:layout_constraintTop_toBottomOf="@id/LL0" />
+            android:background="#26689A" />
 
         <LinearLayout
-            android:id="@+id/LL1"
+            android:id="@+id/LL2"
             android:layout_width="match_parent"
             android:layout_height="420dp"
+            android:layout_below="@+id/line0"
             android:layout_marginTop="8dp"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/line0">
+            android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycleView"
@@ -53,6 +120,6 @@
 
         </LinearLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
 
 </layout>
