@@ -2,6 +2,7 @@ package com.example.edu;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -31,9 +32,14 @@ public class PopUp extends AppCompatActivity {
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MessageActivity.class);
-                ActivityOptions activityOptions = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.fromright, R.anim.toleft);
-                startActivity(intent);
+                Intent Intent = new Intent(view.getContext(), MessageActivity.class);
+                Intent.putExtra("destinationUid",getIntent().getStringExtra("destinationUid"));
+
+                ActivityOptions activityOptions = null;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    activityOptions = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.fromright, R.anim.toleft);
+                    view.getContext().startActivity(Intent, activityOptions.toBundle());
+                }
             }
         });
     }

@@ -78,15 +78,16 @@ public class MessageActivity extends AppCompatActivity {
                 }
             }
         });
+        checkChatRoom();
     }
     void checkChatRoom() {
-        FirebaseDatabase.getInstance().getReference().child("chatrooms").orderByChild("users/"+uid).equalTo(true)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("chatrooms").orderByChild("users/"+uid).equalTo(true) //orderByChild : 지정된 하위 키의 값에 따라 결과를 정렬
+                .addListenerForSingleValueEvent(new ValueEventListener() { //equalTo : 지정된 키 또는 값과 동일한 항목을 반환
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot item : dataSnapshot.getChildren()) {
                     ChatModel chatModel = item.getValue(ChatModel.class);
-                    if(chatModel.users.containsKey(destinationUid)) {
+                    if(chatModel.users.containsKey(destinationUid)) { //hashmap에 값이 있으면 true, 없으면 false 반환
                         chatRoomUid = item.getKey(); // room 방 id (여기서 id는 최초 생성 시 랜덤으로 생성되는 값을 말함)
                         button.setEnabled(true); // 체크가 끝났으므로 버튼 활성화
                         recyclerView.setLayoutManager(new LinearLayoutManager(MessageActivity.this));
