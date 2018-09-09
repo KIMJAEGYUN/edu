@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,7 +75,12 @@ public class MessageActivity extends AppCompatActivity {
                     comment.uid = uid;
                     comment.message = editText.getText().toString();
                     FirebaseDatabase.getInstance().getReference()
-                            .child("chatrooms").child(chatRoomUid).child("comments").push().setValue(comment);
+                            .child("chatrooms").child(chatRoomUid).child("comments").push().setValue(comment).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            editText.setText(""); //db에 메세지를 정상적으로 전송하였으면 text 부분 공백 처리
+                        }
+                    });
                 }
             }
         });
@@ -136,7 +142,9 @@ public class MessageActivity extends AppCompatActivity {
                     for(DataSnapshot item : dataSnapshot.getChildren()) {
                         comments.add(item.getValue(ChatModel.Comment.class));
                     }
-                    notifyDataSetChanged(); //갱신
+                    notifyDataSetChanged(); //메세지 갱신
+                    recyclerView.scrollToPosition(comments.size() - 1);
+                    //새로운 메세지가 작성될 때 화면을 맨 아래로 최신화(?) (몇 번째 포지션으로 이동할 것인지에 대한 코드)
                 }
 
                 @Override
@@ -158,16 +166,21 @@ public class MessageActivity extends AppCompatActivity {
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             MessageViewHolder messageViewHolder = ((MessageViewHolder)holder);
 
+            //내가 보낸 메세지
             if(comments.get(position).uid.equals(uid)) {
                 messageViewHolder.textView_message.setText(comments.get(position).message);
                 messageViewHolder.textView_message.setBackgroundResource(R.drawable.rightbubble);
                 messageViewHolder.linearLayout_destination.setVisibility(View.INVISIBLE);
+                messageViewHolder.linearLayout_main.setGravity(Gravity.RIGHT);
+
+            //상대방이 보낸 메세지
             } else {
                 messageViewHolder.textView_name.setText(userModel.userName);
                 messageViewHolder.linearLayout_destination.setVisibility(View.VISIBLE);
                 messageViewHolder.textView_message.setBackgroundResource(R.drawable.leftbubble);
                 messageViewHolder.textView_message.setText(comments.get(position).message);
                 messageViewHolder.textView_message.setTextSize(25);
+                messageViewHolder.linearLayout_main.setGravity(Gravity.LEFT);
             }
         }
 
@@ -181,13 +194,15 @@ public class MessageActivity extends AppCompatActivity {
             public TextView textView_name;
             public ImageView imageView_profile;
             public LinearLayout linearLayout_destination;
+            public LinearLayout linearLayout_main;
 
             public MessageViewHolder(View view) {
                 super(view);
-                textView_message = view.findViewById(R.id.tvMessage);
-                textView_name = view.findViewById(R.id.tvMessageName);
-                imageView_profile = view.findViewById(R.id.ivMessageProfile);
-                linearLayout_destination = view.findViewById(R.id.layoutMessageDestination);
+                textView_message = view.findViewById(R.id.messageItem_tvMessage);
+                textView_name = view.findViewById(R.id.messageItem_tvName);
+                imageView_profile = view.findViewById(R.id.messageItem_ivProfile);
+                linearLayout_destination = view.findViewById(R.id.messageItem_linear_Destination);
+                linearLayout_main = view.findViewById(R.id.messageItem_linear_main); //메세지 왼쪽 or 오른쪽 정렬하기 위해 만듬
             }
         }
     }

@@ -3,21 +3,22 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/messageItem_linear_main">
 
     <LinearLayout
-        android:id="@+id/layoutMessageDestination"
+        android:id="@+id/messageItem_linear_Destination"
         android:orientation="vertical"
         android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/ivMessageProfile"
+            android:id="@+id/messageItem_ivProfile"
             android:layout_width="50dp"
             android:layout_height="50dp" />
         <TextView
-            android:id="@+id/tvMessageName"
+            android:id="@+id/messageItem_tvName"
             android:text="이름"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -26,7 +27,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tvMessage"
+        android:id="@+id/messageItem_tvMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>
