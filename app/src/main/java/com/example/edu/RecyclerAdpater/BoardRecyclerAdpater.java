@@ -70,7 +70,7 @@ public class BoardRecyclerAdpater extends RecyclerView.Adapter<RecyclerView.View
                 ActivityOptions activityOptions = null;
                 activityOptions = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.fromright, R.anim.toleft);
                 view.getContext().startActivity(intent, activityOptions.toBundle());
-                //api 몇 부터 되는지 물어보면 아래 코드로 진행하면 됨
+                //api 몇 부터 되는지 물어보는 오류 발생 시 아래 코드로 진행하면 된다
 //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 //                    activityOptions = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.fromright, R.anim.toleft);
 //                    view.getContext().startActivity(intent, activityOptions.toBundle());
@@ -88,9 +88,9 @@ public class BoardRecyclerAdpater extends RecyclerView.Adapter<RecyclerView.View
 
                 //본인 uid를 가져와서 userFavorites에 group uid 저장
 
-               Toast.makeText(view.getContext(), " "+ boardModels.get(position).uid, Toast.LENGTH_LONG).show(); //test
+                Toast.makeText(view.getContext(), " " + boardModels.get(position).uid, Toast.LENGTH_LONG).show(); //test
 
-               //userModel.userFavorites = boardModels.get(position).uid;
+                //userModel.userFavorites = boardModels.get(position).uid;
 
             }
         });

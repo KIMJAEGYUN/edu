@@ -93,8 +93,9 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
         });
 
-        //메세지를 내림 차수능로 정렬 후 마지막 메세지의 키값 가져오기
-        //TODO: error 채팅방이 만들어지고 대화가 없는 방이 있다면 error 발생 / 수정할 예정
+        //메세지를 내림 차순로 정렬 후 마지막 메세지의 키값 가져오기
+        //TODO: error 채팅방이 만들어지고 대화가 없는 방이 있는 상태에서 chat 네비게이션을 누를 경우 error 발생 / 수정할 예정
+        //TODO: error 자기 자신의 게시글에서 채팅방으로 들어갈 경우 다른 사람과의 채팅방에 들어가지는 오류 발생 / 수정할 예정
         Map<String,ChatModel.Comment> commentMap = new TreeMap<>(Collections.reverseOrder()); //reverseOrder 내림차순
         commentMap.putAll(chatModels.get(position).comments); //채팅에 대한 내용 넣기
         String lastMessageKey = (String) commentMap.keySet().toArray()[0]; //채팅에 대한 첫 번째 값만 가져오면 된다

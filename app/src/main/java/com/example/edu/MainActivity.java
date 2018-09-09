@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = getIntent();
                 Intent nextAct = new Intent(MainActivity.this, OpenMeetingActivity.class);
-                nextAct.putExtra("uid",intent.getStringExtra("uid"));
+                nextAct.putExtra("uid", intent.getStringExtra("uid"));
                 startActivity(nextAct);
 
             }
@@ -72,12 +72,12 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.action_list:
                         getSupportFragmentManager().beginTransaction().detach(sF1).detach(sF2).attach(sF1).attach(sF2).commit();
                         return true;
                     case R.id.action_chat:
-                        Toast.makeText(MainActivity.this,"챗 클릭함",Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, "챗 클릭함", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(MainActivity.this, ChatActivity.class);
                         startActivity(intent);
                         finish();
@@ -89,7 +89,19 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+//        passPushTokenToServer(); //push 테스트
     }
+
+//    void passPushTokenToServer() { push 테스트
+//
+//        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//        String token = FirebaseInstanceId.getInstance().getToken();
+//        //firebase상에서는 해쉬맵으로만 업데이트 가능하다 (push 토큰)
+//        Map<String,Object> map = new HashMap<>();
+//        map.put("pushToken",token);
+//
+//        FirebaseDatabase.getInstance().getReference().child("users").child(uid).updateChildren(map);
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -115,11 +127,11 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case 2:
-                firebaseAuth = FirebaseAuth.getInstance(); //로그아웃 test : 추후 코드 리스너 등의 방법으로 수정할 예정
-                firebaseAuth.signOut(); //로그아웃 test : 추후 코드 리스너 등의 방법으로 수정할 예정
+                firebaseAuth = FirebaseAuth.getInstance(); //로그아웃
+                firebaseAuth.signOut(); //로그아웃
                 Intent logOut = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(logOut);
-                finish(); //로그아웃 test : 추후 코드 리스너 등의 방법으로 수정할 예정
+                finish(); //로그아웃 test
                 return true;
 
         }
@@ -131,12 +143,9 @@ public class MainActivity extends AppCompatActivity {
         long tempTime = System.currentTimeMillis();
         long intervalTime = tempTime - backPressedTime;
 
-        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime)
-        {
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
             super.onBackPressed();
-        }
-        else
-        {
+        } else {
             backPressedTime = tempTime;
             Toast.makeText(getApplicationContext(), "한 번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
