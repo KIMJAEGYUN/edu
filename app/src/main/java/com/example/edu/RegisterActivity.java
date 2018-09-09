@@ -2,17 +2,21 @@ package com.example.edu;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,20 +38,27 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class RegisterActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     private EditText etEmail, etName, etPassword, etPassword2, etAnswer;
     private RadioGroup rgGender;
-    private RadioButton rbMan,rbWomen;
+    private RadioButton rbMan, rbWomen;
     private Button btnRegister;
     private Spinner spnQuestion;
-    private ImageView ivUserPhoto,ivCheckEmail,ivCheckName,ivCheckPassword,ivCheckPassword2,ivCheckGender,ivCheckQ;
-    private Uri imageUri;
+    private ImageView ivUserPhoto, ivCheckEmail, ivCheckName, ivCheckPassword, ivCheckPassword2, ivCheckGender, ivCheckQ;
+
+    private Uri photoUri;
+    private String currentPhotoPath;//실제 사진 파일 경로
+    String mImageCaptureName;//이미지 이름
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
     private final int CAMERA_CODE = 1111;
+    private static final int GALLERY_CODE = 1112;
     private final int REQUEST_PERMISSION_CODE = 2222;
 
     @Override
@@ -183,6 +194,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
     private void checkInputEmail() {
         String Email = etEmail.getText().toString();
         if (Email.isEmpty()) {
@@ -230,20 +242,31 @@ public class RegisterActivity extends AppCompatActivity {
 
     //카메라에서 사진 촬영
     public void takePhoto() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                File photoFile = null;
+                try {
+                    photoFile = createImageFile();
+                } catch (IOException e) {
 
-        String url = "temp_" + String.valueOf(System.currentTimeMillis()) + ".jpg";
-        imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), url));
-
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-        startActivityForResult(intent, 0);
+                }
+                if (photoFile != null) {
+                    photoUri = FileProvider.getUriForFile(this, "com.example.edu.fileprovider", photoFile);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                    startActivityForResult(intent, CAMERA_CODE);
+                }
+            }
+        }
     }
 
     //앨범에서 사진 가져오기
     public void takeAlbum() {
         Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-        startActivityForResult(intent, 1);
+        intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        startActivityForResult(intent, GALLERY_CODE);
     }
 
     @Override
@@ -254,42 +277,15 @@ public class RegisterActivity extends AppCompatActivity {
             return;
 
         switch (requestCode) {
-            case 1: {
-                imageUri = data.getData();
-                Log.d("SmartWheel", imageUri.getPath().toString());
-            }
-            case 0: {
-                Intent intent = new Intent("com.android.camera.action.CROP");
-                intent.setDataAndType(imageUri, "image/*");
-
-                intent.putExtra("outputX", 200);
-                intent.putExtra("outputY", 100);
-                intent.putExtra("aspectX", 1);
-                intent.putExtra("aspectY", 1);
-                intent.putExtra("scale", true);
-                intent.putExtra("return_data", true);
-                startActivityForResult(intent, 2);
+            case GALLERY_CODE:
+                sendPicture(data.getData());
+                break;
+            case CAMERA_CODE: {
+                getPictureForPhoto();
                 break;
             }
-            case 2: {
-                //크롭 이후의 이미지를 넘겨받음
-                if (resultCode != RESULT_OK) {
-                    return;
-                }
-
-                final Bundle extras = data.getExtras();
-
-                if (extras != null) {
-                    Bitmap photo = extras.getParcelable("data");
-                    ivUserPhoto.setImageBitmap(photo);
-                    break;
-                }
-
-                File f = new File(imageUri.getPath());
-                if (f.exists()) {
-                    f.delete();
-                }
-            }
+            default:
+                break;
         }
     }
 
@@ -368,7 +364,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private boolean validate() {
         boolean valid = true;
-        String email, name, password, password2,answer;
+        String email, name, password, password2, answer;
         email = etEmail.getText().toString();
         name = etName.getText().toString();
         password = etPassword.getText().toString();
@@ -403,9 +399,9 @@ public class RegisterActivity extends AppCompatActivity {
             etPassword2.setError(null);
         }
 
-        if(rbMan.isChecked() == false && rbWomen.isChecked() == false){
+        if (rbMan.isChecked() == false && rbWomen.isChecked() == false) {
             rbWomen.setError("성별을 선택하세요!");
-        } else{
+        } else {
             rbWomen.setError(null);
         }
 
@@ -430,6 +426,86 @@ public class RegisterActivity extends AppCompatActivity {
             backPressedTime = tempTime;
             Toast.makeText(getApplicationContext(), "한 번 더 누르시면 로그인 화면으로 돌아갑니다", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private File createImageFile() throws IOException {
+        File dir = new File(Environment.getExternalStorageDirectory() + "/eduPicture/");
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        mImageCaptureName = timeStamp + ".png";
+
+        File storageDir = new File(Environment.getExternalStorageDirectory().getAbsoluteFile() + "/eduPicture/" + mImageCaptureName);
+        currentPhotoPath = storageDir.getAbsolutePath();
+
+        return storageDir;
+    }
+
+    private void getPictureForPhoto() {
+        Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(currentPhotoPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        int exifOrientation;
+        int exifDegree;
+
+        if (exif != null) {
+            exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            exifDegree = exifOrientationToDegrees(exifOrientation);
+        } else {
+            exifDegree = 0;
+        }
+        ivUserPhoto.setImageBitmap(rotate(bitmap, exifDegree));
+    }
+
+    private void sendPicture(Uri imgUri) {
+        String imagePath = getRealPathFromURI(imgUri);
+        ExifInterface exif = null;
+
+        try {
+            exif = new ExifInterface(imagePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        int exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+        int exifDegree = exifOrientationToDegrees(exifOrientation);
+
+        Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+        ivUserPhoto.setImageBitmap(rotate(bitmap, exifDegree));
+    }
+
+    private int exifOrientationToDegrees(int exifOrientation) {
+        if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
+            return 90;
+        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {
+            return 180;
+        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {
+            return 270;
+        }
+
+        return 0;
+    }
+
+    private Bitmap rotate(Bitmap src, float degree) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degree);
+        return Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
+    }
+
+    private String getRealPathFromURI(Uri contentUri) {
+        int column_index = 0;
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
+        if (cursor.moveToFirst()) {
+            column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        }
+
+        return cursor.getString(column_index);
     }
 
 }

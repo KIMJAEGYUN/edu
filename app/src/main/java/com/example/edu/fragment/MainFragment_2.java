@@ -1,14 +1,16 @@
 package com.example.edu.fragment;
 
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.edu.MainActivity;
 import com.example.edu.R;
 import com.example.edu.RecyclerAdpater.RecyclerAdapter_Likes;
 
@@ -31,9 +33,9 @@ public class MainFragment_2 extends Fragment {
         RecyclerAdapter_Likes adapter = new RecyclerAdapter_Likes(getActivity());
         recycle2.setAdapter(adapter);
 
+        Toast.makeText(getActivity(), "Fragment2 Refresh Check", Toast.LENGTH_SHORT).show();
 
-
-
+        MainActivity.sF2 = this;
         return view;
 
     }

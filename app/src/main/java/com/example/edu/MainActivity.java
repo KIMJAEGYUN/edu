@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private long backPressedTime = 0;
     private FirebaseAuth firebaseAuth;
     private BottomNavigationView bottomNavigationView;
+
+    public static Fragment sF1, sF2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +74,14 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.action_list:
+                        getSupportFragmentManager().beginTransaction().detach(sF1).detach(sF2).attach(sF1).attach(sF2).commit();
                         return true;
                     case R.id.action_chat:
                         Toast.makeText(MainActivity.this,"챗 클릭함",Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(MainActivity.this, ChatActivity.class);
                         startActivity(intent);
+                        finish();
+                        overridePendingTransition(0, 0);
                         return true;
                     case R.id.action_account:
                         return true;

@@ -1,5 +1,6 @@
 package com.example.edu.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.edu.MainActivity;
 import com.example.edu.R;
 import com.example.edu.RecyclerAdpater.ChatRecyclerAdapter;
 
@@ -34,6 +36,10 @@ public class ChatActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.action_list:
+                        Intent intent = new Intent(ChatActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                        overridePendingTransition(0, 0);
                         return true;
                     case R.id.action_chat:
                         Toast.makeText(ChatActivity.this,"챗 클릭함",Toast.LENGTH_LONG).show();
