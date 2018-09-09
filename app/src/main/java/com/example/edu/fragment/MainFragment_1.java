@@ -1,4 +1,4 @@
-package com.example.edu;
+package com.example.edu.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.edu.R;
 import com.example.edu.RecyclerAdpater.BoardRecyclerAdpater;
 
 
