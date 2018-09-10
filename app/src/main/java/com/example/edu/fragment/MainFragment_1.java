@@ -24,9 +24,7 @@ public class MainFragment_1 extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(inflater.getContext()));
         recyclerView.setAdapter(new BoardRecyclerAdpater());
-
-
-        Toast.makeText(getActivity(), "Fragment1 Refresh Check", Toast.LENGTH_SHORT).show();
+        
         MainActivity.sF1 = this;
         return view;
     }

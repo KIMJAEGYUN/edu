@@ -33,8 +33,6 @@ public class MainFragment_2 extends Fragment {
         RecyclerAdapter_Likes adapter = new RecyclerAdapter_Likes(getActivity());
         recycle2.setAdapter(adapter);
 
-        Toast.makeText(getActivity(), "Fragment2 Refresh Check", Toast.LENGTH_SHORT).show();
-
         MainActivity.sF2 = this;
         return view;
 

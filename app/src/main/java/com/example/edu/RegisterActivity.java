@@ -1,7 +1,6 @@
 package com.example.edu;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -47,6 +46,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+//회원가입 Activity
 public class RegisterActivity extends AppCompatActivity {
 
     Toolbar toolbar;
@@ -57,14 +57,14 @@ public class RegisterActivity extends AppCompatActivity {
     private Spinner spnQuestion;
     private ImageView ivUserPhoto, ivCheckEmail, ivCheckName, ivCheckPassword, ivCheckPassword2, ivCheckGender, ivCheckQ;
 
-    private Uri photoUri;
+    private Uri photoUri; //사진을 저장할 경로
     private String currentPhotoPath;//실제 사진 파일 경로
-    String mImageCaptureName;//이미지 이름
+    String mImageCaptureName;//사진 이름
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
     private final int CAMERA_CODE = 1111;
     private static final int GALLERY_CODE = 1112;
-    private final int REQUEST_PERMISSION_CODE = 100;
+    private final int REQUEST_PERMISSION_CODE = 100; //콜백함수 호출 시 requestCode로 넘어가는 구분자
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,26 +89,21 @@ public class RegisterActivity extends AppCompatActivity {
         rbMan = findViewById(R.id.rbMan);
         rbWomen = findViewById(R.id.rbWomen);
 
+        //비밀번호 찾기 질문 spinner
         final String[] question = getResources().getStringArray(R.array.question);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, question);
         spnQuestion.setAdapter(adapter);
-
-
-
-        /*spnQuestion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            }
-        });*/
 
         toolbar = findViewById(R.id.tBar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 생성
 
+        //회원가입 버튼 클릭 이벤트
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //빈 항목 체크
                 if (validate() == false) {
                     return;
                 } else {
@@ -117,6 +112,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        //editText 키 입력 리스너
         etEmail.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
@@ -125,6 +121,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        //editText 포커스 변경 리스너
         etEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
@@ -177,6 +174,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        //radioButton 클릭 리스너
         rgGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -200,6 +198,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    //항목이 채워졌을 때 체크 이미지 색상 변경
     private void checkInputEmail() {
         String Email = etEmail.getText().toString();
         if (Email.isEmpty()) {
@@ -239,25 +238,30 @@ public class RegisterActivity extends AppCompatActivity {
     private void checkInputAnswer() {
         String Answer = etAnswer.getText().toString();
         if (Answer.isEmpty()) {
-            ivCheckPassword2.setImageResource(R.drawable.ic_check_gray);
+            ivCheckQ.setImageResource(R.drawable.ic_check_gray);
         } else {
-            ivCheckPassword2.setImageResource(R.drawable.ic_check_black);
+            ivCheckQ.setImageResource(R.drawable.ic_check_black);
         }
     }
 
     //카메라에서 사진 촬영
     public void takePhoto() {
+        //디바이스 장치의 내장 경로의 상태
         String state = Environment.getExternalStorageState();
+        //SD CARD를 읽고 쓸 수 있는 상태인지 확인
         if (Environment.MEDIA_MOUNTED.equals(state)) {
+            //카메라 호출
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             if (intent.resolveActivity(getPackageManager()) != null) {
                 File photoFile = null;
+
                 try {
                     photoFile = createImageFile();
                 } catch (IOException e) {
-
                 }
+
                 if (photoFile != null) {
+                    //해당 파일 위치에 있는 contents provider 값을 얻어옴
                     photoUri = FileProvider.getUriForFile(this, "com.example.edu.fileprovider", photoFile);
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                     startActivityForResult(intent, CAMERA_CODE);
@@ -294,7 +298,9 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    //imageView 클릭 이벤트 메소드
     public void onClick(View v) {
+        //CAMERA,WRITE_EXTERNAL_STORAGE 권한 승인일 경우
         if(requestPermission() == true){
             DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
                 @Override
@@ -319,12 +325,14 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public boolean requestPermission() {
-        //권한이 필요한지 체크
+        //권한이 필요한지 확인
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            //사용자가 권한을 승인했는지 확인
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA) ||
                     ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             } else {
+                //권한 요청 dialog
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION_CODE);
             }
@@ -332,6 +340,8 @@ public class RegisterActivity extends AppCompatActivity {
         }
         return true;
     }
+
+    //권한 요청 결과에 따른 콜백 함수
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (REQUEST_PERMISSION_CODE == requestCode) {
@@ -342,6 +352,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -356,7 +367,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     void RegisterEvent() { // 회원가입이 정상적으로 됐는지 확인해주고 다음 화면으로 넘겨줌. 확인하고 넘겨주는 이 2가지를 분리할 예정. LoginActivity 처럼.
 
-
         FirebaseAuth.getInstance()
                 .createUserWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString())
                 .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
@@ -368,7 +378,7 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "회원가입이 완료 되었습니다.", Toast.LENGTH_LONG).show();
 
                             int id = rgGender.getCheckedRadioButtonId();
-                            RadioButton rb = (RadioButton) findViewById(id); // 라디오 버튼값 획득
+                            RadioButton rb = findViewById(id); // 라디오 버튼값 획득
 
                             UserModel userModel = new UserModel();
                             userModel.userName = etName.getText().toString();
@@ -392,6 +402,7 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
+    //빈 항목 체크 메소드
     private boolean validate() {
         boolean valid = true;
         String email, name, password, password2, answer;
@@ -473,8 +484,10 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void getPictureForPhoto() {
+        //사진이 회전되어 출력하는 경우 상황에 맞게 회전
         Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
         ExifInterface exif = null;
+
         try {
             exif = new ExifInterface(currentPhotoPath);
         } catch (IOException e) {
@@ -490,11 +503,14 @@ public class RegisterActivity extends AppCompatActivity {
         } else {
             exifDegree = 0;
         }
+
+        //회전된 사진을 다시 회전시켜 정상 출력
         ivUserPhoto.setImageBitmap(rotate(bitmap, exifDegree));
     }
 
     private void sendPicture(Uri imgUri) {
         String imagePath = getRealPathFromURI(imgUri);
+        Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
         ExifInterface exif = null;
 
         try {
@@ -502,10 +518,10 @@ public class RegisterActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         int exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
         int exifDegree = exifOrientationToDegrees(exifOrientation);
 
-        Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
         ivUserPhoto.setImageBitmap(rotate(bitmap, exifDegree));
     }
 
@@ -531,6 +547,7 @@ public class RegisterActivity extends AppCompatActivity {
         int column_index = 0;
         String[] proj = {MediaStore.Images.Media.DATA};
         Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
+
         if (cursor.moveToFirst()) {
             column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         }
