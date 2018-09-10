@@ -44,7 +44,6 @@ public class ChatActivity extends AppCompatActivity {
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.action_chat:
-                        Toast.makeText(ChatActivity.this, "챗 클릭함", Toast.LENGTH_LONG).show();
 //                        Intent intent = new Intent(ChatActivity.this, ChatActivity.class);
 //                        startActivity(intent);
                         return true;

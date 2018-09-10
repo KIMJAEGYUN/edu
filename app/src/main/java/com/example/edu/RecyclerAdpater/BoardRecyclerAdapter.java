@@ -23,11 +23,11 @@ import com.sackcentury.shinebuttonlib.ShineButton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardRecyclerAdpater extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     List<BoardModel> boardModels;
 
-    public BoardRecyclerAdpater() {
+    public BoardRecyclerAdapter() {
         boardModels = new ArrayList<>();
         FirebaseDatabase.getInstance().getReference().child("group").addValueEventListener(new ValueEventListener() {
             @Override

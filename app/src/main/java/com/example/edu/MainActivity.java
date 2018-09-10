@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction().detach(sF1).detach(sF2).attach(sF1).attach(sF2).commit();
                         return true;
                     case R.id.action_chat:
-                        Toast.makeText(MainActivity.this, "챗 클릭함", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(MainActivity.this, ChatActivity.class);
                         startActivity(intent);
                         finish();

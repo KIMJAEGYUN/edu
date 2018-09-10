@@ -8,11 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.edu.MainActivity;
 import com.example.edu.R;
-import com.example.edu.RecyclerAdpater.BoardRecyclerAdpater;
+import com.example.edu.RecyclerAdpater.BoardRecyclerAdapter;
 
 
 public class MainFragment_1 extends Fragment {
@@ -23,7 +22,7 @@ public class MainFragment_1 extends Fragment {
         View view = inflater.inflate(R.layout.activity_main_fragment_1,container,false);
         RecyclerView recyclerView = view.findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(inflater.getContext()));
-        recyclerView.setAdapter(new BoardRecyclerAdpater());
+        recyclerView.setAdapter(new BoardRecyclerAdapter());
         
         MainActivity.sF1 = this;
         return view;
