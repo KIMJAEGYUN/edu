@@ -61,10 +61,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnRegister).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = getIntent();
-                Intent nextAct = new Intent(MainActivity.this, OpenMeetingActivity.class);
-                nextAct.putExtra("uid", intent.getStringExtra("uid"));
-                startActivity(nextAct);
+                Intent intent = new Intent(MainActivity.this, OpenMeetingActivity.class);
+                startActivity(intent);
 
             }
         });

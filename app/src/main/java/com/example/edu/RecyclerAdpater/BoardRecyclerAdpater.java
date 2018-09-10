@@ -27,7 +27,6 @@ public class BoardRecyclerAdpater extends RecyclerView.Adapter<RecyclerView.View
 
     List<BoardModel> boardModels;
 
-
     public BoardRecyclerAdpater() {
         boardModels = new ArrayList<>();
         FirebaseDatabase.getInstance().getReference().child("group").addValueEventListener(new ValueEventListener() {
@@ -47,18 +46,19 @@ public class BoardRecyclerAdpater extends RecyclerView.Adapter<RecyclerView.View
         });
     }
 
+    // 뷰 홀더를 생성하고 뷰를 붙여주는 부분이다
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) { // 뷰홀더가 만들어지는 시점에 호출되는 메소드
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_board, parent, false);
-        // parent : 각각의 아이템을 위해서 정의한 xml 레이아웃의 최상위 레이아웃 , 어떤 것 (item_board_board.xml)으로 뷰를 만들고 그것을 뷰홀더에 넣어줄지 결정.
-        return new CustomViewHolder(view); // >> 각각의 아이템을 위한 뷰를 담고 있는 뷰홀더 객체를 만들어서 리턴
+        // parent : 각각의 아이템을 위해서 정의한 xml 레이아웃의 최상위 레이아웃 , 어떤 것 (item_board.xml)으로 뷰를 만들고 그것을 뷰홀더에 넣어줄지 결정.
+        return new CustomViewHolder(view); // 각각의 아이템을 위한 뷰를 담고 있는 뷰홀더 객체를 만들어서 리턴
     }
 
+    // 재활용 되는 뷰가 호출하여 실행되는 메소드, 뷰 홀더를 전달하고 어뎁터는 position의 데이터를 결합시킨다
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) { // 데이터와 뷰가 서로 결합되는 경우
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         ((CustomViewHolder) holder).tvTitle.setText(boardModels.get(position).groupName);
         ((CustomViewHolder) holder).tvShortTitle.setText(boardModels.get(position).groupShortTitle);
-        //((CustomViewHolder) holder).tvCurrentMembers.setText(Integer.toString(boardModels.get(position).groupCurrentMemebers)); 그룹에 몇명 들어왔는지
         ((CustomViewHolder) holder).tvLimit.setText(Integer.toString(boardModels.get(position).groupLimit));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +70,7 @@ public class BoardRecyclerAdpater extends RecyclerView.Adapter<RecyclerView.View
                 ActivityOptions activityOptions = null;
                 activityOptions = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.fromright, R.anim.toleft);
                 view.getContext().startActivity(intent, activityOptions.toBundle());
-                //api 몇 부터 되는지 물어보는 오류 발생 시 아래 코드로 진행하면 된다
+//                // api 몇 부터 되는지 물어보는 오류 발생 시 아래 코드로 진행하면 된다
 //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 //                    activityOptions = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.fromright, R.anim.toleft);
 //                    view.getContext().startActivity(intent, activityOptions.toBundle());
@@ -78,34 +78,35 @@ public class BoardRecyclerAdpater extends RecyclerView.Adapter<RecyclerView.View
 
             }
         });
+
+        // 관심목록(별모양)을 클릭하였을 때 발생되는 이벤트로 추후 구현할 예정이다
         ((CustomViewHolder) holder).shineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 //BoardModel BoardModel = new BoardModel();
                 UserModel userModel = new UserModel();
 
-
                 //본인 uid를 가져와서 userFavorites에 group uid 저장
-
                 Toast.makeText(view.getContext(), " " + boardModels.get(position).uid, Toast.LENGTH_LONG).show(); //test
 
                 //userModel.userFavorites = boardModels.get(position).uid;
-
             }
         });
     }
 
+    // 데이터 개수를 반환한다
     @Override
     public int getItemCount() {
-        return boardModels.size(); // 아이템 몇갠지.
+        return boardModels.size();
     }
 
+    // ViewHolder 커스텀
     private class CustomViewHolder extends RecyclerView.ViewHolder {
         ImageView iv;
         TextView tvTitle, tvShortTitle, tvCurrentMembers, tvLimit;
         ShineButton shineButton;
 
+        // 재활용 View에 대한 모든 서브 뷰 보유
         public CustomViewHolder(View view) { // 뷰홀더 생성자 , 뷰홀더는 각각의 아이템을 위한 뷰를 담고 있다
             super(view); // 그러므로 뷰홀더는 Items.xml 의 뷰를 전달해주는 것, Items의 컨텐츠를 이용해 데이터 설정등등 진행
             // 뷰와 실제 데이터 ( java 내의 할당된 데이터 ) 매칭 과정
