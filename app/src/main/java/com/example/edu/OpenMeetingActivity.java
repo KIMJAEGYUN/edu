@@ -1,6 +1,5 @@
 package com.example.edu;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +21,7 @@ import com.example.edu.RecyclerAdpater.RecyclerAdapter_Likes;
 import com.example.edu.databinding.ActivityOpenMeetingBinding;
 import com.example.edu.model.BoardModel;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class OpenMeetingActivity extends AppCompatActivity {
@@ -146,8 +146,8 @@ public class OpenMeetingActivity extends AppCompatActivity {
 
 
     void RegisterEvent() { // 게시글 등록이 정상적으로 됐는지 확인해주고 다음 화면으로 넘겨줌
-        Intent intent = getIntent(); //uid값 받아옴
-        String uid = intent.getStringExtra("uid");
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         int id = rgStyle.getCheckedRadioButtonId();
         RadioButton rb = (RadioButton)findViewById(id);
 

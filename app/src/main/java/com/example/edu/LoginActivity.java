@@ -112,28 +112,24 @@ public class LoginActivity extends AppCompatActivity {
     void loginEvent() { // 로그인이 정상적으로 됐는지 확인 후 메인화면 전환까지.
         firebaseAuth.signInWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString())
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful()) { // 로그인 실패 시 오류 메시지 출력
-                            Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                        } else { // 로그인 성공 시
-                            FirebaseUser user = firebaseAuth.getCurrentUser(); // user 받아오기
-                            if (user != null) { // 로그인이 정상적으로 되었다면 user에는 값이 있을 것이다.
-                                //로그인
-                                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                // TODO:로그인하면 name 출력 될 수 있도록 하고 싶다.
-
-
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                intent.putExtra("uid", uid);
-                                startActivity(intent);
-                                finish();
-                            } else {
-                                //로그아웃
-                            }
-                        }
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (!task.isSuccessful()) { // 로그인 실패 시 오류 메시지 출력
+                    Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                } else { // 로그인 성공 시
+                    FirebaseUser user = firebaseAuth.getCurrentUser(); // user 받아오기
+                    if (user != null) { // 로그인이 정상적으로 되었다면 user에는 값이 있을 것이다.
+                        //로그인
+                        // TODO:로그인하면 name 출력 될 수 있도록 하고 싶다.
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        //로그아웃
                     }
-                });
+                }
+            }
+        });
     }
 
     private boolean validate() {
