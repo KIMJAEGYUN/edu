@@ -3,21 +3,45 @@ package com.example.edu;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.edu.chat.MessageActivity;
+import com.example.edu.model.BoardModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PopUp extends AppCompatActivity {
     Button btnChat;
+    TextView tvTitle, tvShortTitle, tvStyle, tvTopic, tvLimit, tvCurrentMembers;
+    List<BoardModel> boardModels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pop_up);
-        btnChat = (findViewById(R.id.btnPopup));
+        btnChat = findViewById(R.id.btnPopup);
+        tvTitle = findViewById(R.id.tvTitle);
+        tvShortTitle = findViewById(R.id.tvShortTitle);
+        tvStyle = findViewById(R.id.tvStyle);
+        tvTopic = findViewById(R.id.tvTopic);
+        tvCurrentMembers = findViewById(R.id.tvCurrentMembers);
+        tvLimit = findViewById(R.id.tvLimit);
+
+        Intent intent = getIntent();
+        final String uidData = intent.getStringExtra("destinationUid");
 
 
         DisplayMetrics dm = new DisplayMetrics();
@@ -32,12 +56,40 @@ public class PopUp extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), MessageActivity.class);
-                intent.putExtra("destinationUid",getIntent().getStringExtra("destinationUid"));
+                intent.putExtra("destinationUid", uidData); // 수정
 
                 ActivityOptions activityOptions = null;
                 activityOptions = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.fromright, R.anim.toleft);
                 view.getContext().startActivity(intent, activityOptions.toBundle());
             }
         });
+
+
+        boardModels = new ArrayList<>();
+        final DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("group").child(uidData);
+        Ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                //boardModels.clear();
+               /* for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    boardModels.add(snapshot.getValue(BoardModel.class));
+                }
+
+                tvTitle.setText(boardModels..groupName);
+                //boardModels.notifyDataSetChanged();
+*/
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
     }
 }

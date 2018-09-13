@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:itemBackground="@color/eduBlue"
-        app:itemTextColor="@android:color/white "
+        app:itemTextColor="@android:color/white"
         app:itemIconTint="@android:color/white"
         app:menu="@menu/bottom_navigation_main">
     </android.support.design.widget.BottomNavigationView>

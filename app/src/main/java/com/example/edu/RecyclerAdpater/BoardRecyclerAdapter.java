@@ -14,8 +14,10 @@ import com.example.edu.PopUp;
 import com.example.edu.R;
 import com.example.edu.model.BoardModel;
 import com.example.edu.model.UserModel;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sackcentury.shinebuttonlib.ShineButton;
@@ -79,17 +81,20 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
         });
 
+
+
         // 관심목록(별모양)을 클릭하였을 때 발생되는 이벤트로 추후 구현할 예정이다
         ((CustomViewHolder) holder).shineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //BoardModel BoardModel = new BoardModel();
-                UserModel userModel = new UserModel();
+               DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("userFavorites");
 
-                //본인 uid를 가져와서 userFavorites에 group uid 저장
-                Toast.makeText(view.getContext(), " " + boardModels.get(position).uid, Toast.LENGTH_LONG).show(); //test
+                /*BoardModel boardModel = new BoardModel();
+                boardModel.favorites.put(boardModels.get(position).uid, true);
+                Ref.setValue(boardModel.favorites); */
 
-                //userModel.userFavorites = boardModels.get(position).uid;
+
+
             }
         });
     }
