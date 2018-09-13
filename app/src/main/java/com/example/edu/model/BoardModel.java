@@ -8,7 +8,8 @@ public class BoardModel {
     public String groupName;
     public String groupShortTitle;
     public int groupLimit;
-    public int groupCurrentMemebers;
+    public int groupCurrentMembers = 0;
+    public String groupMemberName;
     public String groupStyle;
     public String groupTopic;
     public String groupExplain;

@@ -63,21 +63,24 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         ((CustomViewHolder) holder).tvTitle.setText(boardModels.get(position).groupName);
         ((CustomViewHolder) holder).tvShortTitle.setText(boardModels.get(position).groupShortTitle);
         ((CustomViewHolder) holder).tvLimit.setText(Integer.toString(boardModels.get(position).groupLimit));
+        ((CustomViewHolder) holder).tvCurrentMembers.setText(Integer.toString(boardModels.get(position).groupCurrentMembers));
+
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), PopUp.class);
-                intent.putExtra("destinationUid", boardModels.get(position).uid);
 
                 PopModel popModel = new PopModel();
+                popModel.setUid((boardModels.get(position).uid));
                 popModel.setGroupName(boardModels.get(position).groupName);
                 popModel.setGroupShortTitle(boardModels.get(position).groupShortTitle);
                 popModel.setGroupStyle(boardModels.get(position).groupStyle);
                 popModel.setGroupTopic(boardModels.get(position).groupTopic);
                 popModel.setGroupLimit(boardModels.get(position).groupLimit);
                 popModel.setGroupExplain(boardModels.get(position).groupExplain);
-                //popModel.setGroupCurrentMemebers(boardModels.get(position).groupCurrentMemebers);
+                popModel.setGroupCurrentMemebers(boardModels.get(position).groupCurrentMembers);
                 intent.putExtra("popModel", popModel);
 
                 ActivityOptions activityOptions = null;
@@ -93,17 +96,15 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         });
 
 
-
         // 관심목록(별모양)을 클릭하였을 때 발생되는 이벤트로 추후 구현할 예정이다
         ((CustomViewHolder) holder).shineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("userFavorites");
+                DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("userFavorites");
 
                 /*BoardModel boardModel = new BoardModel();
                 boardModel.favorites.put(boardModels.get(position).uid, true);
                 Ref.setValue(boardModel.favorites); */
-
 
 
             }

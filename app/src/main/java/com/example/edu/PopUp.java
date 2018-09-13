@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.edu.RecyclerAdpater.BoardRecyclerAdapter;
 import com.example.edu.chat.MessageActivity;
 import com.example.edu.model.BoardModel;
 import com.example.edu.model.PopModel;
@@ -25,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PopUp extends AppCompatActivity {
-    Button btnChat;
+    Button btnChat, btnJoin;
     TextView tvTitle, tvShortTitle, tvStyle, tvTopic, tvLimit, tvCurrentMembers, tvExplain;
 
     @Override
@@ -40,17 +43,17 @@ public class PopUp extends AppCompatActivity {
         tvCurrentMembers = findViewById(R.id.tvCurrentMembers);
         tvLimit = findViewById(R.id.tvLimit);
         tvExplain = findViewById(R.id.tvExplain);
+        btnJoin = findViewById(R.id.btnJoin);
 
         Intent intent = getIntent();
-        final String uidData = intent.getStringExtra("destinationUid");
-        PopModel popModel = (PopModel) intent.getSerializableExtra("popModel");
+        final PopModel popModel = (PopModel) intent.getSerializableExtra("popModel");
 
         tvTitle.setText(popModel.getGroupName());
         tvShortTitle.setText(popModel.getGroupShortTitle());
         tvLimit.setText(Integer.toString(popModel.getGroupLimit()));
         tvStyle.setText(popModel.getGroupStyle());
         tvTopic.setText(popModel.getGroupTopic());
-        tvCurrentMembers.setText(Integer.toString(popModel.getGroupCurrentMemebers()));
+        tvCurrentMembers.setText(Integer.toString(popModel.getGroupCurrentMembers()));
         tvExplain.setText(popModel.getGroupExplain());
 
 
@@ -66,13 +69,23 @@ public class PopUp extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), MessageActivity.class);
-                intent.putExtra("destinationUid", uidData); // 수정
+                intent.putExtra("destinationUid", popModel.uid); // 수정
 
 
                 ActivityOptions activityOptions = null;
                 activityOptions = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.fromright, R.anim.toleft);
                 view.getContext().startActivity(intent, activityOptions.toBundle());
 
+            }
+        });
+        final BoardRecyclerAdapter boardRecyclerAdapter = new BoardRecyclerAdapter();
+        btnJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String s = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                Toast.makeText(getApplicationContext(), "" + s, Toast.LENGTH_LONG).show();
             }
         });
 
