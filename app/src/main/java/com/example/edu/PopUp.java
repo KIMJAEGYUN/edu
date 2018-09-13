@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.edu.chat.MessageActivity;
 import com.example.edu.model.BoardModel;
+import com.example.edu.model.PopModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,8 +26,7 @@ import java.util.List;
 
 public class PopUp extends AppCompatActivity {
     Button btnChat;
-    TextView tvTitle, tvShortTitle, tvStyle, tvTopic, tvLimit, tvCurrentMembers;
-    List<BoardModel> boardModels;
+    TextView tvTitle, tvShortTitle, tvStyle, tvTopic, tvLimit, tvCurrentMembers, tvExplain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +39,19 @@ public class PopUp extends AppCompatActivity {
         tvTopic = findViewById(R.id.tvTopic);
         tvCurrentMembers = findViewById(R.id.tvCurrentMembers);
         tvLimit = findViewById(R.id.tvLimit);
+        tvExplain = findViewById(R.id.tvExplain);
 
         Intent intent = getIntent();
         final String uidData = intent.getStringExtra("destinationUid");
+        PopModel popModel = (PopModel) intent.getSerializableExtra("popModel");
+
+        tvTitle.setText(popModel.getGroupName());
+        tvShortTitle.setText(popModel.getGroupShortTitle());
+        tvLimit.setText(Integer.toString(popModel.getGroupLimit()));
+        tvStyle.setText(popModel.getGroupStyle());
+        tvTopic.setText(popModel.getGroupTopic());
+        tvCurrentMembers.setText(Integer.toString(popModel.getGroupCurrentMemebers()));
+        tvExplain.setText(popModel.getGroupExplain());
 
 
         DisplayMetrics dm = new DisplayMetrics();
@@ -50,7 +60,7 @@ public class PopUp extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels; //높이 너비 가져옴
 
-        getWindow().setLayout((int)(width * 0.9), (int)(height * 0.85)); // 크기 설정 너비 90%, 높이 85%
+        getWindow().setLayout((int) (width * 0.9), (int) (height * 0.85)); // 크기 설정 너비 90%, 높이 85%
 
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,38 +68,13 @@ public class PopUp extends AppCompatActivity {
                 Intent intent = new Intent(view.getContext(), MessageActivity.class);
                 intent.putExtra("destinationUid", uidData); // 수정
 
+
                 ActivityOptions activityOptions = null;
                 activityOptions = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.fromright, R.anim.toleft);
                 view.getContext().startActivity(intent, activityOptions.toBundle());
-            }
-        });
-
-
-        boardModels = new ArrayList<>();
-        final DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("group").child(uidData);
-        Ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                //boardModels.clear();
-               /* for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    boardModels.add(snapshot.getValue(BoardModel.class));
-                }
-
-                tvTitle.setText(boardModels..groupName);
-                //boardModels.notifyDataSetChanged();
-*/
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
-
-
-
-
 
     }
 }

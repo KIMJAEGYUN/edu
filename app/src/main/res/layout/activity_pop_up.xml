@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.edu.PopUp"
-    android:background="@drawable/border">
+    android:background="@drawable/border"
+    tools:context="com.example.edu.PopUp">
 
     <TextView
         android:id="@+id/tvTitle"
@@ -14,7 +13,6 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="GroupTitle"
         android:textColor="#000000"
         android:textSize="20sp" />
 
@@ -26,7 +24,6 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="4dp"
-        android:text="ShortTitle"
         android:textSize="15sp" />
 
     <LinearLayout
@@ -50,8 +47,7 @@
             android:id="@+id/tvStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="멘토링"
-            android:textColor="#26689A"/>
+            android:textColor="#26689A" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -66,8 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
-            android:text="공학 / 정보학부"
-            android:textColor="#26689A"/>
+            android:textColor="#26689A" />
 
     </LinearLayout>
 
@@ -87,7 +82,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:text="4"
             android:textSize="15sp" />
 
         <TextView
@@ -103,7 +97,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:text="5"
             android:textSize="15sp" />
 
 
@@ -120,21 +113,22 @@
         android:background="#26689A" />
 
     <TextView
+        android:id="@+id/tvExplain"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_below="@+id/line0"
-        android:background="@drawable/border"
-        android:layout_margin="16dp" />
+        android:layout_margin="16dp"
+        android:background="@drawable/border" />
 
     <Button
-        android:text="그룹 참여"
         android:id="@+id/btnJoin"
-        android:layout_toLeftOf="@+id/btnPopup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_toLeftOf="@+id/btnPopup"
+        android:text="그룹 참여" />
 
     <Button
         android:id="@+id/btnPopup"

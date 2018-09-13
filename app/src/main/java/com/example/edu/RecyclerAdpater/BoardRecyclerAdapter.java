@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.edu.PopUp;
 import com.example.edu.R;
 import com.example.edu.model.BoardModel;
+import com.example.edu.model.PopModel;
 import com.example.edu.model.UserModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -68,6 +69,16 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), PopUp.class);
                 intent.putExtra("destinationUid", boardModels.get(position).uid);
+
+                PopModel popModel = new PopModel();
+                popModel.setGroupName(boardModels.get(position).groupName);
+                popModel.setGroupShortTitle(boardModels.get(position).groupShortTitle);
+                popModel.setGroupStyle(boardModels.get(position).groupStyle);
+                popModel.setGroupTopic(boardModels.get(position).groupTopic);
+                popModel.setGroupLimit(boardModels.get(position).groupLimit);
+                popModel.setGroupExplain(boardModels.get(position).groupExplain);
+                //popModel.setGroupCurrentMemebers(boardModels.get(position).groupCurrentMemebers);
+                intent.putExtra("popModel", popModel);
 
                 ActivityOptions activityOptions = null;
                 activityOptions = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.fromright, R.anim.toleft);
