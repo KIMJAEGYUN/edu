@@ -38,6 +38,13 @@
         <activity android:name=".chat.MessageActivity" />
         <activity android:name=".fragment.ChatActivity" >
         </activity>
+        <service
+            android:name=".MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
 
         <provider
             android:name="android.support.v4.content.FileProvider"

@@ -7,4 +7,5 @@ public class UserModel {
     public String userFavorites;
     public String userPwQuestion;
     public String userPwAnswer;
+    public String pushToken;
 }

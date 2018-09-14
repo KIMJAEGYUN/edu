@@ -18,9 +18,14 @@ import com.example.edu.fragment.ChatActivity;
 import com.example.edu.fragment.MainFragment_1;
 import com.example.edu.fragment.MainFragment_2;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -86,19 +91,19 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-//        passPushTokenToServer(); //push 테스트
+        passPushTokenToServer(); //push 테스트
     }
 
-//    void passPushTokenToServer() { push 테스트
-//
-//        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//        String token = FirebaseInstanceId.getInstance().getToken();
-//        //firebase상에서는 해쉬맵으로만 업데이트 가능하다 (push 토큰)
-//        Map<String,Object> map = new HashMap<>();
-//        map.put("pushToken",token);
-//
-//        FirebaseDatabase.getInstance().getReference().child("users").child(uid).updateChildren(map);
-//    }
+    void passPushTokenToServer() { //push 테스트
+
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String token = FirebaseInstanceId.getInstance().getToken();
+        //firebase상에서는 해쉬맵으로만 업데이트 가능하다 (push 토큰)
+        Map<String,Object> map = new HashMap<>();
+        map.put("pushToken",token);
+
+        FirebaseDatabase.getInstance().getReference().child("users").child(uid).updateChildren(map);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

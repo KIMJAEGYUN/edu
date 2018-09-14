@@ -17,20 +17,33 @@ import android.widget.TextView;
 
 import com.example.edu.R;
 import com.example.edu.model.ChatModel;
+import com.example.edu.model.NotificationModel;
 import com.example.edu.model.UserModel;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class MessageActivity extends AppCompatActivity {
 
@@ -44,6 +57,9 @@ public class MessageActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
 
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+
+    private UserModel destinationUserModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +98,10 @@ public class MessageActivity extends AppCompatActivity {
                     comment.message = editText.getText().toString();
                     comment.timestamp = ServerValue.TIMESTAMP; //firebase가 제공하는 메소드
                     FirebaseDatabase.getInstance().getReference()
-                            .child("chatrooms").child(chatRoomUid).child("comments").push().setValue(comment).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            .child("chatrooms").child(chatRoomUid).child("comments").push().setValue(comment).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
-                        public void onSuccess(Void aVoid) {
+                        public void onComplete(@NonNull Task<Void> task) {
+                            sendFcm();
                             editText.setText(""); //db에 메세지를 정상적으로 전송하였으면 text 부분 공백 처리
                         }
                     });
@@ -93,6 +110,45 @@ public class MessageActivity extends AppCompatActivity {
         });
         checkChatRoom();
     }
+
+    void sendFcm() {
+        // Notification 사용할 경우 백그라운드로 push가 전송된다
+        // 포그라운드 전송을 원할 경우 data를 만들어 사용하면 된다
+        // 포그라운드 전송 Model 부분은 Notification.java 파일로 합쳐서 진행한다
+        Gson gson = new Gson();
+
+        String userName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        NotificationModel notificationModel = new NotificationModel();
+        notificationModel.to = destinationUserModel.pushToken;
+        notificationModel.notification.title = "보낸이 아이디";
+        notificationModel.notification.text = editText.getText().toString();
+        notificationModel.data.title = "보낸이 아이디";
+        notificationModel.data.text = editText.getText().toString();
+        // 메세지를 data로 push 할 경우 push를 받을 때 파싱하는 부분 코드도 있어야 한다(파이어베이스 메세징 서비스 필요)
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf8"),gson.toJson(notificationModel));
+        Request request = new Request.Builder()
+                .header("Content-Type", "application/json")
+                .addHeader("Authorization","key=AIzaSyDdZOnmjs3Qz6NdWPCiIJJug1mvYrD0Ewc")
+                .url("https://fcm.googleapis.com/fcm/send")
+                .post(requestBody)
+                .build();
+        OkHttpClient okHttpClient = new OkHttpClient();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) { // 실패 시 실행되는 코드이다
+//                Toast.makeText(MessageActivity.this, "전송 실패", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException { // 성공 시 실행되는 코드이다
+//                Toast.makeText(MessageActivity.this, "전송 성공", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
+
     void checkChatRoom() {
         FirebaseDatabase.getInstance().getReference().child("chatrooms").orderByChild("users/"+uid).equalTo(true) //orderByChild : 지정된 하위 키의 값에 따라 결과를 정렬
                 .addListenerForSingleValueEvent(new ValueEventListener() { //equalTo : 지정된 키 또는 값과 동일한 항목을 반환
@@ -118,7 +174,6 @@ public class MessageActivity extends AppCompatActivity {
     class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         List<ChatModel.Comment> comments; //덧글을 달아주는
-        UserModel userModel;
         public RecyclerViewAdapter() {
             comments = new ArrayList<>();
 
@@ -126,7 +181,7 @@ public class MessageActivity extends AppCompatActivity {
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    userModel = dataSnapshot.getValue(UserModel.class);
+                    destinationUserModel = dataSnapshot.getValue(UserModel.class);
                     getMessageList();
                 }
 
@@ -182,7 +237,7 @@ public class MessageActivity extends AppCompatActivity {
 
             //상대방이 보낸 메세지
             } else {
-                messageViewHolder.textView_name.setText(userModel.userName);
+                messageViewHolder.textView_name.setText(destinationUserModel.userName);
                 messageViewHolder.linearLayout_destination.setVisibility(View.VISIBLE);
                 messageViewHolder.textView_message.setBackgroundResource(R.drawable.leftbubble);
                 messageViewHolder.textView_message.setText(comments.get(position).message);
