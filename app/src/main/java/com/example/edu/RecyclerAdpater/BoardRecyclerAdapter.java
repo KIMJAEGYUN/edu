@@ -3,40 +3,55 @@ package com.example.edu.RecyclerAdpater;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.edu.PopUp;
 import com.example.edu.R;
 import com.example.edu.model.BoardModel;
 import com.example.edu.model.PopModel;
+import com.example.edu.model.UserModel;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.sackcentury.shinebuttonlib.ShineButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context context;
-    List<BoardModel> boardModels;
+    List<BoardModel> boardModels = new ArrayList<>();
+    List<String> uidList = new ArrayList<>();
+    private FirebaseAuth auth;
+
 
     public BoardRecyclerAdapter(Context context) {
         this.context = context;
-        boardModels = new ArrayList<>();
         FirebaseDatabase.getInstance().getReference().child("group").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 boardModels.clear();
+                uidList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     boardModels.add(snapshot.getValue(BoardModel.class));
+                    String uidKey = snapshot.getKey();
+                    uidList.add(uidKey);
+
                 }
                 notifyDataSetChanged();
             }
@@ -62,8 +77,7 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         ((CustomViewHolder) holder).tvTitle.setText(boardModels.get(position).groupName);
         ((CustomViewHolder) holder).tvShortTitle.setText(boardModels.get(position).groupShortTitle);
         ((CustomViewHolder) holder).tvLimit.setText(Integer.toString(boardModels.get(position).groupLimit));
-        ((CustomViewHolder) holder).tvCurrentMembers.setText(Integer.toString(boardModels.get(position).groupCurrentMembers));
-
+        ((CustomViewHolder) holder).tvCurrentMembers.setText(Integer.toString(boardModels.get(position).favCount));
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +93,7 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
                 popModel.setGroupTopic(boardModels.get(position).groupTopic);
                 popModel.setGroupLimit(boardModels.get(position).groupLimit);
                 popModel.setGroupExplain(boardModels.get(position).groupExplain);
-                popModel.setGroupCurrentMemebers(boardModels.get(position).groupCurrentMembers);
+                popModel.setGroupCurrentMemebers(boardModels.get(position).favCount);
                 intent.putExtra("popModel", popModel);
 
                 ActivityOptions activityOptions = null;
@@ -95,28 +109,22 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         });
 
 
-        // 관심목록(별모양)을 클릭하였을 때 발생되는 이벤트로 추후 구현할 예정이다
         ((CustomViewHolder) holder).shineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BoardModel boardModel = new BoardModel();
-                boardModel.favorites.put(boardModels.get(position).uid, true);
+
+                // onFavoriteClicked(FirebaseDatabase.getInstance().getReference().child("group").child(uidList.get(position))); // 참여. 원래는 팝업에 연결.
+/* 버튼 checked / unchecked 구현 해야되는데 일단 보류. > image 로 대체 가능.
+                if (boardModels.get(position).stars.containsKey(auth.getCurrentUser().getUid())) {
+                    ((CustomViewHolder) holder).shineButton.setChecked(true);
+                }else {
+                    ((CustomViewHolder) holder).shineButton.setChecked(false);
+                }*/
 
 
-//                FirebaseDatabase.getInstance().getReference().child("users")
-//                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("userFavorites").push().setValue(boardModel.favorites)
-////                FirebaseDatabase.getInstance().getReference().child("users")
-////                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("userFavorites")
-////                        .setValue(boardModel.favorites)
-//                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        //TODO: Toast 이렇게 써도 되나 몰라1
-//                        Toast.makeText(context, "관심목록 추가 성공!", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
+                    FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("userFavorites").push().setValue(uidList.get(position));
 
-
+                    // 중복검사 ..
 
 
 
@@ -128,6 +136,35 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public int getItemCount() {
         return boardModels.size();
+    }
+
+
+    private void onFavoriteClicked(DatabaseReference postRef) {
+        auth = FirebaseAuth.getInstance();
+        postRef.runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                BoardModel boardModel = mutableData.getValue(BoardModel.class);
+                if (boardModel == null) {
+                    return Transaction.success(mutableData);
+                }
+
+                if (boardModel.favorites.containsKey(auth.getCurrentUser().getUid())) { // 해당 유저(본인)이 입력되어있다면
+                    boardModel.favCount = boardModel.favCount - 1;
+                    boardModel.favorites.remove(auth.getCurrentUser().getUid()); // 제거
+                } else {
+                    boardModel.favCount = boardModel.favCount + 1;
+                    boardModel.favorites.put(auth.getCurrentUser().getUid(), true); //
+                }
+
+                mutableData.setValue(boardModel);
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+            }
+        });
     }
 
     // ViewHolder 커스텀
@@ -146,6 +183,7 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvCurrentMembers = view.findViewById(R.id.tvCurrentMembers);
             tvLimit = view.findViewById(R.id.tvLimit);
             shineButton = view.findViewById(R.id.btnFavorites);
+
         }
     }
 }

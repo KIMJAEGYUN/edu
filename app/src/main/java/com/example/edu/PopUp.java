@@ -13,10 +13,14 @@ import android.widget.Toast;
 import com.example.edu.chat.MessageActivity;
 import com.example.edu.model.PopModel;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.List;
 
 public class PopUp extends AppCompatActivity {
     Button btnChat, btnJoin;
     TextView tvTitle, tvShortTitle, tvStyle, tvTopic, tvLimit, tvCurrentMembers, tvExplain;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,11 +73,12 @@ public class PopUp extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String s = FirebaseAuth.getInstance().getCurrentUser().getUid();
+               // FirebaseDatabase.getInstance().getReference().child("group").child();
 
-                Toast.makeText(getApplicationContext(), "" + s, Toast.LENGTH_LONG).show();
+
             }
         });
 
     }
+
 }

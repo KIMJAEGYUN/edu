@@ -1,5 +1,6 @@
 package com.example.edu.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,10 +9,9 @@ public class BoardModel {
     public String groupName;
     public String groupShortTitle;
     public int groupLimit;
-    public int groupCurrentMembers = 0;
-    public String groupMemberName;
     public String groupStyle;
     public String groupTopic;
     public String groupExplain;
+    public int favCount = 0;
     public Map<String, Boolean> favorites = new HashMap<>();
 }
