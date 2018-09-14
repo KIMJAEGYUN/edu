@@ -13,4 +13,10 @@
         <item>가장 친한 친구의 이름은?</item>
         <item>어릴 적 살던 동네는?</item>
     </string-array>
+
+    <string-array name="roomNumber">
+        <item>카페 1호</item>
+        <item>카페 2호</item>
+        <item>카페 3호</item>
+    </string-array>
 </resources>
