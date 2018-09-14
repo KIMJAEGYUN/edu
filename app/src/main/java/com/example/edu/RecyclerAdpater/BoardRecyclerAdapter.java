@@ -1,6 +1,7 @@
 package com.example.edu.RecyclerAdpater;
 
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,17 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.edu.PopUp;
 import com.example.edu.R;
 import com.example.edu.model.BoardModel;
 import com.example.edu.model.PopModel;
-import com.example.edu.model.UserModel;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sackcentury.shinebuttonlib.ShineButton;
@@ -28,9 +25,11 @@ import java.util.List;
 
 public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    Context context;
     List<BoardModel> boardModels;
 
-    public BoardRecyclerAdapter() {
+    public BoardRecyclerAdapter(Context context) {
+        this.context = context;
         boardModels = new ArrayList<>();
         FirebaseDatabase.getInstance().getReference().child("group").addValueEventListener(new ValueEventListener() {
             @Override
@@ -100,11 +99,25 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         ((CustomViewHolder) holder).shineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference Ref = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("userFavorites");
-
-                /*BoardModel boardModel = new BoardModel();
+                BoardModel boardModel = new BoardModel();
                 boardModel.favorites.put(boardModels.get(position).uid, true);
-                Ref.setValue(boardModel.favorites); */
+
+
+//                FirebaseDatabase.getInstance().getReference().child("users")
+//                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("userFavorites").push().setValue(boardModel.favorites)
+////                FirebaseDatabase.getInstance().getReference().child("users")
+////                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("userFavorites")
+////                        .setValue(boardModel.favorites)
+//                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        //TODO: Toast 이렇게 써도 되나 몰라1
+//                        Toast.makeText(context, "관심목록 추가 성공!", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+
+
+
 
 
             }

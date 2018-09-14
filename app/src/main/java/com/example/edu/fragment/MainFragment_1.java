@@ -22,7 +22,7 @@ public class MainFragment_1 extends Fragment {
         View view = inflater.inflate(R.layout.activity_main_fragment_1,container,false);
         RecyclerView recyclerView = view.findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(inflater.getContext()));
-        recyclerView.setAdapter(new BoardRecyclerAdapter());
+        recyclerView.setAdapter(new BoardRecyclerAdapter(getContext())); //TODO: Toast 이렇게 써도 되나 몰라2
         
         MainActivity.sF1 = this;
         return view;

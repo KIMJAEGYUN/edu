@@ -3,29 +3,16 @@ package com.example.edu;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.edu.RecyclerAdpater.BoardRecyclerAdapter;
 import com.example.edu.chat.MessageActivity;
-import com.example.edu.model.BoardModel;
 import com.example.edu.model.PopModel;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class PopUp extends AppCompatActivity {
     Button btnChat, btnJoin;
@@ -78,7 +65,6 @@ public class PopUp extends AppCompatActivity {
 
             }
         });
-        final BoardRecyclerAdapter boardRecyclerAdapter = new BoardRecyclerAdapter();
         btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
