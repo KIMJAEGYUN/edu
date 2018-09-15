@@ -120,11 +120,12 @@ public class MessageActivity extends AppCompatActivity {
         String userName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         NotificationModel notificationModel = new NotificationModel();
         notificationModel.to = destinationUserModel.pushToken;
-        notificationModel.notification.title = "보낸이 아이디";
+        notificationModel.notification.title = userName;
         notificationModel.notification.text = editText.getText().toString();
-        notificationModel.data.title = "보낸이 아이디";
+        notificationModel.data.title = userName;
         notificationModel.data.text = editText.getText().toString();
         // 메세지를 data로 push 할 경우 push를 받을 때 파싱하는 부분 코드도 있어야 한다(파이어베이스 메세징 서비스 필요)
+        // 이는 manifests 수정과 MyFirebaseMessagingService.java 파일을 통해 할 수 있다
 
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf8"),gson.toJson(notificationModel));
         Request request = new Request.Builder()

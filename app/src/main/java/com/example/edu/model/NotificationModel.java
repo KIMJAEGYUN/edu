@@ -3,9 +3,9 @@ package com.example.edu.model;
 
 public class NotificationModel {
     public String to;
-    public Data data = new Data();
-    public Notification notification = new Notification();
 
+    public Notification notification = new Notification();
+    public Data data = new Data();
     public static class Notification {
         public String title;
         public String text;
