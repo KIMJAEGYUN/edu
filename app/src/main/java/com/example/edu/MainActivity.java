@@ -151,17 +151,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId(); //action_chat  action_star   action_account
-        if (id == R.id.action_list) {
-            viewPager.setCurrentItem(0); //TODO:이거 case로도 되지 않나
-        } else if (id == R.id.action_chat) {
-            viewPager.setCurrentItem(1);
-        } else if (id == R.id.action_star) {
-            viewPager.setCurrentItem(2);
-        } else if (id == R.id.action_account) {
-            viewPager.setCurrentItem(3);
-        } else {
-
+        switch (item.getItemId()){
+            case R.id.action_list:
+                viewPager.setCurrentItem(0);
+            case R.id.action_chat:
+                viewPager.setCurrentItem(1);
+            case R.id.action_star:
+                viewPager.setCurrentItem(2);
+            case R.id.action_account:
+                viewPager.setCurrentItem(3);
         }
         return false;
     }
