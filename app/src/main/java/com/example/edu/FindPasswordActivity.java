@@ -4,12 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.support.v7.widget.Toolbar;
 
 public class FindPasswordActivity extends AppCompatActivity {
 
@@ -59,7 +59,8 @@ public class FindPasswordActivity extends AppCompatActivity {
             etEmail.setError(null);
             //여기부터 기능추가
             Toast.makeText(this, "비밀번호 찾기 성공", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(FindPasswordActivity.this, LoginActivity.class);
+            //Intent intent = new Intent(FindPasswordActivity.this, LoginActivity.class);
+            Intent intent = new Intent(FindPasswordActivity.this, ReservationActivity.class);//예약화면 임시 확인용!!
             startActivity(intent);
             finish(); //스택에 있는 모든 엑티비티 종료(삭제)
         }
