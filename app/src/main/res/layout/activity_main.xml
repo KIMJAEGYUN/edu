@@ -22,6 +22,20 @@
                 android:textStyle="bold" />
         </android.support.v7.widget.Toolbar>
 
+        <LinearLayout
+            android:id="@+id/main_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/tBar">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        </LinearLayout>
+
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/main_navigationView"
             android:layout_width="match_parent"
@@ -30,45 +44,10 @@
             app:itemBackground="@color/eduBlue"
             app:itemTextColor="@android:color/white"
             app:itemIconTint="@android:color/white"
+            app:layout_behavior="tech.thdev.app.view.BottomNavigationBehavior"
             app:menu="@menu/bottom_navigation_main">
         </android.support.design.widget.BottomNavigationView>
 
-        <LinearLayout
-            android:id="@+id/LL0"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/tBar">
-
-            <!-- distributeEvenly : 가운데 정렬 / indicatorWithoutPadding : 인디케이터 여백 -->
-            <com.ogaclejapan.smarttablayout.SmartTabLayout
-
-                android:id="@+id/pagerTab"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                app:stl_distributeEvenly="true"
-                app:stl_dividerThickness="0.5dp"
-                app:stl_indicatorColor="#26689A"
-                app:stl_indicatorThickness="2dp"
-                app:stl_indicatorWithoutPadding="true"
-                app:stl_underlineThickness="0.5dp" />
-
-        </LinearLayout>
-
-        <FrameLayout
-            android:id="@+id/main_frame"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/LL0">
-
-            <android.support.v4.view.ViewPager
-
-                android:id="@+id/viewPager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </FrameLayout>
 
 
         <com.getbase.floatingactionbutton.FloatingActionButton

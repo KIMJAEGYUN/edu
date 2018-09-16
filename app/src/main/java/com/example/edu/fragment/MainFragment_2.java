@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.edu.MainActivity;
 import com.example.edu.R;
@@ -36,5 +35,9 @@ public class MainFragment_2 extends Fragment {
         MainActivity.sF2 = this;
         return view;
 
+    }
+
+    public static MainFragment_2 newInstance() {
+        return new MainFragment_2();
     }
 }
