@@ -15,8 +15,8 @@
     </string-array>
 
     <string-array name="roomNumber">
-        <item>카페 1호</item>
-        <item>카페 2호</item>
-        <item>카페 3호</item>
+        <item>101호</item>
+        <item>102호</item>
+        <item>103호</item>
     </string-array>
 </resources>
