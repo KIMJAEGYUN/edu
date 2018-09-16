@@ -67,7 +67,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/LL1"
+        android:id="@+id/main_frame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -106,7 +106,7 @@
         android:id="@+id/line0"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_below="@+id/LL1"
+        android:layout_below="@+id/main_frame"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"

@@ -26,7 +26,7 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        bottomNavigationView = findViewById(R.id.chat_navigationView);
+//        bottomNavigationView = findViewById(R.id.chat_navigationView);
 
 
         RecyclerView recyclerView = findViewById(R.id.chat_recyclerview);

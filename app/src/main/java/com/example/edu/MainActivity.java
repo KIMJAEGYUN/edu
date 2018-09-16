@@ -1,5 +1,6 @@
 package com.example.edu;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,13 +9,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.edu.fragment.ChatActivity;
+import com.example.edu.fragment.ChatFragment;
 import com.example.edu.fragment.MainFragment_1;
 import com.example.edu.fragment.MainFragment_2;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
 
     public static Fragment sF1, sF2;
+    ChatFragment chat = new ChatFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,16 +53,16 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        FragmentPagerAdapter adapter = new FragmentPagerItemAdapter(getSupportFragmentManager(),
+        final FragmentPagerAdapter adapter = new FragmentPagerItemAdapter(getSupportFragmentManager(),
                 FragmentPagerItems.with(this)
                         .add("스터디 현황 ", MainFragment_1.class)
                         .add("관심 목록", MainFragment_2.class)
                         .create());
 
-        ViewPager viewPager = findViewById(R.id.viewPager);
+        final ViewPager viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(adapter);
 
-        SmartTabLayout viewPagerTab = findViewById(R.id.pagerTab);
+        final SmartTabLayout viewPagerTab = findViewById(R.id.pagerTab);
         viewPagerTab.setViewPager(viewPager);
 
 
@@ -72,18 +75,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        final FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame, chat, "tag");
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        final RecyclerView chat_recyclerview = findViewById(R.id.chat_recyclerview);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_list:
-                        getSupportFragmentManager().beginTransaction().detach(sF1).detach(sF2).attach(sF1).attach(sF2).commit();
+//                        getSupportFragmentManager().beginTransaction().detach(sF1).detach(sF2).attach(sF1).attach(sF2).commit();
+//                        viewPager.setAdapter(adapter);
+//                        viewPagerTab.setViewPager(viewPager);
+//                        fragmentTransaction.hide(chat);
+//                        fragmentTransaction.commit();
+                        try {
+                            chat_recyclerview.setVisibility(View.INVISIBLE);
+                        } catch (Exception e) {
+                            Toast.makeText(getApplicationContext(),"에러나네",Toast.LENGTH_SHORT).show();
+                        }
+                        viewPager.setVisibility(View.VISIBLE);
+                        viewPagerTab.setVisibility(View.VISIBLE);
                         return true;
                     case R.id.action_chat:
-                        Intent intent = new Intent(MainActivity.this, ChatActivity.class);
-                        startActivity(intent);
-                        finish();
-                        overridePendingTransition(0, 0);
+                        fragmentTransaction.commit();
+                        viewPager.setVisibility(View.GONE);
+                        viewPagerTab.setVisibility(View.GONE);
+                        try {
+                            chat_recyclerview.setVisibility(View.VISIBLE);
+                        } catch (Exception e) {
+                            Toast.makeText(getApplicationContext(),"에러나네",Toast.LENGTH_SHORT).show();
+                    }
+
                         return true;
                     case R.id.action_account:
                         return true;

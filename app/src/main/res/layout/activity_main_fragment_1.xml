@@ -34,7 +34,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/LL1"
+            android:id="@+id/main_frame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/LL0"
@@ -83,7 +83,7 @@
             android:id="@+id/btnSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/LL1"
+            android:layout_below="@id/main_frame"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
             android:background="#e3e3e3"
