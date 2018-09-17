@@ -59,8 +59,7 @@ public class FindPasswordActivity extends AppCompatActivity {
             etEmail.setError(null);
             //여기부터 기능추가
             Toast.makeText(this, "비밀번호 찾기 성공", Toast.LENGTH_SHORT).show();
-            //Intent intent = new Intent(FindPasswordActivity.this, LoginActivity.class);
-            Intent intent = new Intent(FindPasswordActivity.this, ReservationActivity.class);//예약화면 임시 확인용!!
+            Intent intent = new Intent(FindPasswordActivity.this, LoginActivity.class);
             startActivity(intent);
             finish(); //스택에 있는 모든 엑티비티 종료(삭제)
         }

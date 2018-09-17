@@ -107,7 +107,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(0, 1, 0, "회원정보 수정");
-        menu.add(0, 2, 0, "로그아웃");
+        menu.add(0, 2, 0, "예약하기");
+        menu.add(0, 3, 0, "로그아웃");
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -117,19 +118,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case android.R.id.home:
                 finish();
                 return true;
-
             case 1:
                 Intent infoUpdate = new Intent(MainActivity.this, InfoUpdateActivity.class);
                 startActivity(infoUpdate);
-                finish(); //test
                 return true;
-
             case 2:
-                firebaseAuth = FirebaseAuth.getInstance(); //로그아웃
-                firebaseAuth.signOut(); //로그아웃
+                Intent Intent = new Intent(MainActivity.this, ReservationActivity.class);//예약화면 임시 확인용!!
+                startActivity(Intent);
+                return true;
+            case 3:
+                firebaseAuth = FirebaseAuth.getInstance();
+                firebaseAuth.signOut(); // 로그아웃
                 Intent logOut = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(logOut);
-                finish(); //로그아웃 test
+                finish();
                 return true;
 
         }
