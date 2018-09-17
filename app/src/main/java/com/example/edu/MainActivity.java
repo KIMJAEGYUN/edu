@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar = findViewById(R.id.tBar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         // Navigation과 ViewPager 설정
         bottomNavigationView = findViewById(R.id.main_navigationView);
@@ -116,9 +116,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
+
             case 1:
                 Intent infoUpdate = new Intent(MainActivity.this, InfoUpdateActivity.class);
                 startActivity(infoUpdate);

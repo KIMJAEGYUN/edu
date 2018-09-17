@@ -51,6 +51,11 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                btnLogin.setEnabled(false);
+                etEmail.setEnabled(false);
+                etPassword.setEnabled(false);
+
                 if (validate() == false) { // 데이터 로컬에서 자체 검증
                     Log.e("test", "로그인 이벤트 실행 전 로컬 검증");
                     return;
@@ -116,6 +121,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (!task.isSuccessful()) { // 로그인 실패 시 오류 메시지 출력
                     Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+
+                    btnLogin.setEnabled(true);
+                    etPassword.setEnabled(true);
+                    etEmail.setEnabled(true);
+
                 } else { // 로그인 성공 시
                     FirebaseUser user = firebaseAuth.getCurrentUser(); // user 받아오기
                     if (user != null) { // 로그인이 정상적으로 되었다면 user에는 값이 있을 것이다.

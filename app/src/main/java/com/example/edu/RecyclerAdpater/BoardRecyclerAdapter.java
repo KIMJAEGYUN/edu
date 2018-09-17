@@ -3,6 +3,7 @@ package com.example.edu.RecyclerAdpater;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.example.edu.PopUp;
 import com.example.edu.R;
 import com.example.edu.model.BoardModel;
 import com.example.edu.model.PopModel;
+import com.example.edu.model.UserModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,7 +35,6 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
     List<BoardModel> boardModels = new ArrayList<>();
     List<String> uidList = new ArrayList<>();
     private FirebaseAuth auth;
-
 
     public BoardRecyclerAdapter(Context context) {
         this.context = context;
@@ -72,7 +73,7 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         ((CustomViewHolder) holder).tvTitle.setText(boardModels.get(position).groupName);
         ((CustomViewHolder) holder).tvShortTitle.setText(boardModels.get(position).groupShortTitle);
         ((CustomViewHolder) holder).tvLimit.setText(Integer.toString(boardModels.get(position).groupLimit));
-        ((CustomViewHolder) holder).tvCurrentMembers.setText(Integer.toString(boardModels.get(position).favCount));
+        ((CustomViewHolder) holder).tvCurrentMembers.setText(Integer.toString(boardModels.get(position).joinCount));
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +89,7 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
                 popModel.setGroupTopic(boardModels.get(position).groupTopic);
                 popModel.setGroupLimit(boardModels.get(position).groupLimit);
                 popModel.setGroupExplain(boardModels.get(position).groupExplain);
-                popModel.setGroupCurrentMemebers(boardModels.get(position).favCount);
+                popModel.setGroupCurrentMemebers(boardModels.get(position).joinCount);
                 intent.putExtra("popModel", popModel);
 
                 ActivityOptions activityOptions = null;
@@ -108,24 +109,23 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             @Override
             public void onClick(View view) {
 
-                // onFavoriteClicked(FirebaseDatabase.getInstance().getReference().child("group").child(uidList.get(position))); // 참여. 원래는 팝업에 연결.
-/* 버튼 checked / unchecked 구현 해야되는데 일단 보류. > image 로 대체 가능.
-                if (boardModels.get(position).stars.containsKey(auth.getCurrentUser().getUid())) {
-                    ((CustomViewHolder) holder).shineButton.setChecked(true);
+                //onJoinClicked(FirebaseDatabase.getInstance().getReference().child("group").child(uidList.get(position))); // 참여. 원래는 팝업에 연결.
+// 버튼 checked / unchecked 구현 해야되는데 일단 보류. > image 로 대체 가능.
+               /* if (boardModels.get(position).stars.containsKey(auth.getCurrentUser().getUid())) {
                 }else {
-                    ((CustomViewHolder) holder).shineButton.setChecked(false);
                 }*/
 
 
-                    FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("userFavorites").push().setValue(uidList.get(position));
+                //FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("userFavorites").push().setValue(uidList.get(position));
 
-                    // 중복검사 ..
+                // 중복검사 ..
 
-
+                onFavoriteClicked(FirebaseDatabase.getInstance().getReference().child("group").child(uidList.get(position)));
 
             }
         });
     }
+
 
     // 데이터 개수를 반환한다
     @Override
@@ -144,12 +144,40 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
                     return Transaction.success(mutableData);
                 }
 
-                if (boardModel.favorites.containsKey(auth.getCurrentUser().getUid())) { // 해당 유저(본인)이 입력되어있다면
+                if (boardModel.userFavorites.containsKey(auth.getCurrentUser().getUid())) { // 해당 유저(본인)이 입력되어있다면
                     boardModel.favCount = boardModel.favCount - 1;
-                    boardModel.favorites.remove(auth.getCurrentUser().getUid()); // 제거
+                    boardModel.userFavorites.remove(auth.getCurrentUser().getUid()); // 제거
                 } else {
                     boardModel.favCount = boardModel.favCount + 1;
-                    boardModel.favorites.put(auth.getCurrentUser().getUid(), true); //
+                    boardModel.userFavorites.put(auth.getCurrentUser().getUid(), true); //
+                }
+
+                mutableData.setValue(boardModel);
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+            }
+        });
+    }
+
+    private void onJoinClicked(DatabaseReference postRef) {
+        auth = FirebaseAuth.getInstance();
+        postRef.runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                BoardModel boardModel = mutableData.getValue(BoardModel.class);
+                if (boardModel == null) {
+                    return Transaction.success(mutableData);
+                }
+
+                if (boardModel.join.containsKey(auth.getCurrentUser().getUid())) { // 해당 유저(본인)이 입력되어있다면
+                    boardModel.joinCount = boardModel.joinCount - 1;
+                    boardModel.join.remove(auth.getCurrentUser().getUid()); // 제거
+                } else {
+                    boardModel.joinCount = boardModel.joinCount + 1;
+                    boardModel.join.put(auth.getCurrentUser().getUid(), true); //
                 }
 
                 mutableData.setValue(boardModel);
