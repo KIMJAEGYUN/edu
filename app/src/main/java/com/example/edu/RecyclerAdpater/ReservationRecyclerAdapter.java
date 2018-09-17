@@ -3,6 +3,7 @@ package com.example.edu.RecyclerAdpater;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,17 +14,42 @@ import android.widget.Toast;
 
 import com.example.edu.R;
 import com.example.edu.ReservationActivity;
+import com.example.edu.model.StudyRoomModel;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ReservationRecyclerAdapter extends RecyclerView.Adapter<ReservationRecyclerAdapter.ViewHolder> {
-    ArrayList<Boolean> data;
+//    ArrayList<Boolean> data;
     Context context;
+    List<StudyRoomModel.Day> studyRoomModels = new ArrayList<>();
 
     //초기화
-    public ReservationRecyclerAdapter(ArrayList<Boolean> data, Context context) {
-        this.data = data;
+    public ReservationRecyclerAdapter(Context context) {
+//        this.data = data;
         this.context = context;
+
+        FirebaseDatabase.getInstance().getReference()
+                .child("studyroom").child("No101").child("Monday")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        studyRoomModels.clear();
+                        for (DataSnapshot item : dataSnapshot.getChildren()) {
+                            studyRoomModels.add(item.getValue(StudyRoomModel.Day.class));
+                        }
+                        notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     //뷰홀더 생성후 리턴
@@ -40,7 +66,7 @@ public class ReservationRecyclerAdapter extends RecyclerView.Adapter<Reservation
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.tvRoom.setText((position + 9) + " : 00 ~ " + (position + 10) + " : 00");
 
-        if (data.get(position)) {
+        if (studyRoomModels.get(position).reservation) {
             holder.tvRoom.setTextColor(Color.GRAY);
             holder.tvRoom.setEnabled(false);
         } else {
@@ -73,7 +99,7 @@ public class ReservationRecyclerAdapter extends RecyclerView.Adapter<Reservation
     //생성할 수
     @Override
     public int getItemCount() {
-        return data.size();
+        return studyRoomModels.size();
     }
 
     //뷰홀더

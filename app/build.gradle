@@ -31,7 +31,7 @@ buildscript {
     }
     dependencies {
         //Please update it to 3.1.x
-        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.android.tools.build:gradle:3.0.0'
         //Update to the latest version as well
         classpath 'com.google.gms:google-services:4.0.1'
         // NOTE: Do not place your application dependencies here; they belong

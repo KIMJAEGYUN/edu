@@ -14,8 +14,6 @@ import android.widget.Toast;
 
 import com.example.edu.RecyclerAdpater.ReservationRecyclerAdapter;
 
-import java.util.ArrayList;
-
 public class ReservationActivity extends AppCompatActivity {
 
     Spinner spnRoom;
@@ -24,7 +22,8 @@ public class ReservationActivity extends AppCompatActivity {
     ReservationRecyclerAdapter reservationRecyclerAdapter;
     public static String sCurrentDayOfWeek = "월";
     public static String sCurrentRoom = "101호";
-    ArrayList<Boolean> data;
+//    ArrayList<Boolean> data;
+//    List<StudyRoomModel> studyRoomModels = new ArrayList<>();
     String[] roomNumber;
 
     @Override
@@ -36,7 +35,8 @@ public class ReservationActivity extends AppCompatActivity {
         rvRoom = findViewById(R.id.rvRoom);
 
         roomNumber = getResources().getStringArray(R.array.roomNumber);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, roomNumber);
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, roomNumber);
         spnRoom.setAdapter(adapter);
         spnRoom.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -50,17 +50,52 @@ public class ReservationActivity extends AppCompatActivity {
             }
         });
 
+        //데이터 받아오는 준비 코드들
+//        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//        FirebaseDatabase.getInstance().getReference().child("chatrooms").orderByChild("users/"+uid).equalTo(true)
+//                .addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                        chatModels.clear();
+//                        for (DataSnapshot item : dataSnapshot.getChildren()) {
+//                            chatModels.add(item.getValue(ChatModel.class));
+//                        }
+//                        notifyDataSetChanged();
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                    }
+//                });
 
-        data = new ArrayList<>();
-        data.add(true);
-        data.add(true);
-        data.add(true);
-        data.add(false);
-        data.add(true);
-        data.add(false);
-        data.add(true);
-        data.add(true);
-        reservationRecyclerAdapter = new ReservationRecyclerAdapter(data, this);
+//        data = new ArrayList<>();
+//        FirebaseDatabase.getInstance().getReference()
+//                .child("studyroom").child("No101").child("Monday")
+//                .addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                studyRoomModels.clear();
+//                for (DataSnapshot item : dataSnapshot.getChildren()) {
+//                    studyRoomModels.add(item.getValue(StudyRoomModel.class));
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//
+////        data.add(true);
+////        data.add(true);
+////        data.add(true);
+////        data.add(false);
+////        data.add(true);
+////        data.add(false);
+////        data.add(true);
+////        data.add(true);
+        reservationRecyclerAdapter = new ReservationRecyclerAdapter(this);
         rvRoom.setAdapter(reservationRecyclerAdapter);
         linearLayoutManager = new LinearLayoutManager(this);
         rvRoom.setLayoutManager(linearLayoutManager);
@@ -84,15 +119,16 @@ public class ReservationActivity extends AppCompatActivity {
     }
 
     private void refreshTimes() {
-        data = new ArrayList<>();
-        data.add(true);
-        data.add(true);
-        data.add(true);
-        data.add(false);
-        data.add(true);
-        data.add(false);
-        data.add(true);
-        data.add(true);
+        sCurrentRoom = "";
+//        data = new ArrayList<>();
+//        data.add(true);
+//        data.add(true);
+//        data.add(true);
+//        data.add(false);
+//        data.add(true);
+//        data.add(false);
+//        data.add(true);
+//        data.add(true);
         //파이어베이스에서 currentRoom과 currentDayOfWeek를 토대로데이터 불러와서 data.add(); 해줘야함
 
         reservationRecyclerAdapter.notifyDataSetChanged();
