@@ -154,12 +154,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()){
             case R.id.action_list:
                 viewPager.setCurrentItem(0);
+                return true;
             case R.id.action_chat:
                 viewPager.setCurrentItem(1);
+                return true;
             case R.id.action_star:
                 viewPager.setCurrentItem(2);
+                return true;
             case R.id.action_account:
                 viewPager.setCurrentItem(3);
+                return true;
         }
         return false;
     }

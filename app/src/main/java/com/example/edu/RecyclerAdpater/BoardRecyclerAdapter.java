@@ -3,21 +3,17 @@ package com.example.edu.RecyclerAdpater;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.edu.PopUp;
 import com.example.edu.R;
 import com.example.edu.model.BoardModel;
 import com.example.edu.model.PopModel;
-import com.example.edu.model.UserModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,7 +26,6 @@ import com.sackcentury.shinebuttonlib.ShineButton;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
