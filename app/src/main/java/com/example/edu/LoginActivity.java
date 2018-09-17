@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.victor.loading.rotate.RotateLoading;
 
 public class LoginActivity extends AppCompatActivity {
     private Button btnLogin, btnRegister;
@@ -29,12 +30,16 @@ public class LoginActivity extends AppCompatActivity {
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
     private FirebaseAuth firebaseAuth;
+    private RotateLoading rotateLoading;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        rotateLoading = findViewById(R.id.rotateloading);
         //firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signOut();
 
@@ -55,9 +60,14 @@ public class LoginActivity extends AppCompatActivity {
                 btnLogin.setEnabled(false);
                 etEmail.setEnabled(false);
                 etPassword.setEnabled(false);
+                rotateLoading.start();
 
                 if (validate() == false) { // 데이터 로컬에서 자체 검증
                     Log.e("test", "로그인 이벤트 실행 전 로컬 검증");
+                    rotateLoading.stop();
+                    btnLogin.setEnabled(true);
+                    etPassword.setEnabled(true);
+                    etEmail.setEnabled(true);
                     return;
                 } else { // 로컬 자체 검증이 끝나면 서버 검증을 통해 로그인이 정상적으로 되었는지 체크
                     Log.e("test", "로그인 이벤트 실행 else 부분까지 옴");
@@ -125,6 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                     btnLogin.setEnabled(true);
                     etPassword.setEnabled(true);
                     etEmail.setEnabled(true);
+                    rotateLoading.stop();
 
                 } else { // 로그인 성공 시
                     FirebaseUser user = firebaseAuth.getCurrentUser(); // user 받아오기

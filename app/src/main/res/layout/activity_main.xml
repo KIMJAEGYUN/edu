@@ -11,16 +11,28 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/tBar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#26689A">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="STUDY"
-                android:layout_gravity="center_horizontal"
-                android:textColor="#FFD9D9D9"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+            android:layout_height="40dp"
+            android:background="#f4c96b">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+
+                android:src="@drawable/mainimg" />
+
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="35dp"
+                android:background="@drawable/rounded"
+                android:drawableLeft="@drawable/ic_search_black_24dp"
+                android:drawableStart="@drawable/ic_search_black_24dp"
+                android:hint="그룹 검색"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textSize="13sp"
+                tools:layout_editor_absoluteX="56dp"
+                tools:layout_editor_absoluteY="10dp" />
+
         </android.support.v7.widget.Toolbar>
 
         <LinearLayout
@@ -34,21 +46,19 @@
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         </LinearLayout>
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/main_navigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:itemBackground="@color/eduBlue"
-            app:itemTextColor="@android:color/white"
-            app:itemIconTint="@android:color/white"
+            app:itemBackground="@color/b"
+            app:itemIconTint="#f4c96b"
+            app:itemTextColor="#f4c96b"
             app:layout_behavior="tech.thdev.app.view.BottomNavigationBehavior"
-            app:menu="@menu/bottom_navigation_main">
-        </android.support.design.widget.BottomNavigationView>
-
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:menu="@menu/bottom_navigation_main"></android.support.design.widget.BottomNavigationView>
 
 
         <com.getbase.floatingactionbutton.FloatingActionButton

@@ -25,7 +25,6 @@ public class MainFragment_2 extends Fragment {
 
         recycle2 = view.findViewById(R.id.recycleView2);
         recycle2.setHasFixedSize(true);
-
         manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recycle2.setLayoutManager(manager);
 

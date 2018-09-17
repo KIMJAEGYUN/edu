@@ -15,16 +15,15 @@ import com.example.edu.RecyclerAdpater.BoardRecyclerAdapter;
 
 
 public class MainFragment_1 extends Fragment {
-
+    RecyclerView.LayoutManager manager;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_main_fragment_1, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.recycleView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(inflater.getContext());
-        layoutManager.setReverseLayout(true);
-        layoutManager.setStackFromEnd(true);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+        manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true);
+        recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(new BoardRecyclerAdapter(getContext())); //TODO: Toast 이렇게 써도 되나 몰라2
 
         MainActivity.sF1 = this;

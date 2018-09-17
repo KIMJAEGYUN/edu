@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.edu.PopUp;
 import com.example.edu.R;
+import com.example.edu.fragment.MainFragment_2;
 import com.example.edu.model.BoardModel;
 import com.example.edu.model.PopModel;
 import com.example.edu.model.UserModel;
@@ -92,6 +93,7 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
                 popModel.setGroupCurrentMemebers(boardModels.get(position).joinCount);
                 intent.putExtra("popModel", popModel);
 
+
                 ActivityOptions activityOptions = null;
                 activityOptions = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.fromright, R.anim.toleft);
                 view.getContext().startActivity(intent, activityOptions.toBundle());
@@ -133,7 +135,7 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         return boardModels.size();
     }
 
-
+    // 관심목록 추가 함수
     private void onFavoriteClicked(DatabaseReference postRef) {
         auth = FirebaseAuth.getInstance();
         postRef.runTransaction(new Transaction.Handler() {
@@ -162,6 +164,7 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         });
     }
 
+    // 그룹 참여 함수
     private void onJoinClicked(DatabaseReference postRef) {
         auth = FirebaseAuth.getInstance();
         postRef.runTransaction(new Transaction.Handler() {
