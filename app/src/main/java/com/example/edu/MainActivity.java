@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.edu.RecyclerAdpater.ViewPagerAdapter;
+import com.example.edu.fragment.AccountFragment;
 import com.example.edu.fragment.ChatFragment;
 import com.example.edu.fragment.MainFragment_1;
 import com.example.edu.fragment.MainFragment_2;
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adapter.addFragment(MainFragment_1.newInstance());
         adapter.addFragment(ChatFragment.newInstance());
         adapter.addFragment(MainFragment_2.newInstance());
-        adapter.addFragment(MainFragment_2.newInstance()); // account
+        adapter.addFragment(AccountFragment.newInstance());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
