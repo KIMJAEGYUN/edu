@@ -19,6 +19,8 @@ import com.example.edu.fragment.AccountFragment;
 import com.example.edu.fragment.ChatFragment;
 import com.example.edu.fragment.MainFragment_1;
 import com.example.edu.fragment.MainFragment_2;
+import com.example.edu.model.StudyRoomModel;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -37,6 +39,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private BottomNavigationView bottomNavigationView;
     private ViewPager viewPager;
     private MenuItem prevMenuItem;
+
+    private String week;
+    private String roomNumber;
+
 
     public static Fragment sF1, sF2;
 
@@ -110,11 +116,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         menu.add(0, 1, 0, "회원정보 수정");
         menu.add(0, 2, 0, "예약하기");
         menu.add(0, 3, 0, "로그아웃");
+        menu.add(0, 4, 0, "관리자 db 생성");
 
         return super.onCreateOptionsMenu(menu);
     }
 
-    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
             case 1:
@@ -132,6 +139,112 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(logOut);
                 finish();
                 return true;
+            case 4:
+                int i, j, k;
+                StudyRoomModel.Day day = new StudyRoomModel.Day();
+                day.uid = "uidtest";
+                day.reservation = false;
+                for (i = 0; i < 3; i++) {
+                    switch (i) {
+                        case 0:
+                            roomNumber = "No101";
+                            break;
+                        case 1:
+                            roomNumber = "No102";
+                            break;
+                        case 2:
+                            roomNumber = "No103";
+                            break;
+                    }
+                    for (j = 0; j < 5; j++) {
+                        switch (j) {
+                            case 0:
+                                week = "Monday";
+                                break;
+                            case 1:
+                                week = "Tuesday";
+                                break;
+                            case 2:
+                                week = "Wednesday";
+                                break;
+                            case 3:
+                                week = "Thursday";
+                                break;
+                            case 4:
+                                week = "Friday";
+                                break;
+                        }
+                        for (k = 9; k < 17; k++) {
+                            day.time = k;
+                            FirebaseDatabase.getInstance().getReference().child("studyroom").child(roomNumber).child(week).push().setValue(day).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+//                                Toast.makeText(getApplicationContext(),"월요일 추가 완료",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+
+                }
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                ChatModel chatModel = new ChatModel();
+//                chatModel.users.put(uid,true);
+//                chatModel.users.put(destinationUid, true);
+//                if(chatRoomUid == null) {
+//                    button.setEnabled(false); //전송 버튼을 연속해서 누를 경우 체크도 하기 전에 방이 n만큼 만들어질 수 있다(버그)
+//                    //때문에 한번 전송을 누르면 체크가 끝날 때까지 버튼을 비활성화 상태로 변경한다.
+//                    FirebaseDatabase.getInstance().getReference().child("chatrooms").push().setValue(chatModel)
+//                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                @Override
+//                                public void onSuccess(Void aVoid) {
+//                                    checkChatRoom();
+//                                }
+//                            });
+//                    //checkChatRoom(); 이곳에 작성하게 되면 FirebaseDatabase... 요청 시 인터넷이 끊기는 경우가 간혹 있는데
+//                    //이 경우 데이터를 넣지도 않았는데 방을 체크하게 되는 경우가 발생한다. 때문에 데이터 입력이 완료 되었다고 했을 때
+//                    //체크하도록 코딩한다.
+//                } else {
+//                    ChatModel.Comment comment = new ChatModel.Comment();
+//                    comment.uid = uid;
+//                    comment.message = editText.getText().toString();
+//                    comment.timestamp = ServerValue.TIMESTAMP; //firebase가 제공하는 메소드
+//                    FirebaseDatabase.getInstance().getReference()
+//                            .child("chatrooms").child(chatRoomUid).child("comments").push().setValue(comment).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<Void> task) {
+//                            sendFcm();
+//                            editText.setText(""); //db에 메세지를 정상적으로 전송하였으면 text 부분 공백 처리
+//                        }
+//                    });
+//                }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                void checkChatRoom () {
+//                FirebaseDatabase.getInstance().getReference().child("chatrooms").orderByChild("users/" + uid).equalTo(true) //orderByChild : 지정된 하위 키의 값에 따라 결과를 정렬
+//                        .addListenerForSingleValueEvent(new ValueEventListener() { //equalTo : 지정된 키 또는 값과 동일한 항목을 반환
+//                            @Override
+//                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                                for (DataSnapshot item : dataSnapshot.getChildren()) {
+//                                    ChatModel chatModel = item.getValue(ChatModel.class);
+//                                    if (chatModel.users.containsKey(destinationUid)) { //hashmap에 값이 있으면 true, 없으면 false 반환
+//                                        chatRoomUid = item.getKey(); // room 방 id (여기서 id는 최초 생성 시 랜덤으로 생성되는 값을 말함)
+//                                        button.setEnabled(true); // 체크가 끝났으므로 버튼 활성화
+//                                        recyclerView.setLayoutManager(new LinearLayoutManager(MessageActivity.this));
+//                                        recyclerView.setAdapter(new RecyclerViewAdapter());
+//                                    }
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                            }
+//                        });
+//            }
+                return true;
+
 
         }
         return super.onOptionsItemSelected(item);
