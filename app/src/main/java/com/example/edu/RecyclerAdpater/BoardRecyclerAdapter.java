@@ -8,8 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.edu.PopUp;
 import com.example.edu.R;
@@ -35,7 +37,8 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
     Context context;
     List<BoardModel> boardModels = new ArrayList<>();
     List<String> uidList = new ArrayList<>();
-    private FirebaseAuth auth;
+    private FirebaseAuth auth = FirebaseAuth.getInstance();
+
 
     public BoardRecyclerAdapter(Context context) {
         this.context = context;
@@ -103,29 +106,26 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
 //                    view.getContext().startActivity(intent, activityOptions.toBundle());
 //                }
 
+
+
+
             }
         });
-
-
-        ((CustomViewHolder) holder).shineButton.setOnClickListener(new View.OnClickListener() {
+        ((CustomViewHolder) holder).ivFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                //onJoinClicked(FirebaseDatabase.getInstance().getReference().child("group").child(uidList.get(position))); // 참여. 원래는 팝업에 연결.
-// 버튼 checked / unchecked 구현 해야되는데 일단 보류. > image 로 대체 가능.
-               /* if (boardModels.get(position).stars.containsKey(auth.getCurrentUser().getUid())) {
-                }else {
-                }*/
-
-
-                //FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("userFavorites").push().setValue(uidList.get(position));
-
-                // 중복검사 ..
-
-                onFavoriteClicked(FirebaseDatabase.getInstance().getReference().child("group").child(uidList.get(position)));
+                onJoinClicked(FirebaseDatabase.getInstance().getReference().child("group").child(uidList.get(position)));
 
             }
         });
+        if (boardModels.get(position).join.containsKey(auth.getCurrentUser().getUid())) {
+            ((CustomViewHolder) holder).ivFav.setImageResource(R.drawable.ic_favorite_black_24dp);
+
+        }else {
+            ((CustomViewHolder) holder).ivFav.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+
+        }
     }
 
 
@@ -137,7 +137,7 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     // 관심목록 추가 함수
     private void onFavoriteClicked(DatabaseReference postRef) {
-        auth = FirebaseAuth.getInstance();
+
         postRef.runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
@@ -195,9 +195,9 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     // ViewHolder 커스텀
     private class CustomViewHolder extends RecyclerView.ViewHolder {
-        ImageView iv;
+        ImageView iv, ivFav;
         TextView tvTitle, tvShortTitle, tvCurrentMembers, tvLimit;
-        ShineButton shineButton;
+        //ShineButton shineButton;
 
         // 재활용 View에 대한 모든 서브 뷰 보유
         public CustomViewHolder(View view) { // 뷰홀더 생성자 , 뷰홀더는 각각의 아이템을 위한 뷰를 담고 있다
@@ -208,7 +208,8 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvShortTitle = view.findViewById(R.id.tvShortTitle);
             tvCurrentMembers = view.findViewById(R.id.tvCurrentMembers);
             tvLimit = view.findViewById(R.id.tvLimit);
-            shineButton = view.findViewById(R.id.btnFavorites);
+            ivFav = view.findViewById(R.id.ivFav);
+           // shineButton = view.findViewById(R.id.btnFavorites);
 
         }
     }

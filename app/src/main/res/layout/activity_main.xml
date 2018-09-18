@@ -17,7 +17,7 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
+                android:layout_marginRight="8dp"
                 android:src="@drawable/mainimg" />
 
             <EditText
@@ -53,9 +53,9 @@
             android:id="@+id/main_navigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:itemBackground="@color/b"
-            app:itemIconTint="#f4c96b"
-            app:itemTextColor="#f4c96b"
+            app:itemBackground="@color/yel"
+            app:itemIconTint="#FF100F0D"
+            app:itemTextColor="#FF100F0D"
             app:layout_behavior="tech.thdev.app.view.BottomNavigationBehavior"
             app:layout_constraintBottom_toBottomOf="parent"
             app:menu="@menu/bottom_navigation_main"></android.support.design.widget.BottomNavigationView>
@@ -68,8 +68,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="60dp"
             android:layout_marginRight="16dp"
-            app:fab_colorNormal="#FFD9D9D9"
-            app:fab_colorPressed="#26689A"
+            app:fab_colorNormal="@color/b"
+            app:fab_colorPressed="#e3e3e3"
             app:fab_icon="@drawable/ic_edit_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />

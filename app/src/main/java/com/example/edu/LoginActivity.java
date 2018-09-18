@@ -30,14 +30,14 @@ public class LoginActivity extends AppCompatActivity {
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
     private FirebaseAuth firebaseAuth;
-    private RotateLoading rotateLoading;
+   //private RotateLoading rotateLoading;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        rotateLoading = findViewById(R.id.rotateloading);
+        //rotateLoading = findViewById(R.id.rotateloading);
         //firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -60,11 +60,11 @@ public class LoginActivity extends AppCompatActivity {
                 btnLogin.setEnabled(false);
                 etEmail.setEnabled(false);
                 etPassword.setEnabled(false);
-                rotateLoading.start();
+                //rotateLoading.start();
 
                 if (validate() == false) { // 데이터 로컬에서 자체 검증
                     Log.e("test", "로그인 이벤트 실행 전 로컬 검증");
-                    rotateLoading.stop();
+                    //rotateLoading.stop();
                     btnLogin.setEnabled(true);
                     etPassword.setEnabled(true);
                     etEmail.setEnabled(true);
@@ -135,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                     btnLogin.setEnabled(true);
                     etPassword.setEnabled(true);
                     etEmail.setEnabled(true);
-                    rotateLoading.stop();
+                    //rotateLoading.stop();
 
                 } else { // 로그인 성공 시
                     FirebaseUser user = firebaseAuth.getCurrentUser(); // user 받아오기
