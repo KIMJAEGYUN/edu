@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -270,4 +271,5 @@ public class OpenMeetingActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "한 번 더 누르시면 전 화면으로 돌아갑니다", Toast.LENGTH_SHORT).show();
         }
     }
-}
+    }
+

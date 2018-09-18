@@ -379,8 +379,10 @@ public class RegisterActivity extends AppCompatActivity {
 
                         if (!task.isSuccessful()) {
                             Toast.makeText(RegisterActivity.this, "회원가입 오류 : " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+
                         } else {
                             Toast.makeText(getApplicationContext(), "회원가입이 완료 되었습니다.", Toast.LENGTH_LONG).show();
+
 
                             int id = rgGender.getCheckedRadioButtonId();
                             RadioButton rb = findViewById(id); // 라디오 버튼값 획득
