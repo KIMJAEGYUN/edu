@@ -21,7 +21,7 @@ public class MainFragment_2 extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.activity_main_fragment_2, null);
+        View view = inflater.inflate(R.layout.activity_main_fragment_2, container, false);
 
         recycle2 = view.findViewById(R.id.recycleView2);
         recycle2.setHasFixedSize(true);

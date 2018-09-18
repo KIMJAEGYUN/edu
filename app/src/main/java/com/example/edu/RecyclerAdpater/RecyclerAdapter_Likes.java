@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,13 +28,31 @@ import java.util.List;
 public class RecyclerAdapter_Likes extends RecyclerView.Adapter<RecyclerAdapter_Likes.ViewHolder> {
 
     Context context;
-
+    private String uid;
     List<LikesModel> likesModels = new ArrayList<>();
 
 
     public RecyclerAdapter_Likes(final Context context) {
 
         this.context = context;
+
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseDatabase.getInstance().getReference().child("group").orderByChild("join/" + uid).equalTo(true)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        likesModels.clear();
+                        for (DataSnapshot item : dataSnapshot.getChildren()) {
+                            likesModels.add(item.getValue(LikesModel.class));
+                        }
+                        notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
 
     }
 
@@ -59,13 +78,18 @@ public class RecyclerAdapter_Likes extends RecyclerView.Adapter<RecyclerAdapter_
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvTitle;
+        ImageView iv;
+        TextView tvTitle, tvShortTitle, tvCurrentMembers, tvLimit;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
 
+            iv = itemView.findViewById(R.id.iv);
             tvTitle = itemView.findViewById(R.id.tvTitle);
+            tvShortTitle = itemView.findViewById(R.id.tvShortTitle);
+            tvCurrentMembers = itemView.findViewById(R.id.tvCurrentMembers);
+            tvLimit = itemView.findViewById(R.id.tvLimit);
 
         }
     }

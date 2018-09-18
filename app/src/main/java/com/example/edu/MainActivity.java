@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 bottomNavigationView.getMenu().getItem(position).setChecked(true);
                 prevMenuItem = bottomNavigationView.getMenu().getItem(position);
+
             }
 
             @Override
