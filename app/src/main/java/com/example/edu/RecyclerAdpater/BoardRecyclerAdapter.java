@@ -203,7 +203,7 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         public CustomViewHolder(View view) { // 뷰홀더 생성자 , 뷰홀더는 각각의 아이템을 위한 뷰를 담고 있다
             super(view); // 그러므로 뷰홀더는 Items.xml 의 뷰를 전달해주는 것, Items의 컨텐츠를 이용해 데이터 설정등등 진행
             // 뷰와 실제 데이터 ( java 내의 할당된 데이터 ) 매칭 과정
-            iv = view.findViewById(R.id.iv);
+            //iv = view.findViewById(R.id.iv);
             tvTitle = view.findViewById(R.id.tvTitle);
             tvShortTitle = view.findViewById(R.id.tvShortTitle);
             tvCurrentMembers = view.findViewById(R.id.tvCurrentMembers);

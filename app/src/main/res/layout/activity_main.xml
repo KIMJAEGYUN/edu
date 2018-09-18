@@ -23,6 +23,7 @@
             <EditText
                 android:layout_width="300dp"
                 android:layout_height="35dp"
+                android:focusable="false"
                 android:background="@drawable/rounded"
                 android:drawableLeft="@drawable/ic_search_black_24dp"
                 android:drawableStart="@drawable/ic_search_black_24dp"
