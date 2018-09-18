@@ -54,7 +54,7 @@ public class PopUp extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels; //높이 너비 가져옴
 
-        getWindow().setLayout((int) (width * 0.9), (int) (height * 0.85)); // 크기 설정 너비 90%, 높이 85%
+        getWindow().setLayout((int) (width * 0.8), (int) (height * 0.55)); // 크기 설정 너비 90%, 높이 85%
 
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
