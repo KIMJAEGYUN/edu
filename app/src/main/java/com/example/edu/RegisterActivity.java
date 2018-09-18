@@ -447,6 +447,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (rbMan.isChecked() == false && rbWomen.isChecked() == false) {
             rbWomen.setError("성별을 선택하세요!");
+            valid = false;
         } else {
             rbWomen.setError(null);
         }
@@ -456,6 +457,13 @@ public class RegisterActivity extends AppCompatActivity {
             valid = false;
         } else {
             etAnswer.setError(null);
+        }
+
+        if(!password.equals(password2)){
+            etPassword2.setError("비밀번호가 일치하지 않습니다!");
+            valid = false;
+        } else {
+            etPassword2.setError(null);
         }
 
         return valid;

@@ -35,6 +35,7 @@
             android:theme="@style/AppTheme.PopUp" />
         <activity android:name=".chat.MessageActivity" />
         <activity android:name=".ReservationActivity"/>
+        <activity android:name=".MyInfoActivity"/>
         <service
             android:name=".MyFirebaseMessagingService">
             <intent-filter>

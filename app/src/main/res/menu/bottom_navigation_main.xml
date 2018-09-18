@@ -18,7 +18,7 @@
         app:showAsAction="ifRoom"
         android:enabled="true"
         android:icon="@drawable/baseline_stars_white_18dp"
-        android:title="관심목록"/>
+        android:title="Favorite"/>
     <item
         android:id="@+id/action_account"
         app:showAsAction="ifRoom"
