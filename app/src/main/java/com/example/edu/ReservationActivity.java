@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,6 +18,7 @@ import com.example.edu.RecyclerAdpater.ReservationRecyclerAdapter;
 
 public class ReservationActivity extends AppCompatActivity {
 
+    Toolbar toolbar;
     Spinner spnRoom;
     RecyclerView rvRoom;
     LinearLayoutManager linearLayoutManager;
@@ -33,6 +36,10 @@ public class ReservationActivity extends AppCompatActivity {
 
         spnRoom = findViewById(R.id.spnRoom);
         rvRoom = findViewById(R.id.rvRoom);
+        toolbar = findViewById(R.id.tBar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         roomNumber = getResources().getStringArray(R.array.roomNumber);
         ArrayAdapter<String> adapter =
@@ -49,6 +56,8 @@ public class ReservationActivity extends AppCompatActivity {
 
             }
         });
+
+
 
         //데이터 받아오는 준비 코드들
 //        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -99,6 +108,16 @@ public class ReservationActivity extends AppCompatActivity {
         rvRoom.setAdapter(reservationRecyclerAdapter);
         linearLayoutManager = new LinearLayoutManager(this);
         rvRoom.setLayoutManager(linearLayoutManager);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void selectDayOfWeek(View view) {
