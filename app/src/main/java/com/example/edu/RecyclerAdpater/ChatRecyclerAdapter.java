@@ -125,6 +125,7 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return chatModels.size();
     }
 
+
     private class CustomViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView imageView;
