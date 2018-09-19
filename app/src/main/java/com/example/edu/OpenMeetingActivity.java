@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -59,7 +58,7 @@ public class OpenMeetingActivity extends AppCompatActivity {
         ivCheckSimple = findViewById(R.id.ivCheckSimple);
         ivCheckDetail = findViewById(R.id.ivCheckDetail);
         ivCheckTitle = findViewById(R.id.ivCheckTitle);
-        h = getLayoutInflater().inflate(R.layout.activity_main_fragment_1, null, false);
+        h = getLayoutInflater().inflate(R.layout.fragment1_main, null, false);
         recycle = h.findViewById(R.id.recycleView);
         spinner = findViewById(R.id.spnTopic);
         rgStyle = findViewById(R.id.rgStyle);

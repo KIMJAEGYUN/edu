@@ -19,7 +19,7 @@ public class MainFragment_1 extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_main_fragment_1, container, false);
+        View view = inflater.inflate(R.layout.fragment1_main, container, false);
         final RecyclerView recyclerView = view.findViewById(R.id.recycleView);
         recyclerView.setHasFixedSize(true);
         manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true);
