@@ -371,45 +371,48 @@ public class RegisterActivity extends AppCompatActivity {
 
     void RegisterEvent() { // 회원가입이 정상적으로 됐는지 확인해주고 다음 화면으로 넘겨줌. 확인하고 넘겨주는 이 2가지를 분리할 예정. LoginActivity 처럼.
 
-        FirebaseAuth.getInstance()
-                .createUserWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString())
-                .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        //회원가입을 할 때 이름이 들어가게 되는 곳이다. 아래 두 줄의 코드는 push 메세지 기능을 위해 작성하였다
-                        UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(etName.getText().toString()).build();
-                        task.getResult().getUser().updateProfile(userProfileChangeRequest);
+            FirebaseAuth.getInstance()
+                    .createUserWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString())
+                    .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            //회원가입을 할 때 이름이 들어가게 되는 곳이다. 아래 두 줄의 코드는 push 메세지 기능을 위해 작성하였다
+                            try {
+                                UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(etName.getText().toString()).build();
+                                task.getResult().getUser().updateProfile(userProfileChangeRequest);
+                            } catch (Exception e){
+                            }
 
-                        if (!task.isSuccessful()) {
-                            Toast.makeText(RegisterActivity.this, "회원가입 오류 : " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            if (!task.isSuccessful()) {
+                                Toast.makeText(RegisterActivity.this, "회원가입 오류 : " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
 
-                        } else {
-                            Toast.makeText(getApplicationContext(), "회원가입이 완료 되었습니다.", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "회원가입이 완료 되었습니다.", Toast.LENGTH_LONG).show();
 
 
-                            int id = rgGender.getCheckedRadioButtonId();
-                            RadioButton rb = findViewById(id); // 라디오 버튼값 획득
+                                int id = rgGender.getCheckedRadioButtonId();
+                                RadioButton rb = findViewById(id); // 라디오 버튼값 획득
 
-                            UserModel userModel = new UserModel();
-                            userModel.userName = etName.getText().toString();
-                            userModel.userGender = rb.getText().toString();
-                            userModel.userPwQuestion = spnQuestion.getSelectedItem().toString();
-                            userModel.userPwAnswer = etAnswer.getText().toString();
-                            //userModel.userFavorites = 별 누르면 그룹이 관심목록에 표시 clickListener > 파베에 group Uid가 userFavorites에 추가 > 이것을 관심목록에 표시
-                            userModel.uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                            //회원가입 할 때마다 uid가 담겨서 회원가입이 된다.
-                            //이 uid를 통해 내가 원하는 사람이랑 채팅을 할 수 있게 된다.
+                                UserModel userModel = new UserModel();
+                                userModel.userName = etName.getText().toString();
+                                userModel.userGender = rb.getText().toString();
+                                userModel.userPwQuestion = spnQuestion.getSelectedItem().toString();
+                                userModel.userPwAnswer = etAnswer.getText().toString();
+                                //userModel.userFavorites = 별 누르면 그룹이 관심목록에 표시 clickListener > 파베에 group Uid가 userFavorites에 추가 > 이것을 관심목록에 표시
+                                userModel.uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                //회원가입 할 때마다 uid가 담겨서 회원가입이 된다.
+                                //이 uid를 통해 내가 원하는 사람이랑 채팅을 할 수 있게 된다.
 
-                            String uid = task.getResult().getUser().getUid();
-                            FirebaseDatabase.getInstance().getReference().child("users").child(uid).setValue(userModel).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    finish();
-                                }
-                            });
+                                String uid = task.getResult().getUser().getUid();
+                                FirebaseDatabase.getInstance().getReference().child("users").child(uid).setValue(userModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        finish();
+                                    }
+                                });
+                            }
                         }
-                    }
-                });
+                    });
     }
 
     //빈 항목 체크 메소드
@@ -427,6 +430,20 @@ public class RegisterActivity extends AppCompatActivity {
             valid = false;
         } else {
             etEmail.setError(null);
+        }
+
+        if (rbMan.isChecked() == false && rbWomen.isChecked() == false) {
+            rbWomen.setError("성별을 선택하세요!");
+            valid = false;
+        } else {
+            rbWomen.setError(null);
+        }
+
+        if(!password.equals(password2)){
+            etPassword2.setError("비밀번호가 일치하지 않습니다!");
+            valid = false;
+        } else {
+            etPassword2.setError(null);
         }
 
         if (name.isEmpty()) {
@@ -449,28 +466,12 @@ public class RegisterActivity extends AppCompatActivity {
         } else {
             etPassword2.setError(null);
         }
-
-        if (rbMan.isChecked() == false && rbWomen.isChecked() == false) {
-            rbWomen.setError("성별을 선택하세요!");
-            valid = false;
-        } else {
-            rbWomen.setError(null);
-        }
-
         if (answer.isEmpty()) {
             etAnswer.setError("답변을 입력해 주세요!");
             valid = false;
         } else {
             etAnswer.setError(null);
         }
-
-        if(!password.equals(password2)){
-            etPassword2.setError("비밀번호가 일치하지 않습니다!");
-            valid = false;
-        } else {
-            etPassword2.setError(null);
-        }
-
         return valid;
     }
 
@@ -501,6 +502,7 @@ public class RegisterActivity extends AppCompatActivity {
         return storageDir;
     }
 
+    //카메라에서 사진찍은 후 정방향 처리
     private void getPictureForPhoto() {
         //사진이 회전되어 출력하는 경우 상황에 맞게 회전
         Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
@@ -522,10 +524,10 @@ public class RegisterActivity extends AppCompatActivity {
             exifDegree = 0;
         }
 
-        //회전된 사진을 다시 회전시켜 정상 출력
         ivUserPhoto.setImageBitmap(rotate(bitmap, exifDegree));
     }
 
+    //앨범에서 사진선택 후 정방향 처리
     private void sendPicture(Uri imgUri) {
         String imagePath = getRealPathFromURI(imgUri);
         Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
