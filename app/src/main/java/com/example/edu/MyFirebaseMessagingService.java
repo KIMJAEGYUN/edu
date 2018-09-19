@@ -9,8 +9,16 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 
+import com.example.edu.RecyclerAdpater.ChatRecyclerAdapter;
+import com.example.edu.model.ChatModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -23,6 +31,24 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String title = remoteMessage.getData().get("title").toString();
             String text = remoteMessage.getData().get("text").toString();
             sendNotification(title, text);
+
+            String uid;
+            uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            FirebaseDatabase.getInstance().getReference().child("chatrooms").orderByChild("users/"+uid).equalTo(true)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            ChatRecyclerAdapter.chatModels.clear();
+                            for (DataSnapshot item : dataSnapshot.getChildren()) {
+                                ChatRecyclerAdapter.chatModels.add(item.getValue(ChatModel.class));
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
         }
 
 
@@ -104,6 +130,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+//        MainActivity.adapter.notifyDataSetChanged();
+//        ChatRecyclerAdapter.chatModels.clear();
+
     }
 
 

@@ -31,7 +31,7 @@ import java.util.TreeMap;
 
 public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<ChatModel> chatModels = new ArrayList<>(); //채팅에 대한 정보를 가지는
+    public static List<ChatModel> chatModels = new ArrayList<>(); //채팅에 대한 정보를 가지는
     private String uid;
     private ArrayList<String> destinationUsers = new ArrayList<>(); //대화할 사람들의 데이터가 담김
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
@@ -124,6 +124,7 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public int getItemCount() {
         return chatModels.size();
     }
+
 
     private class CustomViewHolder extends RecyclerView.ViewHolder {
 

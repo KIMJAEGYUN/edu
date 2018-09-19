@@ -20,19 +20,12 @@
                 android:layout_marginRight="8dp"
                 android:src="@drawable/mainimg" />
 
-            <EditText
-                android:layout_width="300dp"
-                android:layout_height="35dp"
-                android:focusable="false"
-                android:background="@drawable/rounded"
-                android:drawableLeft="@drawable/ic_search_black_24dp"
-                android:drawableStart="@drawable/ic_search_black_24dp"
-                android:hint="그룹 검색"
-                android:padding="10dp"
-                android:singleLine="true"
-                android:textSize="13sp"
-                tools:layout_editor_absoluteX="56dp"
-                tools:layout_editor_absoluteY="10dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="멘토스"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"/>
 
         </android.support.v7.widget.Toolbar>
 

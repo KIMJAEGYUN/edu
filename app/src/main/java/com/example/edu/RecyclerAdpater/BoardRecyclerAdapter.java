@@ -111,11 +111,12 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             @Override
             public void onClick(View view) {
 
-                onJoinClicked(FirebaseDatabase.getInstance().getReference().child("group").child(uidList.get(position)));
+                onFavoriteClicked(FirebaseDatabase.getInstance().getReference().child("group").child(uidList.get(position)));
 
             }
         });
-        if (boardModels.get(position).join.containsKey(auth.getCurrentUser().getUid())) {
+
+        if (boardModels.get(position).userFavorites.containsKey(auth.getCurrentUser().getUid())) {
             ((CustomViewHolder) holder).ivFav.setImageResource(R.drawable.ic_favorite_black_24dp);
 
         }else {
@@ -123,11 +124,15 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         }
 
+        ((CustomViewHolder) holder).ivJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                onJoinClicked(FirebaseDatabase.getInstance().getReference().child("group").child(uidList.get(position)));
 
+            }
+        });
     }
-
-
     // 데이터 개수를 반환한다
     @Override
     public int getItemCount() {
@@ -136,7 +141,7 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     // 관심목록 추가 함수
     private void onFavoriteClicked(DatabaseReference postRef) {
-
+        auth = FirebaseAuth.getInstance();
         postRef.runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
@@ -163,7 +168,7 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         });
     }
 
-    // 그룹 참여 함수
+        // 그룹 참여 함수
     private void onJoinClicked(DatabaseReference postRef) {
         auth = FirebaseAuth.getInstance();
         postRef.runTransaction(new Transaction.Handler() {
@@ -177,9 +182,11 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
                 if (boardModel.join.containsKey(auth.getCurrentUser().getUid())) { // 해당 유저(본인)이 입력되어있다면
                     boardModel.joinCount = boardModel.joinCount - 1;
                     boardModel.join.remove(auth.getCurrentUser().getUid()); // 제거
+                    Toast.makeText(context, "그룹에서 나왔습니다.", Toast.LENGTH_LONG).show();
                 } else {
                     boardModel.joinCount = boardModel.joinCount + 1;
                     boardModel.join.put(auth.getCurrentUser().getUid(), true); //
+                    Toast.makeText(context, "그룹에 참여하였습니다.", Toast.LENGTH_LONG).show();
                 }
 
                 mutableData.setValue(boardModel);
@@ -194,7 +201,7 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     // ViewHolder 커스텀
     private class CustomViewHolder extends RecyclerView.ViewHolder {
-        ImageView iv, ivFav;
+        ImageView iv, ivFav, ivJoin;
         TextView tvTitle, tvShortTitle, tvCurrentMembers, tvLimit;
         //ShineButton shineButton;
 
@@ -208,6 +215,7 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvCurrentMembers = view.findViewById(R.id.tvCurrentMembers);
             tvLimit = view.findViewById(R.id.tvLimit);
             ivFav = view.findViewById(R.id.ivFav);
+            ivJoin = view.findViewById(R.id.ivJoin);
            // shineButton = view.findViewById(R.id.btnFavorites);
 
         }
