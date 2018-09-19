@@ -12,9 +12,8 @@ import android.widget.TextView;
 
 import com.example.edu.MyInfoActivity;
 import com.example.edu.R;
+import com.example.edu.WrittenGroupActivity;
 import com.google.firebase.auth.FirebaseAuth;
-
-import org.w3c.dom.Text;
 
 public class AccountFragment extends Fragment {
 
@@ -63,6 +62,8 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                Intent intent2 = new Intent(getActivity(), WrittenGroupActivity.class);
+                startActivity(intent2);
             }
         });
 
