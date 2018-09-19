@@ -36,6 +36,7 @@
         <activity android:name=".chat.MessageActivity" />
         <activity android:name=".ReservationActivity"/>
         <activity android:name=".MyInfoActivity"/>
+        <activity android:name=".WrittenGroupActivity"/>
         <service
             android:name=".MyFirebaseMessagingService">
             <intent-filter>
