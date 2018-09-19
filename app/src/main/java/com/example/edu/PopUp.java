@@ -18,7 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.List;
 
 public class PopUp extends AppCompatActivity {
-    Button btnChat, btnJoin;
+    Button btnChat;
     TextView tvTitle, tvShortTitle, tvStyle, tvTopic, tvLimit, tvCurrentMembers, tvExplain;
 
 
@@ -34,7 +34,6 @@ public class PopUp extends AppCompatActivity {
         tvCurrentMembers = findViewById(R.id.tvCurrentMembers);
         tvLimit = findViewById(R.id.tvLimit);
         tvExplain = findViewById(R.id.tvExplain);
-        btnJoin = findViewById(R.id.btnJoin);
 
         Intent intent = getIntent();
         final PopModel popModel = (PopModel) intent.getSerializableExtra("popModel");
@@ -69,16 +68,6 @@ public class PopUp extends AppCompatActivity {
 
             }
         });
-        btnJoin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-               // FirebaseDatabase.getInstance().getReference().child("group").child();
-
-
-            }
-        });
-
     }
 
 }

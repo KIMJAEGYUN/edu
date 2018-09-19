@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.example.edu.MainActivity;
 import com.example.edu.R;
 import com.example.edu.RecyclerAdpater.RecyclerAdapter_Likes;
@@ -28,7 +29,7 @@ public class MainFragment_2 extends Fragment {
         manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recycle2.setLayoutManager(manager);
 
-        RecyclerAdapter_Likes adapter = new RecyclerAdapter_Likes(getActivity());
+        final RecyclerAdapter_Likes adapter = new RecyclerAdapter_Likes(getActivity());
         recycle2.setAdapter(adapter);
 
         MainActivity.sF2 = this;

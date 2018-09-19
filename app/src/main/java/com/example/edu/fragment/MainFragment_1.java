@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.example.edu.MainActivity;
 import com.example.edu.R;
 import com.example.edu.RecyclerAdpater.BoardRecyclerAdapter;
@@ -20,11 +21,11 @@ public class MainFragment_1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_main_fragment_1, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.recycleView);
+        final RecyclerView recyclerView = view.findViewById(R.id.recycleView);
         recyclerView.setHasFixedSize(true);
         manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true);
         recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(new BoardRecyclerAdapter(getContext())); //TODO: Toast 이렇게 써도 되나 몰라2
+        recyclerView.setAdapter(new BoardRecyclerAdapter(getContext()));
 
         MainActivity.sF1 = this;
         return view;

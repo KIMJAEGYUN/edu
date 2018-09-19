@@ -128,18 +128,6 @@
 
 
             <Button
-                android:id="@+id/btnJoin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:background="#f4c96b"
-                android:layout_marginBottom="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_toLeftOf="@+id/btnPopup"
-                android:text="그룹 참여"
-                android:textColor="#ffffff"/>
-
-            <Button
                 android:id="@+id/btnPopup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
