@@ -1,7 +1,6 @@
 package com.example.edu.RecyclerAdpater;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,9 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.edu.R;
-import com.example.edu.model.BoardModel;
 import com.example.edu.model.LikesModel;
-import com.example.edu.model.PopModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -83,8 +80,25 @@ public class RecyclerAdapter_Likes extends RecyclerView.Adapter<RecyclerAdapter_
 
                 onClearClicked(FirebaseDatabase.getInstance().getReference().child("group").child(uidList.get(position)));
                 Toast.makeText(view.getContext(), "관심목록에서 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                FirebaseDatabase.getInstance().getReference().child("group").orderByChild("userFavorites/" + uid).equalTo(true)
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                likesModels.clear();
+                                uidList.clear();
+                                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                                    likesModels.add(item.getValue(LikesModel.class));
+                                    String uidKey = item.getKey();
+                                    uidList.add(uidKey);
+                                }
+                                notifyDataSetChanged();
+                            }
 
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
+                            }
+                        });
             }
         });
 
