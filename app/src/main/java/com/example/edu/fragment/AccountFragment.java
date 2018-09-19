@@ -70,7 +70,9 @@ public class AccountFragment extends Fragment {
         return view;
     }
 
+
     public static AccountFragment newInstance() {
         return new AccountFragment();
     }
+
 }

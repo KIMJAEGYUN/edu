@@ -182,11 +182,9 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
                 if (boardModel.join.containsKey(auth.getCurrentUser().getUid())) { // 해당 유저(본인)이 입력되어있다면
                     boardModel.joinCount = boardModel.joinCount - 1;
                     boardModel.join.remove(auth.getCurrentUser().getUid()); // 제거
-                    Toast.makeText(context, "그룹에서 나왔습니다.", Toast.LENGTH_LONG).show();
                 } else {
                     boardModel.joinCount = boardModel.joinCount + 1;
                     boardModel.join.put(auth.getCurrentUser().getUid(), true); //
-                    Toast.makeText(context, "그룹에 참여하였습니다.", Toast.LENGTH_LONG).show();
                 }
 
                 mutableData.setValue(boardModel);
