@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.baoyz.widget.PullRefreshLayout;
 import com.example.edu.MainActivity;
 import com.example.edu.R;
 import com.example.edu.RecyclerAdpater.BoardRecyclerAdapter;
