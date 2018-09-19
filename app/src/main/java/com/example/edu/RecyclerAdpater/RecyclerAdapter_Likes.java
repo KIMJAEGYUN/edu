@@ -40,7 +40,7 @@ public class RecyclerAdapter_Likes extends RecyclerView.Adapter<RecyclerAdapter_
         this.context = context;
 
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FirebaseDatabase.getInstance().getReference().child("group").orderByChild("join/" + uid).equalTo(true)
+        FirebaseDatabase.getInstance().getReference().child("group").orderByChild("userFavorites/" + uid).equalTo(true)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -141,7 +141,7 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     // 관심목록 추가 함수
     private void onFavoriteClicked(DatabaseReference postRef) {
-
+        auth = FirebaseAuth.getInstance();
         postRef.runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
@@ -153,11 +153,9 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
                 if (boardModel.userFavorites.containsKey(auth.getCurrentUser().getUid())) { // 해당 유저(본인)이 입력되어있다면
                     boardModel.favCount = boardModel.favCount - 1;
                     boardModel.userFavorites.remove(auth.getCurrentUser().getUid()); // 제거
-                    Toast.makeText(context, " 관심 목록에서 삭제되었습니다.", Toast.LENGTH_LONG).show();
                 } else {
                     boardModel.favCount = boardModel.favCount + 1;
-                    boardModel.userFavorites.put(auth.getCurrentUser().getUid(), true);
-                    Toast.makeText(context, " 관심 목록에 추가되었습니다.", Toast.LENGTH_LONG).show();
+                    boardModel.userFavorites.put(auth.getCurrentUser().getUid(), true); //
                 }
 
                 mutableData.setValue(boardModel);
@@ -170,7 +168,7 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         });
     }
 
-    // 그룹 참여 함수
+        // 그룹 참여 함수
     private void onJoinClicked(DatabaseReference postRef) {
         auth = FirebaseAuth.getInstance();
         postRef.runTransaction(new Transaction.Handler() {
@@ -184,9 +182,11 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
                 if (boardModel.join.containsKey(auth.getCurrentUser().getUid())) { // 해당 유저(본인)이 입력되어있다면
                     boardModel.joinCount = boardModel.joinCount - 1;
                     boardModel.join.remove(auth.getCurrentUser().getUid()); // 제거
+                    Toast.makeText(context, "그룹에서 나왔습니다.", Toast.LENGTH_LONG).show();
                 } else {
                     boardModel.joinCount = boardModel.joinCount + 1;
                     boardModel.join.put(auth.getCurrentUser().getUid(), true); //
+                    Toast.makeText(context, "그룹에 참여하였습니다.", Toast.LENGTH_LONG).show();
                 }
 
                 mutableData.setValue(boardModel);
