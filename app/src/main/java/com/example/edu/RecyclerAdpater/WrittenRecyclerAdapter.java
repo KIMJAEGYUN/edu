@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.edu.R;
 import com.example.edu.model.LikesModel;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,6 +29,7 @@ public class WrittenRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     Context context;
     List<LikesModel> likesModels = new ArrayList<>();
     String auth;
+    List<String> uidList = new ArrayList<>();
 
 
     public WrittenRecyclerAdapter(Context context) {
@@ -40,9 +42,12 @@ public class WrittenRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 likesModels.clear();
+                uidList.clear();
 
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     likesModels.add(dataSnapshot1.getValue(LikesModel.class));
+                    String uidKey = dataSnapshot1.getKey();
+                    uidList.add(uidKey);
                 }
                 notifyDataSetChanged();
 
@@ -65,41 +70,32 @@ public class WrittenRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
         ((CustomViewHolder)holder).tvTitle.setText(likesModels.get(position).groupName);
         ((CustomViewHolder)holder).tvShortTitle.setText(likesModels.get(position).groupShortTitle);
         ((CustomViewHolder)holder).tvCurrentMembers.setText(Integer.toString(likesModels.get(position).favCount));
         ((CustomViewHolder)holder).tvLimit.setText(Integer.toString(likesModels.get(position).groupLimit));
 
-        ((CustomViewHolder)holder).ivClear.setOnClickListener(new View.OnClickListener() {
+
+        ((CustomViewHolder)holder).itemView.findViewById(R.id.ivClear).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                groupDelete(); // 해당 포지션꺼 삭제되도록.. 현재 전체 삭제됨
+                groupDelete(position);
             }
         });
 
     }
 
-    private void groupDelete(){
+    private void groupDelete(int position){
 
-        FirebaseDatabase.getInstance().getReference().child("group").orderByChild("uid/").equalTo(auth).addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("group").child(uidList.get(position)).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot dataSnapshot2 : dataSnapshot.getChildren()){
-                    dataSnapshot2.getRef().removeValue();
-                    Toast.makeText(context, "해당 그룹이 삭제되었습니다.", Toast.LENGTH_LONG).show();
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(context, "그룹을 삭제하였습니다.", Toast.LENGTH_LONG).show();
 
             }
         });
-
     }
 
 

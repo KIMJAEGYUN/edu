@@ -35,7 +35,7 @@ public class OpenMeetingActivity extends AppCompatActivity {
     RadioGroup rgStyle;
     Button btnRegister;
     EditText etGroupTitle, etShortTitle, etLimit, etDetail;
-    ImageView ivCheckTitle,ivCheckSimple, ivCheckLimit, ivCheckDetail;
+    ImageView ivCheckTitle, ivCheckSimple, ivCheckLimit, ivCheckDetail;
     RecyclerView recycle;
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
@@ -152,7 +152,7 @@ public class OpenMeetingActivity extends AppCompatActivity {
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         int id = rgStyle.getCheckedRadioButtonId();
-        RadioButton rb = (RadioButton)findViewById(id);
+        RadioButton rb = (RadioButton) findViewById(id);
 
         BoardModel BoardModel = new BoardModel();
         BoardModel.groupName = etGroupTitle.getText().toString();
@@ -161,6 +161,7 @@ public class OpenMeetingActivity extends AppCompatActivity {
         BoardModel.groupStyle = rb.getText().toString();
         BoardModel.groupTopic = spinner.getSelectedItem().toString();
         BoardModel.groupExplain = etDetail.getText().toString();
+        BoardModel.joinCount = 1;
 
         BoardModel.uid = uid;
 
@@ -196,6 +197,14 @@ public class OpenMeetingActivity extends AppCompatActivity {
         } else {
             etLimit.setError(null);
         }
+
+        if (Integer.parseInt(etLimit.getText().toString()) > 20 || Integer.parseInt(etLimit.getText().toString()) < 2 ) {
+            etLimit.setError("2명이상 20명이하로 입력해주세요!");
+            valid = false;
+        } else {
+            etLimit.setError(null);
+        }
+
 //        if (spinner.getSelectedItem().toString().isEmpty()) {
 //            spinner.setError("Password를 입력해 주세요!");
 //            valid = false;
@@ -233,25 +242,25 @@ public class OpenMeetingActivity extends AppCompatActivity {
 
     private void checkInputLimit() {
         String limit = etLimit.getText().toString();
-        if (limit.isEmpty()) {
+        if (limit.isEmpty() || Integer.parseInt(limit) > 20) {
             ivCheckLimit.setImageResource(R.drawable.ic_check_gray);
         } else {
             ivCheckLimit.setImageResource(R.drawable.ic_check_black);
         }
     }
 
-    private void checkInputShortTitle(){
+    private void checkInputShortTitle() {
         String ShortTitle = etShortTitle.getText().toString();
-        if(ShortTitle.isEmpty()){
+        if (ShortTitle.isEmpty()) {
             ivCheckSimple.setImageResource(R.drawable.ic_check_gray);
         } else {
             ivCheckSimple.setImageResource(R.drawable.ic_check_black);
         }
     }
 
-    private void checkInputDetail(){
+    private void checkInputDetail() {
         String Detail = etDetail.getText().toString();
-        if(Detail.isEmpty()){
+        if (Detail.isEmpty()) {
             ivCheckDetail.setImageResource(R.drawable.ic_check_gray);
         } else {
             ivCheckDetail.setImageResource(R.drawable.ic_check_black);
@@ -263,15 +272,12 @@ public class OpenMeetingActivity extends AppCompatActivity {
         long tempTime = System.currentTimeMillis();
         long intervalTime = tempTime - backPressedTime;
 
-        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime)
-        {
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
             super.onBackPressed();
-        }
-        else
-        {
+        } else {
             backPressedTime = tempTime;
             Toast.makeText(getApplicationContext(), "한 번 더 누르시면 전 화면으로 돌아갑니다", Toast.LENGTH_SHORT).show();
         }
     }
-    }
+}
 
