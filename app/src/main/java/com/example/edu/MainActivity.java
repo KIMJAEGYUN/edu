@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +22,6 @@ import com.example.edu.fragment.ChatFragment;
 import com.example.edu.fragment.MainFragment_1;
 import com.example.edu.fragment.MainFragment_2;
 import com.example.edu.model.StudyRoomModel;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String week;
     private String roomNumber;
 
-
+    public static String[][][] key = new String[3][5][8];
     public static Fragment sF1, sF2;
 
 
@@ -177,13 +177,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 break;
                         }
                         for (k = 9; k < 17; k++) {
-                            day.time = k;
-                            FirebaseDatabase.getInstance().getReference().child("studyroom").child(roomNumber).child(week).push().setValue(day).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-//                                Toast.makeText(getApplicationContext(),"월요일 추가 완료",Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                            day.time = String.valueOf(k);
+                            key[i][j][k-9] = FirebaseDatabase.getInstance().getReference().child("studyroom")
+                                    .child(roomNumber).child(week).push().getKey();
+                            Log.e("test","k["+i+"]["+j+"]["+k+"]"+" = "+ key[i][j][k-9]);
+                            FirebaseDatabase.getInstance().getReference().child("studyroom")
+                                    .child(roomNumber).child(week+"/"+key[i][j][k-9]).setValue(day);
+//                            FirebaseDatabase.getInstance().getReference().child("studyroom")
+//                                    .child(roomNumber).child(week).push().setValue(day);
                         }
                     }
 

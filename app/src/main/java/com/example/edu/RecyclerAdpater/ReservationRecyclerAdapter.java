@@ -6,15 +6,18 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.edu.MainActivity;
 import com.example.edu.R;
 import com.example.edu.ReservationActivity;
 import com.example.edu.model.StudyRoomModel;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -26,16 +29,44 @@ import java.util.List;
 public class ReservationRecyclerAdapter extends RecyclerView.Adapter<ReservationRecyclerAdapter.ViewHolder> {
 //    ArrayList<Boolean> data;
     Context context;
+    String sCurrentRoom, sCurrentDayOfWeek;
     List<StudyRoomModel.Day> studyRoomModels = new ArrayList<>();
+    private static int i,j,k=0;
 
     //초기화
-    public ReservationRecyclerAdapter(Context context) {
+    public ReservationRecyclerAdapter(Context context, String sCurrentRoom, String sCurrentDayOfWeek) {
 //        this.data = data;
         this.context = context;
+        if (sCurrentRoom.equals("101호")) {
+            this.sCurrentRoom = "No101";
+            i = 0;
+        } else if (sCurrentRoom.equals("102호")) {
+            this.sCurrentRoom = "No102";
+            i = 1;
+        } else if (sCurrentRoom.equals("103호")) {
+            this.sCurrentRoom = "No103";
+            i = 2;
+        }
+        if (sCurrentDayOfWeek.equals("월")) {
+            this.sCurrentDayOfWeek = "Monday";
+            j = 0;
+        } else if (sCurrentDayOfWeek.equals("화")) {
+            this.sCurrentDayOfWeek = "Tuesday";
+            j = 1;
+        } else if (sCurrentDayOfWeek.equals("수")) {
+            this.sCurrentDayOfWeek = "Wednesday";
+            j = 2;
+        } else if (sCurrentDayOfWeek.equals("목")) {
+            this.sCurrentDayOfWeek = "Thursday";
+            j = 3;
+        } else if (sCurrentDayOfWeek.equals("금")) {
+            this.sCurrentDayOfWeek = "Friday";
+            j = 4;
+        }
 
         FirebaseDatabase.getInstance().getReference()
-                .child("studyroom").child("No101").child("Monday")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .child("studyroom").child(this.sCurrentRoom).child(this.sCurrentDayOfWeek)
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         studyRoomModels.clear();
@@ -63,7 +94,7 @@ public class ReservationRecyclerAdapter extends RecyclerView.Adapter<Reservation
 
     //뷰의 내용
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.tvRoom.setText((position + 9) + " : 00 ~ " + (position + 10) + " : 00");
 
         if (studyRoomModels.get(position).reservation) {
@@ -84,6 +115,29 @@ public class ReservationRecyclerAdapter extends RecyclerView.Adapter<Reservation
                         //예약 실행
                         //요일은 dayOfWeek에서, 시간은 position으로 컨트롤.
                         Toast.makeText(context, ReservationActivity.sCurrentRoom + " " + ReservationActivity.sCurrentDayOfWeek + "요일 " + tvRoom + " " + " 예약 완료", Toast.LENGTH_SHORT).show();
+                        String uid;
+                        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                        StudyRoomModel.Day studyRoomModel = new StudyRoomModel.Day();
+                        studyRoomModel.reservation = true;
+                        studyRoomModel.time = String.valueOf(position+9);
+                        studyRoomModel.uid = uid;
+//                        FirebaseDatabase.getInstance().getReference().child("studyroom").child(sCurrentRoom)
+//                                .child(sCurrentDayOfWeek).child(String.valueOf(MainActivity.key[i][j][position])).setValue(studyRoomModel);
+
+//                        Map<String, Object> childUpdate = new HashMap<>();
+//                        childUpdate.put("/studyroom"+"/"+sCurrentRoom+"/"+sCurrentDayOfWeek+"/"+MainActivity.key[i][j][position]+"/"+"reservation", true);
+//                        childUpdate.put("/studyroom"+"/"+sCurrentRoom+"/"+sCurrentDayOfWeek+"/"+MainActivity.key[i][j][position]+"/"+"uid", uid);
+//                        FirebaseDatabase.getInstance().getReference().updateChildren(childUpdate);
+                        Log.e("test",String.valueOf(MainActivity.key[i][j][k])+"와 / "+String.valueOf(MainActivity.key[i][j][position]));
+
+
+//                        StudyRoomModel.Day day = new StudyRoomModel.Day();
+//                        day.reservation = true;
+//                        day.uid = uid;
+//                        FirebaseDatabase.getInstance().getReference().child("studyroom").child(sCurrentRoom)
+//                                .child(sCurrentDayOfWeek).updateChildren(childUpdate);
+
                     }
                 };
 

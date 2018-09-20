@@ -5,11 +5,11 @@ import java.util.Map;
 
 public class StudyRoomModel {
 
-    public Map<String,StudyRoomModel.Day> day = new HashMap<>();
+    public Map<String,Day> day = new HashMap<>();
 
     public static class Day {
         public String uid;
-        public int time;
+        public String time;
         public boolean reservation;
     }
 }

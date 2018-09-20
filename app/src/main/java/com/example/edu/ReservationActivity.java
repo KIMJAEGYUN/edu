@@ -58,26 +58,6 @@ public class ReservationActivity extends AppCompatActivity {
         });
 
 
-
-        //데이터 받아오는 준비 코드들
-//        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//        FirebaseDatabase.getInstance().getReference().child("chatrooms").orderByChild("users/"+uid).equalTo(true)
-//                .addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        chatModels.clear();
-//                        for (DataSnapshot item : dataSnapshot.getChildren()) {
-//                            chatModels.add(item.getValue(ChatModel.class));
-//                        }
-//                        notifyDataSetChanged();
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
-
 //        data = new ArrayList<>();
 //        FirebaseDatabase.getInstance().getReference()
 //                .child("studyroom").child("No101").child("Monday")
@@ -104,7 +84,7 @@ public class ReservationActivity extends AppCompatActivity {
 ////        data.add(false);
 ////        data.add(true);
 ////        data.add(true);
-        reservationRecyclerAdapter = new ReservationRecyclerAdapter(this);
+        reservationRecyclerAdapter = new ReservationRecyclerAdapter(this, sCurrentRoom, sCurrentDayOfWeek);
         rvRoom.setAdapter(reservationRecyclerAdapter);
         linearLayoutManager = new LinearLayoutManager(this);
         rvRoom.setLayoutManager(linearLayoutManager);
@@ -135,19 +115,14 @@ public class ReservationActivity extends AppCompatActivity {
         Toast.makeText(this, sCurrentRoom, Toast.LENGTH_SHORT).show();
 
         selectDayOfWeek(findViewById(R.id.btnMonday));
+
     }
 
     private void refreshTimes() {
-        sCurrentRoom = "";
-//        data = new ArrayList<>();
-//        data.add(true);
-//        data.add(true);
-//        data.add(true);
-//        data.add(false);
-//        data.add(true);
-//        data.add(false);
-//        data.add(true);
-//        data.add(true);
+        reservationRecyclerAdapter = new ReservationRecyclerAdapter(this, sCurrentRoom, sCurrentDayOfWeek);
+        rvRoom.setAdapter(reservationRecyclerAdapter);
+        linearLayoutManager = new LinearLayoutManager(this);
+        rvRoom.setLayoutManager(linearLayoutManager);
         //파이어베이스에서 currentRoom과 currentDayOfWeek를 토대로데이터 불러와서 data.add(); 해줘야함
 
         reservationRecyclerAdapter.notifyDataSetChanged();
