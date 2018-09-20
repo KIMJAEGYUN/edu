@@ -128,7 +128,12 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             @Override
             public void onClick(View view) {
 
-                onJoinClicked(FirebaseDatabase.getInstance().getReference().child("group").child(uidList.get(position)));
+                if (boardModels.get(position).joinCount == boardModels.get(position).groupLimit){
+                    Toast.makeText(context, "마감되었습니다.", Toast.LENGTH_LONG).show();
+                } else {
+                    onJoinClicked(FirebaseDatabase.getInstance().getReference().child("group").child(uidList.get(position)));
+                }
+
 
             }
         });
